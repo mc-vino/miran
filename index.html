@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ТЗ Редизайн — МИРАН</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
+
+  :root {
+    --ink: #0e0e0e;
+    --paper: #f5f2ec;
+    --accent: #c8a96e;
+    --accent2: #2d5a3d;
+    --muted: #6b6860;
+    --border: #d8d4cb;
+    --white: #ffffff;
+    --danger: #c0392b;
+    --info: #1a6b8a;
+    --success: #2d7a4a;
+    --warn: #c67c28;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  /* ═══════ NAV ═══════ */
+  .doc-nav {
+    position: sticky;
+    top: 0;
+    background: var(--ink);
+    color: var(--white);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0 32px;
+    overflow-x: auto;
+  }
+  .doc-nav .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: var(--accent);
+    white-space: nowrap;
+    padding: 14px 24px 14px 0;
+    border-right: 1px solid #333;
+    margin-right: 16px;
+  }
+  .doc-nav a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 16px 12px;
+    white-space: nowrap;
+    transition: color 0.2s;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .doc-nav a:hover { color: var(--white); }
+
+  /* ═══════ COVER ═══════ */
+  .cover {
+    background: var(--ink);
+    color: var(--white);
+    padding: 80px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,169,110,0.15) 0%, transparent 70%);
+  }
+  .cover-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.1;
+    margin-bottom: 24px;
+    max-width: 700px;
+  }
+  .cover h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .cover-meta {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid #333;
+  }
+  .cover-meta-item label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .cover-meta-item span {
+    font-size: 14px;
+    color: var(--white);
+  }
+
+  /* ═══════ LAYOUT ═══════ */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+
+  section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+
+  /* ═══════ SECTION HEADER ═══════ */
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 700;
+    margin-bottom: 32px;
+    line-height: 1.2;
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+  h4 {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  p { font-size: 15px; color: #2a2a2a; margin-bottom: 12px; line-height: 1.7; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ═══════ AUDIT TABLE ═══════ */
+  .audit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .audit-cell {
+    background: var(--white);
+    padding: 20px 24px;
+  }
+  .audit-cell.full { grid-column: 1 / -1; background: #fafaf8; }
+  .audit-cell h4 { margin-bottom: 6px; }
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-right: 4px;
+    margin-bottom: 6px;
+  }
+  .tag.red { background: #fde8e6; color: var(--danger); }
+  .tag.yellow { background: #fef3e2; color: var(--warn); }
+  .tag.green { background: #e6f4ec; color: var(--success); }
+  .tag.blue { background: #e3f1f8; color: var(--info); }
+
+  /* ═══════ PROBLEMS LIST ═══════ */
+  .problems {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .problem-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    border-left: 3px solid var(--danger);
+  }
+  .problem-card.medium { border-left-color: var(--warn); }
+  .problem-card.low { border-left-color: var(--accent2); }
+  .problem-card .pnum {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--danger);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .problem-card.medium .pnum { color: var(--warn); }
+  .problem-card.low .pnum { color: var(--accent2); }
+  .problem-card h3 { font-size: 14px; margin-bottom: 6px; }
+  .problem-card p { font-size: 13px; color: var(--muted); margin: 0; }
+
+  /* ═══════ WIREFRAME ═══════ */
+  .wireframe-wrap {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .wf-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .wf-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Wireframe blocks */
+  .wf-browser {
+    max-width: 860px;
+    margin: 0 auto;
+    background: #1a1a1a;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+  .wf-chrome {
+    background: #2d2d2d;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .wf-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .wf-dot.r { background: #ff5f57; }
+  .wf-dot.y { background: #febc2e; }
+  .wf-dot.g { background: #28c840; }
+  .wf-url {
+    flex: 1;
+    background: #3a3a3a;
+    height: 24px;
+    border-radius: 4px;
+    margin: 0 12px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 11px;
+    color: #888;
+    font-family: monospace;
+  }
+
+  /* Page blocks */
+  .wf-page { background: #f8f7f4; }
+
+  /* Hero */
+  .wf-hero {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: center;
+    min-height: 280px;
+    position: relative;
+    overflow: hidden;
+  }
+  .wf-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(200,169,110,0.03) 20px,
+      rgba(200,169,110,0.03) 21px
+    );
+  }
+  .wf-hero-text { position: relative; }
+  .wf-hero-eyebrow {
+    width: 80px; height: 8px;
+    background: var(--accent);
+    border-radius: 4px;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+  .wf-hero-h1 {
+    background: rgba(255,255,255,0.9);
+    height: 16px; border-radius: 3px;
+    margin-bottom: 8px;
+  }
+  .wf-hero-h1.w60 { width: 60%; }
+  .wf-hero-h1.w80 { width: 80%; }
+  .wf-hero-sub {
+    background: rgba(255,255,255,0.35);
+    height: 8px; border-radius: 3px;
+    margin-bottom: 6px;
+  }
+  .wf-hero-sub.w90 { width: 90%; }
+  .wf-hero-sub.w70 { width: 70%; }
+  .wf-hero-btns {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .wf-btn {
+    height: 36px;
+    border-radius: 4px;
+    background: var(--accent);
+    width: 120px;
+  }
+  .wf-btn.ghost {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  .wf-hero-visual {
+    height: 220px;
+    background: rgba(255,255,255,0.05);
+    border: 1px dashed rgba(255,255,255,0.15);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.3);
+    font-size: 12px;
+    font-family: monospace;
+    position: relative;
+  }
+  .wf-hero-visual::after {
+    content: '3D / Hero Product Shot';
+    position: absolute;
+    font-size: 11px;
+  }
+
+  /* Trust bar */
+  .wf-trust {
+    background: #fff;
+    border-bottom: 1px solid #e8e4dc;
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .wf-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .wf-trust-icon {
+    width: 24px; height: 24px;
+    background: var(--accent);
+    border-radius: 50%;
+    opacity: 0.3;
+    flex-shrink: 0;
+  }
+  .wf-trust-lines { display: flex; flex-direction: column; gap: 3px; }
+  .wf-trust-line {
+    height: 7px;
+    background: #ccc;
+    border-radius: 3px;
+  }
+  .wf-trust-line.w60 { width: 60px; }
+  .wf-trust-line.w40 { width: 40px; background: #e0e0e0; }
+
+  /* Services */
+  .wf-services {
+    padding: 24px 32px;
+    background: #f8f7f4;
+  }
+  .wf-section-title {
+    height: 14px;
+    background: #ccc;
+    border-radius: 3px;
+    width: 220px;
+    margin-bottom: 20px;
+  }
+  .wf-cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  .wf-card {
+    background: #fff;
+    border: 1px solid #e8e4dc;
+    border-radius: 8px;
+    padding: 14px;
+    aspect-ratio: 0.85;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .wf-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .wf-card:hover::before { opacity: 1; }
+  .wf-card-img {
+    flex: 1;
+    background: linear-gradient(135deg, #f0ede6 0%, #e5e0d8 100%);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: #999;
+    font-family: monospace;
+  }
+  .wf-card-title {
+    height: 8px;
+    background: #ccc;
+    border-radius: 2px;
+  }
+  .wf-card-sub {
+    height: 6px;
+    background: #e8e8e8;
+    border-radius: 2px;
+    width: 70%;
+  }
+
+  /* USP */
+  .wf-usp {
+    background: #0a0a0a;
+    padding: 24px 32px;
+  }
+  .wf-usp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .wf-usp-item {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .wf-usp-num {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--accent);
+    font-family: 'Playfair Display', serif;
+  }
+  .wf-usp-line {
+    height: 8px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 3px;
+  }
+  .wf-usp-line.short { width: 60%; background: rgba(255,255,255,0.1); }
+
+  /* Portfolio */
+  .wf-portfolio {
+    padding: 24px 32px;
+    background: #fff;
+  }
+  .wf-portfolio-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 160px 160px;
+    gap: 8px;
+  }
+  .wf-portfolio-item {
+    background: linear-gradient(135deg, #e8e4dc 0%, #d8d3c8 100%);
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+  }
+  .wf-portfolio-item.span2 { grid-row: span 2; }
+  .wf-portfolio-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(0deg, rgba(10,10,10,0.7) 0%, transparent 100%);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .wf-pline {
+    height: 7px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 2px;
+  }
+  .wf-pline.short { width: 50%; background: rgba(255,255,255,0.4); height: 5px; }
+
+  /* Clients */
+  .wf-clients {
+    padding: 20px 32px;
+    background: #f8f7f4;
+    border-top: 1px solid #e8e4dc;
+  }
+  .wf-clients-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .wf-client-logo {
+    width: 72px;
+    height: 28px;
+    background: #ddd;
+    border-radius: 3px;
+    opacity: 0.5;
+  }
+
+  /* CTA */
+  .wf-cta {
+    background: linear-gradient(135deg, #1a3a24 0%, #2d5a3d 100%);
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+  .wf-cta-text { display: flex; flex-direction: column; gap: 8px; }
+  .wf-cta-h { height: 14px; background: rgba(255,255,255,0.7); border-radius: 3px; width: 300px; }
+  .wf-cta-sub { height: 8px; background: rgba(255,255,255,0.3); border-radius: 3px; width: 220px; }
+  .wf-cta-btn {
+    background: var(--accent);
+    height: 44px;
+    width: 180px;
+    border-radius: 4px;
+  }
+
+  /* Footer */
+  .wf-footer {
+    background: #0e0e0e;
+    padding: 24px 32px;
+  }
+  .wf-footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 16px;
+  }
+  .wf-footer-col { display: flex; flex-direction: column; gap: 6px; }
+  .wf-footer-line {
+    height: 6px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+  }
+  .wf-footer-line.bold {
+    height: 9px;
+    background: rgba(255,255,255,0.35);
+    width: 60%;
+    margin-bottom: 4px;
+  }
+
+  /* Annotations */
+  .annotations {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 24px;
+  }
+  .annotation-row {
+    display: grid;
+    grid-template-columns: 28px 1fr 2fr;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .annotation-row:last-child { border-bottom: none; }
+  .ann-num {
+    background: var(--ink);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+  }
+  .ann-block {
+    padding: 12px 16px;
+    border-right: 1px solid var(--border);
+    font-weight: 600;
+    background: #fafaf8;
+  }
+  .ann-desc { padding: 12px 16px; color: var(--muted); }
+
+  /* Requirements table */
+  .req-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .req-table th {
+    background: var(--ink);
+    color: var(--white);
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .req-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .req-table tr:last-child td { border-bottom: none; }
+  .req-table tr:hover td { background: #fafaf8; }
+  .req-table td:first-child { font-weight: 700; color: var(--ink); }
+
+  /* Effort table */
+  .effort-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .effort-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+  }
+  .effort-card .phase-badge {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .effort-card h3 { font-size: 14px; margin-bottom: 12px; padding-right: 70px; }
+  .effort-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .effort-row:last-of-type { border-bottom: none; }
+  .effort-role { color: var(--muted); }
+  .effort-hours {
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .effort-total {
+    background: var(--ink);
+    color: var(--white);
+    padding: 10px 14px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    font-size: 13px;
+  }
+  .effort-total strong { font-size: 16px; }
+
+  .total-box {
+    background: var(--ink);
+    color: var(--white);
+    border-radius: 12px;
+    padding: 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .total-box-item label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .total-box-item strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: var(--accent);
+  }
+  .total-box-item span { font-size: 13px; color: #888; }
+
+  /* Commercial */
+  .commercial {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+  .commercial-header {
+    background: var(--ink);
+    color: var(--white);
+    padding: 32px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .co-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--accent);
+  }
+  .co-logo span { display: block; font-size: 11px; font-family: 'Manrope', sans-serif; color: #888; margin-top: 2px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .co-meta { text-align: right; font-size: 12px; color: #888; line-height: 1.8; }
+  .co-meta strong { color: var(--white); }
+  .commercial-body { padding: 40px; }
+  .co-h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+  .co-intro { font-size: 14px; color: var(--muted); max-width: 600px; margin-bottom: 32px; line-height: 1.7; }
+
+  .pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+  .pricing-table thead th {
+    background: #f5f2ec;
+    padding: 10px 16px;
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 2px solid var(--border);
+  }
+  .pricing-table tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .pricing-table tbody tr:last-child td { border-bottom: none; }
+  .pricing-table .price-cell {
+    font-weight: 700;
+    color: var(--ink);
+    white-space: nowrap;
+    font-size: 14px;
+  }
+  .pricing-table tfoot td {
+    padding: 16px;
+    border-top: 2px solid var(--ink);
+  }
+
+  .co-total-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 40px;
+    align-items: baseline;
+    padding: 20px 0;
+    border-top: 2px solid var(--ink);
+  }
+  .co-total-label { font-size: 13px; color: var(--muted); }
+  .co-total-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+  }
+
+  .co-notes {
+    background: #fafaf8;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-top: 24px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .co-notes strong { color: var(--ink); }
+
+  .co-terms {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .co-term {
+    background: var(--paper);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 13px;
+  }
+  .co-term strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 4px; }
+
+  .co-footer {
+    background: #fafaf8;
+    border-top: 1px solid var(--border);
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .co-signature {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-end;
+  }
+  .co-sig-line {
+    width: 160px;
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 4px;
+  }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
+  .tab-btn {
+    padding: 8px 18px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    border-radius: 6px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: all 0.15s;
+    color: var(--muted);
+  }
+  .tab-btn.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+  .tab-btn:hover:not(.active) { border-color: var(--ink); color: var(--ink); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* Gantt */
+  .gantt {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 12px;
+    margin-bottom: 24px;
+  }
+  .gantt-header {
+    display: grid;
+    grid-template-columns: 200px repeat(12, 1fr);
+    background: var(--ink);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .gantt-header-cell { padding: 10px 8px; text-align: center; }
+  .gantt-header-cell:first-child { text-align: left; padding-left: 16px; }
+  .gantt-row {
+    display: grid;
+    grid-template-columns: 200px repeat(12, 1fr);
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    min-height: 36px;
+  }
+  .gantt-row:last-child { border-bottom: none; }
+  .gantt-row:nth-child(even) { background: #fafaf8; }
+  .gantt-task { padding: 8px 16px; font-weight: 500; font-size: 12px; }
+  .gantt-cell { height: 36px; position: relative; }
+  .gantt-bar {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    height: 16px;
+    border-radius: 3px;
+    left: 2px; right: 2px;
+  }
+  .gb-1 { background: linear-gradient(90deg, #c8a96e, #d4b87a); }
+  .gb-2 { background: linear-gradient(90deg, #2d5a3d, #3a6e4a); }
+  .gb-3 { background: linear-gradient(90deg, #1a6b8a, #2280a8); }
+  .gb-4 { background: linear-gradient(90deg, #7a3a7a, #9a4a9a); }
+  .gb-5 { background: linear-gradient(90deg, #c0392b, #d44b3d); }
+
+  .phase-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.8);
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    left: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    font-weight: 700;
+  }
+
+  /* Mobile note */
+  .mobile-note {
+    background: #fff9f0;
+    border: 1px solid #f0d9b0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--warn);
+    margin-bottom: 16px;
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-note { display: block; }
+    .cover { padding: 48px 24px; }
+    .container { padding: 0 20px; }
+    .audit-grid { grid-template-columns: 1fr; }
+    .audit-cell.full { grid-column: 1; }
+    .wf-cards { grid-template-columns: repeat(3, 1fr); }
+    .wf-usp-grid { grid-template-columns: 1fr 1fr; }
+    .total-box { grid-template-columns: 1fr; }
+    .co-terms { grid-template-columns: 1fr; }
+    .co-footer { flex-direction: column; gap: 16px; text-align: center; }
+    .co-signature { align-items: center; }
+    .gantt { overflow-x: auto; }
+    .wf-portfolio-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .wf-portfolio-item.span2 { grid-row: auto; }
+    .commercial-header { flex-direction: column; gap: 16px; }
+    .co-meta { text-align: left; }
+    .effort-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="doc-nav">
+  <div class="nav-brand">МИРАН — Редизайн 2026</div>
+  <a href="#audit">Аудит</a>
+  <a href="#goals">Цели</a>
+  <a href="#blocks">Блоки</a>
+  <a href="#prototype">Прототип</a>
+  <a href="#tech">Требования</a>
+  <a href="#effort">Трудозатраты</a>
+  <a href="#timeline">Сроки</a>
+  <a href="#commercial">КП</a>
+</nav>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="container">
+    <div class="cover-label">Технического задание на редизайн</div>
+    <h1>Редизайн главной страницы<br><em>miran-bel.com</em></h1>
+    <p style="color:#888; max-width:560px; font-size:15px; line-height:1.7; margin-top:16px;">
+      Полная аналитика текущего состояния, архитектура блоков, визуальные прототипы, технические требования, оценка трудозатрат и коммерческое предложение.
+    </p>
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <label>Объект</label>
+        <span>miran-bel.com</span>
+      </div>
+      <div class="cover-meta-item">
+        <label>Сфера</label>
+        <span>B2B, производство упаковки</span>
+      </div>
+      <div class="cover-meta-item">
+        <label>Дата составления</label>
+        <span>Май 2026</span>
+      </div>
+      <div class="cover-meta-item">
+        <label>Версия документа</label>
+        <span>1.0 — Первичная</span>
+      </div>
+      <div class="cover-meta-item">
+        <label>Рынки</label>
+        <span>Беларусь · Россия</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 1: AUDIT -->
+<section id="audit">
+  <div class="container">
+    <div class="section-label">01 / Аналитика</div>
+    <h2>Аудит текущего состояния</h2>
+    <p>Анализ сайта проводился методом структурного просмотра, контентного аудита и экспертной оценки UX. Ниже — сводная таблица по ключевым параметрам.</p>
+
+    <br>
+    <div class="audit-grid">
+      <div class="audit-cell">
+        <h4>Позиционирование</h4>
+        <p style="font-size:13px; margin-top:6px;">Заявлено как производитель, но визуально — ближе к каталогу оптовика. Нет чёткой премиум-идентичности.</p>
+        <span class="tag yellow">Среднее</span>
+      </div>
+      <div class="audit-cell">
+        <h4>Hero-блок</h4>
+        <p style="font-size:13px; margin-top:6px;">Статичный слайдер с 5 баннерами, шрифты мелкие, нет единого сильного УТП, CTA слабый.</p>
+        <span class="tag red">Критично</span>
+      </div>
+      <div class="audit-cell">
+        <h4>Навигация</h4>
+        <p style="font-size:13px; margin-top:6px;">Мегаменю работает, но перегружено. 11 подкатегорий в «Каталоге» на одном уровне без визуальной иерархии.</p>
+        <span class="tag yellow">Требует доработки</span>
+      </div>
+      <div class="audit-cell">
+        <h4>Мобильная версия</h4>
+        <p style="font-size:13px; margin-top:6px;">Базовая адаптация. Карточки не переформатируются, слайдер не оптимизирован под тач-жесты.</p>
+        <span class="tag red">Критично</span>
+      </div>
+      <div class="audit-cell">
+        <h4>Социальные доказательства</h4>
+        <p style="font-size:13px; margin-top:6px;">Отзывы присутствуют, портфолио и логотипы клиентов есть. Размещены далеко вниз по странице.</p>
+        <span class="tag yellow">Переместить выше</span>
+      </div>
+      <div class="audit-cell">
+        <h4>Форма контакта / лидогенерация</h4>
+        <p style="font-size:13px; margin-top:6px;">Форма только в футере, нет inline-форм и pop-up механик. Очевидный CTA на «образцы» отсутствует в верхней части.</p>
+        <span class="tag red">Критично</span>
+      </div>
+      <div class="audit-cell">
+        <h4>Контент и SEO</h4>
+        <p style="font-size:13px; margin-top:6px;">Тексты информативны, meta-теги заполнены. Заголовок H1 не вынесен визуально, структурированных данных нет.</p>
+        <span class="tag yellow">Среднее</span>
+      </div>
+      <div class="audit-cell">
+        <h4>Скорость загрузки</h4>
+        <p style="font-size:13px; margin-top:6px;">Используется WebP, но слайдер грузит все изображения сразу. Нет явного lazy loading для секций ниже fold.</p>
+        <span class="tag yellow">Требует доработки</span>
+      </div>
+      <div class="audit-cell full">
+        <h4>Общая оценка</h4>
+        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
+          <span class="tag red">Hero — 3/10</span>
+          <span class="tag yellow">UX — 5/10</span>
+          <span class="tag yellow">Мобильная — 4/10</span>
+          <span class="tag green">Контент — 7/10</span>
+          <span class="tag yellow">Конверсия — 4/10</span>
+          <span class="tag green">SEO-база — 6/10</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Problems -->
+    <h3>Критические проблемы</h3>
+    <br>
+    <div class="problems">
+      <div class="problem-card">
+        <div class="pnum">КРИТИЧНО #1</div>
+        <h3>Нет сильного первого экрана</h3>
+        <p>Слайдер с 5 слайдами — устаревший паттерн. Конверсия падает: пользователь не понимает главную идею за 3 секунды.</p>
+      </div>
+      <div class="problem-card">
+        <div class="pnum">КРИТИЧНО #2</div>
+        <h3>Лидогенерация только в футере</h3>
+        <p>CTA «Запросить образцы» или «Получить КП» появляется только в самом низу. Большинство B2B-посетителей не доходит.</p>
+      </div>
+      <div class="problem-card">
+        <div class="pnum">КРИТИЧНО #3</div>
+        <h3>Мобильная версия — второй сорт</h3>
+        <p>Сайт сделан desktop-first. На мобильных карточки товаров обрезаются, навигация неудобна, слайдер без свайпа.</p>
+      </div>
+      <div class="problem-card medium">
+        <div class="pnum">ВАЖНО #4</div>
+        <h3>Слабая визуальная иерархия разделов</h3>
+        <p>Секции «О компании», «Преимущества» и «Отзывы» смешаны и не дают чёткого маршрута по странице.</p>
+      </div>
+      <div class="problem-card medium">
+        <div class="pnum">ВАЖНО #5</div>
+        <h3>Портфолио не в фокусе</h3>
+        <p>Клиенты (Л'Этуаль, Estel, GRASS) — сильные социальные доказательства, но спрятаны в нижней трети страницы.</p>
+      </div>
+      <div class="problem-card low">
+        <div class="pnum">ЖЕЛАТЕЛЬНО #6</div>
+        <h3>Нет персонализации по рынкам</h3>
+        <p>Беларусь и Россия — разные рынки и ценности. Сейчас один контент для всех, без учёта геолокации.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: GOALS -->
+<section id="goals">
+  <div class="container">
+    <div class="section-label">02 / Цели и KPI</div>
+    <h2>Цели редизайна</h2>
+    <table class="req-table">
+      <thead>
+        <tr>
+          <th style="width:30%">Цель</th>
+          <th style="width:35%">Описание</th>
+          <th style="width:35%">Измеримый KPI</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Увеличить конверсию в заявку</td>
+          <td>Добавить CTA-блоки в верхние 50% страницы, ввести механику «запросить образцы»</td>
+          <td>Заявок с главной +40% через 3 мес. после запуска</td>
+        </tr>
+        <tr>
+          <td>Снизить показатель отказов</td>
+          <td>Сделать первый экран убедительным, навигацию — интуитивной</td>
+          <td>Bounce rate −20% (с ~65% до ≤45%)</td>
+        </tr>
+        <tr>
+          <td>Мобильный трафик</td>
+          <td>Mobile-first редизайн, корректная работа всех компонентов</td>
+          <td>Мобильная конверсия +50%</td>
+        </tr>
+        <tr>
+          <td>Премиальное позиционирование</td>
+          <td>Визуал сайта должен соответствовать уровню клиентов (Л'Этуаль, Estel, GRASS)</td>
+          <td>Экспертная оценка дизайна ≥8/10 в A/B тестировании</td>
+        </tr>
+        <tr>
+          <td>Время на сайте</td>
+          <td>Добавить интерактивные элементы, видео, визуальный контент</td>
+          <td>Среднее время +30%</td>
+        </tr>
+        <tr>
+          <td>SEO-основа</td>
+          <td>Правильная семантическая разметка, Core Web Vitals в зелёной зоне</td>
+          <td>LCP &lt;2.5 с, CLS &lt;0.1, FID &lt;100мс</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Целевая аудитория</h3>
+    <br>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:12px;">
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px;">
+        <div style="font-size:22px;margin-bottom:8px;">👔</div>
+        <h3 style="font-size:14px;margin-bottom:6px;">Бренд-директор / СТМ</h3>
+        <p style="font-size:12px;color:var(--muted);">Ищет нестандартную упаковку, смотрит портфолио, оценивает качество. Решение: эмоции + кейсы.</p>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px;">
+        <div style="font-size:22px;margin-bottom:8px;">📦</div>
+        <h3 style="font-size:14px;margin-bottom:6px;">Менеджер по закупкам</h3>
+        <p style="font-size:12px;color:var(--muted);">Нужны конкретные цифры: объём партии, сроки, технические параметры. Решение: быстрый доступ к каталогу.</p>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px;">
+        <div style="font-size:22px;margin-bottom:8px;">🏭</div>
+        <h3 style="font-size:14px;margin-bottom:6px;">Технолог / R&D</h3>
+        <p style="font-size:12px;color:var(--muted);">Интересует производство пресс-форм, материалы, допуски. Решение: технические разделы в навигации.</p>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px;">
+        <div style="font-size:22px;margin-bottom:8px;">🎨</div>
+        <h3 style="font-size:14px;margin-bottom:6px;">Арт-директор бренда</h3>
+        <p style="font-size:12px;color:var(--muted);">Оценивает декорирование, трендовость, визуальный язык. Решение: gallery-подход, Inspiration раздел.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: BLOCKS -->
+<section id="blocks">
+  <div class="container">
+    <div class="section-label">03 / Архитектура блоков</div>
+    <h2>Структура новой главной страницы</h2>
+    <p>Новая страница строится по принципу нарративной воронки: доверие → понимание ценности → конверсия. Каждый блок имеет чёткое назначение.</p>
+    <br>
+
+    <table class="req-table">
+      <thead>
+        <tr>
+          <th style="width:5%">#</th>
+          <th style="width:18%">Блок</th>
+          <th style="width:25%">Назначение</th>
+          <th style="width:30%">Содержание</th>
+          <th style="width:22%">Приоритет</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Header / Навигация</td>
+          <td>Ориентация, быстрые контакты, лид</td>
+          <td>Лого, меню (6 пунктов), телефоны BY/RU, мессенджеры, кнопка «Запросить КП»</td>
+          <td><span class="tag red">Критично</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Hero — Главный экран</td>
+          <td>Захват внимания, первичный CTA</td>
+          <td>Сильный H1, подзаголовок с УТП, 2 CTA-кнопки, 3D/видео продукта, счётчики (380 изделий, 1988 год, 600+ сотрудников)</td>
+          <td><span class="tag red">Критично</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Trust Bar</td>
+          <td>Мгновенное доверие</td>
+          <td>4 микрофакта: «С 1988 года», «380+ позиций», «30+ опций декора», «Поставки в 15 стран»</td>
+          <td><span class="tag red">Критично</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Каталог категорий</td>
+          <td>Маршрутизация по продуктам</td>
+          <td>6 карточек: Флаконы / Баночки / Колпачки / Декорирование / Эксклюзив / Eco-friendly. Каждая — фото + характеристики.</td>
+          <td><span class="tag red">Критично</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Преимущества (USP)</td>
+          <td>Дифференциация от конкурентов</td>
+          <td>6 карточек УТП на тёмном фоне: экспертиза в декоре, скорость подбора цвета, сервис менеджера, инновации</td>
+          <td><span class="tag yellow">Важно</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Портфолио / Галерея</td>
+          <td>Визуальные доказательства качества</td>
+          <td>Masonry-сетка лучших кейсов с фильтрами. Брендовые примеры с клиентами.</td>
+          <td><span class="tag yellow">Важно</span></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Клиенты</td>
+          <td>Доверие через имена</td>
+          <td>Логотипы: Л'Этуаль, Estel, GRASS, Holly Polly, Natura Siberica и др. Авто-скролл.</td>
+          <td><span class="tag yellow">Важно</span></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>Inline CTA — «Запросить образцы»</td>
+          <td>Конверсионный блок</td>
+          <td>Короткая форма (имя, компания, email, телефон) + визуальный акцент. Зелёный или тёмный фон.</td>
+          <td><span class="tag red">Критично</span></td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>Новости / Медиа</td>
+          <td>Актуальность и экспертность</td>
+          <td>3 последних поста: выставки, новинки ассортимента, тренды. Автообновление из CMS.</td>
+          <td><span class="tag blue">Дополнительно</span></td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>Footer</td>
+          <td>Завершение, навигация, контакты</td>
+          <td>4 колонки: Каталог / Компания / Контакты BY+RU / Соцсети. Политика. Копирайт.</td>
+          <td><span class="tag yellow">Важно</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SECTION 4: PROTOTYPE -->
+<section id="prototype">
+  <div class="container">
+    <div class="section-label">04 / Прототип</div>
+    <h2>Визуальная модель главной страницы</h2>
+    <p>Низкодетализированный wireframe (Lo-Fi) нового дизайна. Демонстрирует структуру и иерархию без финального визуального оформления.</p>
+    <br>
+
+    <div class="mobile-note">
+      ⚠️ Для наилучшего просмотра прототипа рекомендуется экран шириной от 768px.
+    </div>
+
+    <div class="wireframe-wrap">
+      <div class="wf-label">Wireframe — Главная страница miran-bel.com (новая версия)</div>
+      <div class="wf-browser">
+        <div class="wf-chrome">
+          <div class="wf-dot r"></div>
+          <div class="wf-dot y"></div>
+          <div class="wf-dot g"></div>
+          <div class="wf-url">miran-bel.com</div>
+        </div>
+
+        <div class="wf-page">
+
+          <!-- HEADER -->
+          <div style="background:#fff; padding:10px 24px; border-bottom:1px solid #e8e4dc; display:flex; align-items:center; gap:16px; justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:80px;height:28px;background:#ccc;border-radius:3px;"></div>
+              <div style="display:flex;gap:8px;">
+                <div style="width:60px;height:8px;background:#e0e0e0;border-radius:2px;"></div>
+                <div style="width:80px;height:8px;background:#e0e0e0;border-radius:2px;"></div>
+                <div style="width:50px;height:8px;background:#e0e0e0;border-radius:2px;"></div>
+                <div style="width:60px;height:8px;background:#e0e0e0;border-radius:2px;"></div>
+                <div style="width:70px;height:8px;background:#e0e0e0;border-radius:2px;"></div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="display:flex;gap:6px;">
+                <div style="width:18px;height:18px;background:#e0e0e0;border-radius:50%;"></div>
+                <div style="width:18px;height:18px;background:#e0e0e0;border-radius:50%;"></div>
+                <div style="width:18px;height:18px;background:#25d366;border-radius:50%;opacity:0.6;"></div>
+              </div>
+              <div style="background:#c8a96e;height:28px;width:110px;border-radius:4px;"></div>
+            </div>
+          </div>
+
+          <!-- HERO -->
+          <div class="wf-hero">
+            <div class="wf-hero-text">
+              <div class="wf-hero-eyebrow"></div>
+              <div class="wf-hero-h1"></div>
+              <div class="wf-hero-h1 w80"></div>
+              <div class="wf-hero-h1 w60"></div>
+              <br>
+              <div class="wf-hero-sub w90"></div>
+              <div class="wf-hero-sub w70"></div>
+              <div class="wf-hero-btns">
+                <div class="wf-btn"></div>
+                <div class="wf-btn ghost"></div>
+              </div>
+              <div style="display:flex;gap:16px;margin-top:20px;">
+                <div style="display:flex;flex-direction:column;gap:3px;">
+                  <div style="font-size:18px;font-weight:800;color:var(--accent);font-family:'Playfair Display',serif;">380+</div>
+                  <div style="width:50px;height:5px;background:rgba(255,255,255,0.25);border-radius:2px;"></div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:3px;">
+                  <div style="font-size:18px;font-weight:800;color:var(--accent);font-family:'Playfair Display',serif;">1988</div>
+                  <div style="width:50px;height:5px;background:rgba(255,255,255,0.25);border-radius:2px;"></div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:3px;">
+                  <div style="font-size:18px;font-weight:800;color:var(--accent);font-family:'Playfair Display',serif;">600+</div>
+                  <div style="width:50px;height:5px;background:rgba(255,255,255,0.25);border-radius:2px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="wf-hero-visual"></div>
+          </div>
+
+          <!-- TRUST BAR -->
+          <div class="wf-trust">
+            <div class="wf-trust-item">
+              <div class="wf-trust-icon"></div>
+              <div class="wf-trust-lines">
+                <div class="wf-trust-line w60"></div>
+                <div class="wf-trust-line w40"></div>
+              </div>
+            </div>
+            <div class="wf-trust-item">
+              <div class="wf-trust-icon"></div>
+              <div class="wf-trust-lines">
+                <div class="wf-trust-line w60"></div>
+                <div class="wf-trust-line w40"></div>
+              </div>
+            </div>
+            <div class="wf-trust-item">
+              <div class="wf-trust-icon"></div>
+              <div class="wf-trust-lines">
+                <div class="wf-trust-line w60"></div>
+                <div class="wf-trust-line w40"></div>
+              </div>
+            </div>
+            <div class="wf-trust-item">
+              <div class="wf-trust-icon"></div>
+              <div class="wf-trust-lines">
+                <div class="wf-trust-line w60"></div>
+                <div class="wf-trust-line w40"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CATALOG CARDS -->
+          <div class="wf-services">
+            <div class="wf-section-title"></div>
+            <div class="wf-cards">
+              <div class="wf-card"><div class="wf-card-img">Флаконы</div><div class="wf-card-title"></div><div class="wf-card-sub"></div></div>
+              <div class="wf-card"><div class="wf-card-img">Банки</div><div class="wf-card-title"></div><div class="wf-card-sub"></div></div>
+              <div class="wf-card"><div class="wf-card-img">Колпачки</div><div class="wf-card-title"></div><div class="wf-card-sub"></div></div>
+              <div class="wf-card"><div class="wf-card-img">Декор</div><div class="wf-card-title"></div><div class="wf-card-sub"></div></div>
+              <div class="wf-card"><div class="wf-card-img">Эксклюзив</div><div class="wf-card-title"></div><div class="wf-card-sub"></div></div>
+            </div>
+          </div>
+
+          <!-- USP -->
+          <div class="wf-usp">
+            <div style="margin-bottom:16px;">
+              <div style="height:12px;background:rgba(255,255,255,0.6);border-radius:3px;width:260px;margin-bottom:6px;"></div>
+              <div style="height:7px;background:rgba(255,255,255,0.2);border-radius:3px;width:400px;"></div>
+            </div>
+            <div class="wf-usp-grid">
+              <div class="wf-usp-item"><div class="wf-usp-num">30+</div><div class="wf-usp-line"></div><div class="wf-usp-line short"></div></div>
+              <div class="wf-usp-item"><div class="wf-usp-num">3–12</div><div class="wf-usp-line"></div><div class="wf-usp-line short"></div></div>
+              <div class="wf-usp-item"><div class="wf-usp-num">1988</div><div class="wf-usp-line"></div><div class="wf-usp-line short"></div></div>
+            </div>
+          </div>
+
+          <!-- PORTFOLIO -->
+          <div class="wf-portfolio">
+            <div style="margin-bottom:16px;">
+              <div style="height:12px;background:#ccc;border-radius:3px;width:180px;margin-bottom:6px;"></div>
+              <div style="display:flex;gap:8px;margin-bottom:12px;">
+                <div style="padding:4px 12px;border:1px solid #ccc;border-radius:20px;font-size:10px;color:#888;">Все работы</div>
+                <div style="padding:4px 12px;border:1px solid #ccc;border-radius:20px;font-size:10px;color:#888;">Флаконы</div>
+                <div style="padding:4px 12px;border:1px solid #ccc;border-radius:20px;font-size:10px;color:#888;">Декор</div>
+                <div style="padding:4px 12px;border:1px solid #ccc;border-radius:20px;font-size:10px;color:#888;">Эксклюзив</div>
+              </div>
+            </div>
+            <div class="wf-portfolio-grid">
+              <div class="wf-portfolio-item span2">
+                <div class="wf-portfolio-overlay">
+                  <div class="wf-pline"></div>
+                  <div class="wf-pline short"></div>
+                </div>
+              </div>
+              <div class="wf-portfolio-item">
+                <div class="wf-portfolio-overlay">
+                  <div class="wf-pline"></div>
+                  <div class="wf-pline short"></div>
+                </div>
+              </div>
+              <div class="wf-portfolio-item"></div>
+              <div class="wf-portfolio-item"></div>
+              <div class="wf-portfolio-item"></div>
+            </div>
+          </div>
+
+          <!-- CLIENTS -->
+          <div class="wf-clients">
+            <div style="height:8px;background:#ccc;border-radius:3px;width:160px;margin-bottom:14px;"></div>
+            <div class="wf-clients-row">
+              <div class="wf-client-logo"></div>
+              <div class="wf-client-logo"></div>
+              <div class="wf-client-logo"></div>
+              <div class="wf-client-logo"></div>
+              <div class="wf-client-logo"></div>
+              <div class="wf-client-logo"></div>
+              <div class="wf-client-logo"></div>
+              <div class="wf-client-logo"></div>
+            </div>
+          </div>
+
+          <!-- CTA BLOCK -->
+          <div class="wf-cta">
+            <div class="wf-cta-text">
+              <div class="wf-cta-h"></div>
+              <div class="wf-cta-sub"></div>
+              <div style="display:flex;gap:8px;margin-top:12px;">
+                <div style="flex:1;height:32px;background:rgba(255,255,255,0.15);border-radius:4px;"></div>
+                <div style="flex:1;height:32px;background:rgba(255,255,255,0.15);border-radius:4px;"></div>
+                <div style="flex:1;height:32px;background:rgba(255,255,255,0.15);border-radius:4px;"></div>
+              </div>
+            </div>
+            <div class="wf-cta-btn"></div>
+          </div>
+
+          <!-- FOOTER -->
+          <div class="wf-footer">
+            <div class="wf-footer-grid">
+              <div class="wf-footer-col">
+                <div style="width:60px;height:20px;background:rgba(255,255,255,0.4);border-radius:3px;margin-bottom:8px;"></div>
+                <div class="wf-footer-line" style="width:200px;height:6px;"></div>
+                <div class="wf-footer-line" style="width:180px;height:6px;"></div>
+                <div class="wf-footer-line" style="width:160px;height:6px;"></div>
+                <div class="wf-footer-line" style="width:140px;height:6px;"></div>
+              </div>
+              <div class="wf-footer-col">
+                <div class="wf-footer-line bold"></div>
+                <div class="wf-footer-line" style="width:80px;"></div>
+                <div class="wf-footer-line" style="width:70px;"></div>
+                <div class="wf-footer-line" style="width:90px;"></div>
+                <div class="wf-footer-line" style="width:75px;"></div>
+              </div>
+              <div class="wf-footer-col">
+                <div class="wf-footer-line bold"></div>
+                <div class="wf-footer-line" style="width:80px;"></div>
+                <div class="wf-footer-line" style="width:70px;"></div>
+                <div class="wf-footer-line" style="width:90px;"></div>
+              </div>
+              <div class="wf-footer-col">
+                <div class="wf-footer-line bold"></div>
+                <div class="wf-footer-line" style="width:100px;"></div>
+                <div class="wf-footer-line" style="width:90px;"></div>
+                <div style="display:flex;gap:8px;margin-top:8px;">
+                  <div style="width:20px;height:20px;background:rgba(255,255,255,0.2);border-radius:50%;"></div>
+                  <div style="width:20px;height:20px;background:rgba(255,255,255,0.2);border-radius:50%;"></div>
+                  <div style="width:20px;height:20px;background:rgba(255,255,255,0.2);border-radius:50%;"></div>
+                  <div style="width:20px;height:20px;background:rgba(255,255,255,0.2);border-radius:50%;"></div>
+                </div>
+              </div>
+            </div>
+            <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;display:flex;justify-content:space-between;">
+              <div style="height:6px;background:rgba(255,255,255,0.15);border-radius:2px;width:200px;"></div>
+              <div style="height:6px;background:rgba(255,255,255,0.1);border-radius:2px;width:120px;"></div>
+            </div>
+          </div>
+
+        </div><!-- /wf-page -->
+      </div><!-- /wf-browser -->
+    </div>
+
+    <!-- Annotations -->
+    <div class="annotations">
+      <div class="annotation-row">
+        <div class="ann-num" style="background:#c8a96e;color:#0e0e0e;">1</div>
+        <div class="ann-block">Header</div>
+        <div class="ann-desc">Sticky при скролле. Кнопка «Запросить КП» — якорная ссылка на inline-форму. Мессенджеры: Telegram, WhatsApp. Флаги BY/RU при переключении.</div>
+      </div>
+      <div class="annotation-row">
+        <div class="ann-num" style="background:#c0392b;">2</div>
+        <div class="ann-block">Hero блок</div>
+        <div class="ann-desc">Темный фон. H1 — «Производство пластиковой упаковки для косметики». Справа — 3D-ротация флакона или видео-лупа продукта. Счётчики с анимацией.</div>
+      </div>
+      <div class="annotation-row">
+        <div class="ann-num" style="background:#1a6b8a;">3</div>
+        <div class="ann-block">Trust Bar</div>
+        <div class="ann-desc">4 факта на белом фоне сразу под hero. Иконки + цифра + описание. Быстрый ответ на «а кто вы такие?»</div>
+      </div>
+      <div class="annotation-row">
+        <div class="ann-num" style="background:#2d5a3d;">4</div>
+        <div class="ann-block">Каталог</div>
+        <div class="ann-desc">6 карточек с hover-эффектом. Фото продукта, название категории, краткий дескриптор (мин. партия, материал). Кнопка «Смотреть каталог».</div>
+      </div>
+      <div class="annotation-row">
+        <div class="ann-num" style="background:#555;">5</div>
+        <div class="ann-block">USP + Цифры</div>
+        <div class="ann-desc">Тёмный фон. 6 карточек с ключевыми преимуществами. Числа (30+, 3-12 дней, 1988) — якорные визуальные акценты.</div>
+      </div>
+      <div class="annotation-row">
+        <div class="ann-num" style="background:#7a3a7a;">6</div>
+        <div class="ann-block">Портфолио</div>
+        <div class="ann-desc">Masonry или CSS Grid галерея. Фильтры по типу. Hover: оверлей с названием бренда-клиента. Кнопка «Все кейсы».</div>
+      </div>
+      <div class="annotation-row">
+        <div class="ann-num" style="background:#c0392b;">7</div>
+        <div class="ann-block">Inline CTA</div>
+        <div class="ann-desc">Форма «Запросить образцы»: 3 поля + кнопка. Зелёный блок. Альтернатива — «Скачать каталог» (PDF). Обязательный A-тест блока.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: TECH REQ -->
+<section id="tech">
+  <div class="container">
+    <div class="section-label">05 / Технические требования</div>
+    <h2>Функциональные и технические требования</h2>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('ux')">UX / UI</button>
+      <button class="tab-btn" onclick="showTab('tech')">Технология</button>
+      <button class="tab-btn" onclick="showTab('perf')">Производительность</button>
+      <button class="tab-btn" onclick="showTab('content')">Контент</button>
+    </div>
+
+    <div id="tab-ux" class="tab-content active">
+      <table class="req-table">
+        <thead>
+          <tr><th style="width:30%">Требование</th><th>Описание</th><th style="width:15%">Статус</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Mobile-first верстка</td><td>Прежде всего мобильный layout, затем расширение до десктопа. Breakpoints: 375 / 768 / 1024 / 1440px.</td><td><span class="tag red">Обязательно</span></td></tr>
+          <tr><td>Sticky header</td><td>Заголовок фиксируется при скролле, уменьшается (compact mode). Логотип + CTA остаются всегда видимыми.</td><td><span class="tag red">Обязательно</span></td></tr>
+          <tr><td>Анимации входа</td><td>Плавное появление блоков при скролле (Intersection Observer). Без перегруза — max 300мс анимация.</td><td><span class="tag yellow">Желательно</span></td></tr>
+          <tr><td>Hover-состояния карточек</td><td>Карточки каталога: масштаб + оверлей с CTA. Карточки USP: подсветка рамки. Все переходы 150–200мс ease-out.</td><td><span class="tag red">Обязательно</span></td></tr>
+          <tr><td>Карусель клиентов</td><td>Бесконечный авто-скролл логотипов. На мобильных — touch-swipe. Пауза при hover.</td><td><span class="tag yellow">Желательно</span></td></tr>
+          <tr><td>Видео в Hero</td><td>Фоновое видео (autoplay, muted, loop) с fallback на статичное изображение. Или 3D Spline-объект.</td><td><span class="tag yellow">Желательно</span></td></tr>
+          <tr><td>Форма с валидацией</td><td>Real-time валидация (не после submit). Поля: Имя, Компания, Email, Телефон. Интеграция с CRM/email.</td><td><span class="tag red">Обязательно</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="tab-tech" class="tab-content">
+      <table class="req-table">
+        <thead>
+          <tr><th style="width:30%">Параметр</th><th>Требование</th><th style="width:15%">Приоритет</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>CMS</td><td>Сохранить 1С-Bitrix или мигрировать на Bitrix24 Site. Все блоки — через визуальные компоненты без кода для редактора.</td><td><span class="tag red">Ключевое</span></td></tr>
+          <tr><td>Изображения</td><td>WebP (уже есть) + AVIF для новых. Lazy loading для всего ниже fold. Retina (2x) для иконок.</td><td><span class="tag red">Обязательно</span></td></tr>
+          <tr><td>Шрифты</td><td>Максимум 2 начертания × 2 семейства. Preconnect + font-display: swap. WOFF2 самостоятельно, не через Google Fonts в продакшене.</td><td><span class="tag yellow">Важно</span></td></tr>
+          <tr><td>Семантика HTML</td><td>section, article, aside, nav, header, footer. Schema.org: Organization, LocalBusiness, Product. Open Graph для шаринга.</td><td><span class="tag yellow">Важно</span></td></tr>
+          <tr><td>Мессенджеры</td><td>Telegram и WhatsApp — ссылки utm-tagged. Интеграция виджета-«звонилки» — опционально.</td><td><span class="tag yellow">Важно</span></td></tr>
+          <tr><td>Аналитика</td><td>Сохранить GTM (GTM-MQW8585) + Яндекс.Метрика. Добавить события: клик CTA, отправка формы, скролл 50/75/100%.</td><td><span class="tag red">Обязательно</span></td></tr>
+          <tr><td>Язык</td><td>RU основной. EN версия сохраняется (/en/). Переключатель флагами в header.</td><td><span class="tag red">Обязательно</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="tab-perf" class="tab-content">
+      <table class="req-table">
+        <thead>
+          <tr><th style="width:30%">Метрика</th><th>Цель</th><th style="width:25%">Инструмент контроля</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Largest Contentful Paint (LCP)</td><td>≤ 2.5 секунды на 3G</td><td>PageSpeed Insights</td></tr>
+          <tr><td>Cumulative Layout Shift (CLS)</td><td>≤ 0.1</td><td>Chrome DevTools / Lighthouse</td></tr>
+          <tr><td>First Input Delay (FID)</td><td>≤ 100 мс</td><td>Lighthouse, WebPageTest</td></tr>
+          <tr><td>Interaction to Next Paint (INP)</td><td>≤ 200 мс</td><td>PageSpeed Insights</td></tr>
+          <tr><td>PageSpeed Score (мобильный)</td><td>≥ 80 баллов</td><td>Google PageSpeed</td></tr>
+          <tr><td>Общий вес страницы</td><td>≤ 2 МБ без видео</td><td>Chrome Network tab</td></tr>
+          <tr><td>TTFB</td><td>≤ 800 мс (для BY/RU)</td><td>WebPageTest</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="tab-content" class="tab-content">
+      <table class="req-table">
+        <thead>
+          <tr><th style="width:30%">Элемент</th><th>Требование к контенту</th><th style="width:20%">Ответственный</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Hero H1</td><td>«Производство пластиковой упаковки для косметики» — SEO-заголовок. Подзаголовок: 2–3 строки с УТП.</td><td>Маркетинг</td></tr>
+          <tr><td>Фотографии продуктов</td><td>Профессиональная предметная съёмка на нейтральном фоне. Минимум 20 новых кадров. Формат: WebP, min 1200px широкий.</td><td>Фотограф</td></tr>
+          <tr><td>Видео для Hero</td><td>15–30 сек. производственный или продуктовый ролик. Без звука в autoplay. Для фоллбека — стоп-кадр.</td><td>Видеооператор</td></tr>
+          <tr><td>Логотипы клиентов</td><td>SVG или PNG 2x. Минимум 16 клиентов. Согласованные версии без фона.</td><td>Аккаунты</td></tr>
+          <tr><td>Тексты блоков</td><td>Копирайтинг USP-блока, Trust Bar, CTA-форм — на основе брифа с маркетинг-командой.</td><td>Копирайтер</td></tr>
+          <tr><td>Портфолио</td><td>Минимум 12 кейсов с фото + название бренда-клиента. Категоризация.</td><td>Маркетинг + дизайн</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: EFFORT -->
+<section id="effort">
+  <div class="container">
+    <div class="section-label">06 / Трудозатраты</div>
+    <h2>Оценка трудозатрат</h2>
+    <p>Оценка составлена для полного цикла: от аналитики до приёмочного тестирования. Не включает создание контента (съёмка, тексты) — это отдельные работы.</p>
+    <br>
+
+    <div class="total-box">
+      <div class="total-box-item">
+        <label>Всего человеко-часов</label>
+        <strong>312</strong>
+        <span>без контент-продакшена</span>
+      </div>
+      <div class="total-box-item">
+        <label>Длительность проекта</label>
+        <strong>10</strong>
+        <span>рабочих недель</span>
+      </div>
+      <div class="total-box-item">
+        <label>Команда</label>
+        <strong>5</strong>
+        <span>специалистов</span>
+      </div>
+    </div>
+
+    <div class="effort-grid">
+      <div class="effort-card">
+        <div class="phase-badge">Фаза 1</div>
+        <h3>Аналитика и UX-исследование</h3>
+        <div class="effort-row"><span class="effort-role">UX-аналитик</span><span class="effort-hours">24 ч</span></div>
+        <div class="effort-row"><span class="effort-role">Веб-аналитик (метрики)</span><span class="effort-hours">8 ч</span></div>
+        <div class="effort-row"><span class="effort-role">PM / брифинг</span><span class="effort-hours">8 ч</span></div>
+        <div class="effort-total"><span>Итого фаза 1</span><strong>40 ч</strong></div>
+      </div>
+
+      <div class="effort-card">
+        <div class="phase-badge">Фаза 2</div>
+        <h3>Прототипирование и архитектура</h3>
+        <div class="effort-row"><span class="effort-role">UX-дизайнер (wireframes)</span><span class="effort-hours">20 ч</span></div>
+        <div class="effort-row"><span class="effort-role">IA и структура навигации</span><span class="effort-hours">8 ч</span></div>
+        <div class="effort-row"><span class="effort-role">Согласование с клиентом</span><span class="effort-hours">4 ч</span></div>
+        <div class="effort-total"><span>Итого фаза 2</span><strong>32 ч</strong></div>
+      </div>
+
+      <div class="effort-card">
+        <div class="phase-badge">Фаза 3</div>
+        <h3>UI-дизайн (макеты)</h3>
+        <div class="effort-row"><span class="effort-role">UI-дизайнер, главная страница</span><span class="effort-hours">32 ч</span></div>
+        <div class="effort-row"><span class="effort-role">Адаптив (3 breakpoints)</span><span class="effort-hours">16 ч</span></div>
+        <div class="effort-row"><span class="effort-role">Design system / компоненты</span><span class="effort-hours">12 ч</span></div>
+        <div class="effort-row"><span class="effort-role">Правки после согласования</span><span class="effort-hours">8 ч</span></div>
+        <div class="effort-total"><span>Итого фаза 3</span><strong>68 ч</strong></div>
+      </div>
+
+      <div class="effort-card">
+        <div class="phase-badge">Фаза 4</div>
+        <h3>Frontend-разработка</h3>
+        <div class="effort-row"><span class="effort-role">HTML/CSS верстка</span><span class="effort-hours">40 ч</span></div>
+        <div class="effort-row"><span class="effort-role">JavaScript (анимации, карусель)</span><span class="effort-hours">20 ч</span></div>
+        <div class="effort-row"><span class="effort-role">Адаптив и кроссбраузерность</span><span class="effort-hours">16 ч</span></div>
+        <div class="effort-row"><span class="effort-role">Оптимизация изображений</span><span class="effort-hours">8 ч</span></div>
+        <div class="effort-total"><span>Итого фаза 4</span><strong>84 ч</strong></div>
+      </div>
+
+      <div class="effort-card">
+        <div class="phase-badge">Фаза 5</div>
+        <h3>Bitrix-интеграция</h3>
+        <div class="effort-row"><span class="effort-role">Интеграция шаблона в Bitrix</span><span class="effort-hours">24 ч</span></div>
+        <div class="effort-row"><span class="effort-role">CMS-компоненты для редактора</span><span class="effort-hours">16 ч</span></div>
+        <div class="effort-row"><span class="effort-role">Форма + CRM/email связка</span><span class="effort-hours">8 ч</span></div>
+        <div class="effort-total"><span>Итого фаза 5</span><strong>48 ч</strong></div>
+      </div>
+
+      <div class="effort-card">
+        <div class="phase-badge">Фаза 6</div>
+        <h3>Тестирование и запуск</h3>
+        <div class="effort-row"><span class="effort-role">QA тестирование</span><span class="effort-hours">16 ч</span></div>
+        <div class="effort-row"><span class="effort-role">Performance аудит</span><span class="effort-hours">8 ч</span></div>
+        <div class="effort-row"><span class="effort-role">Правки по итогам QA</span><span class="effort-hours">8 ч</span></div>
+        <div class="effort-row"><span class="effort-role">Деплой + мониторинг</span><span class="effort-hours">8 ч</span></div>
+        <div class="effort-total"><span>Итого фаза 6</span><strong>40 ч</strong></div>
+      </div>
+    </div>
+
+    <h3>Дополнительные работы (опционально)</h3>
+    <br>
+    <table class="req-table">
+      <thead>
+        <tr><th>Работа</th><th>Описание</th><th>Оценка</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Предметная фотосъёмка</td><td>20 позиций продукта, студийная съёмка с реквизитом</td><td>16 ч + расходы студии</td></tr>
+        <tr><td>Видео для Hero</td><td>Производственный ролик 30 сек. или продуктовый рилс</td><td>24–40 ч</td></tr>
+        <tr><td>3D-модель флакона (Spline)</td><td>Интерактивный 3D объект в hero-блоке</td><td>20–32 ч</td></tr>
+        <tr><td>Копирайтинг (все блоки)</td><td>USP, Hero, CTA тексты. SEO-оптимизированные.</td><td>12–16 ч</td></tr>
+        <tr><td>A/B тестирование Hero</td><td>2 варианта CTA. Настройка VWO или Яндекс.Экперименты.</td><td>8 ч</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SECTION 7: TIMELINE -->
+<section id="timeline">
+  <div class="container">
+    <div class="section-label">07 / Сроки</div>
+    <h2>Предварительный план работ</h2>
+
+    <div class="gantt">
+      <div class="gantt-header">
+        <div class="gantt-header-cell">Задача</div>
+        <div class="gantt-header-cell">Н1</div>
+        <div class="gantt-header-cell">Н2</div>
+        <div class="gantt-header-cell">Н3</div>
+        <div class="gantt-header-cell">Н4</div>
+        <div class="gantt-header-cell">Н5</div>
+        <div class="gantt-header-cell">Н6</div>
+        <div class="gantt-header-cell">Н7</div>
+        <div class="gantt-header-cell">Н8</div>
+        <div class="gantt-header-cell">Н9</div>
+        <div class="gantt-header-cell">Н10</div>
+        <div class="gantt-header-cell">Н11</div>
+        <div class="gantt-header-cell">Н12</div>
+      </div>
+      <!-- Row 1 -->
+      <div class="gantt-row">
+        <div class="gantt-task">Аудит и брифинг</div>
+        <div class="gantt-cell"><div class="gantt-bar gb-1" style="left:2px;right:2px;"><span class="phase-label">Аудит</span></div></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-1" style="left:2px;right:2px;"></div></div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div>
+      </div>
+      <!-- Row 2 -->
+      <div class="gantt-row">
+        <div class="gantt-task">Прототипы (Lo-Fi)</div>
+        <div class="gantt-cell"></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-2" style="left:2px;right:2px;"><span class="phase-label">Прото</span></div></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-2" style="left:2px;right:2px;"></div></div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+        <div class="gantt-cell"></div>
+      </div>
+      <!-- Row 3 -->
+      <div class="gantt-row">
+        <div class="gantt-task">UI-дизайн (Hi-Fi)</div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-3" style="left:2px;right:2px;"><span class="phase-label">UI</span></div></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-3" style="left:2px;right:2px;"></div></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-3" style="left:2px;right:2px;"></div></div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+      </div>
+      <!-- Row 4 -->
+      <div class="gantt-row">
+        <div class="gantt-task">Frontend-разработка</div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-4" style="left:2px;right:2px;"><span class="phase-label">Dev</span></div></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-4" style="left:2px;right:2px;"></div></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-4" style="left:2px;right:2px;"></div></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-4" style="left:2px;right:2px;"></div></div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+      </div>
+      <!-- Row 5 -->
+      <div class="gantt-row">
+        <div class="gantt-task">Bitrix-интеграция</div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-1" style="left:2px;right:2px;"><span class="phase-label">CMS</span></div></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-1" style="left:2px;right:2px;"></div></div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+      </div>
+      <!-- Row 6 -->
+      <div class="gantt-row">
+        <div class="gantt-task">QA + Запуск</div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-5" style="left:2px;right:2px;"><span class="phase-label">QA</span></div></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-5" style="left:2px;right:2px;"></div></div>
+        <div class="gantt-cell"><div class="gantt-bar gb-5" style="left:2px;right:2px;"></div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:12px;">
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:8px;border-radius:2px;background:linear-gradient(90deg,#c8a96e,#d4b87a);display:inline-block;"></span>Аналитика / CMS</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:8px;border-radius:2px;background:linear-gradient(90deg,#2d5a3d,#3a6e4a);display:inline-block;"></span>Прототипирование</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:8px;border-radius:2px;background:linear-gradient(90deg,#1a6b8a,#2280a8);display:inline-block;"></span>UI-дизайн</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:8px;border-radius:2px;background:linear-gradient(90deg,#7a3a7a,#9a4a9a);display:inline-block;"></span>Разработка</span>
+      <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:8px;border-radius:2px;background:linear-gradient(90deg,#c0392b,#d44b3d);display:inline-block;"></span>QA и запуск</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 8: COMMERCIAL -->
+<section id="commercial">
+  <div class="container">
+    <div class="section-label">08 / Коммерческое предложение</div>
+    <h2>Коммерческое предложение</h2>
+
+    <div class="commercial">
+      <div class="commercial-header">
+        <div>
+          <div class="co-logo">
+            [Название студии]
+            <span>Веб-дизайн и разработка</span>
+          </div>
+        </div>
+        <div class="co-meta">
+          <strong>КП № 2026-MIRAN-01</strong><br>
+          Дата: Май 2026<br>
+          Действительно до: 30 июня 2026<br>
+          Заказчик: ООО «МИРАН»
+        </div>
+      </div>
+
+      <div class="commercial-body">
+        <div class="co-h2">Редизайн главной страницы miran-bel.com</div>
+        <p class="co-intro">
+          Предлагаем полный цикл работ по редизайну главной страницы корпоративного сайта: от аудита и прототипов до запуска и технической поддержки. Стоимость указана без НДС в USD по курсу НБ РБ на дату выставления счёта.
+        </p>
+
+        <table class="pricing-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Работа</th>
+              <th>Объём (ч)</th>
+              <th>Ставка (USD/ч)</th>
+              <th>Стоимость (USD)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>
+                <strong>Аудит и аналитика</strong><br>
+                <span style="font-size:12px;color:var(--muted);">UX-аудит текущего сайта, анализ метрик, брифинг, ТЗ финальное</span>
+              </td>
+              <td>40</td>
+              <td>45</td>
+              <td class="price-cell">$1 800</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>
+                <strong>Прототипирование (Lo-Fi + Hi-Fi)</strong><br>
+                <span style="font-size:12px;color:var(--muted);">Wireframes в Figma, User Flow, архитектура блоков, 2 итерации правок</span>
+              </td>
+              <td>32</td>
+              <td>55</td>
+              <td class="price-cell">$1 760</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>
+                <strong>UI-дизайн главной страницы</strong><br>
+                <span style="font-size:12px;color:var(--muted);">Desktop + Mobile (375, 768, 1440px), Design System, 3 итерации правок</span>
+              </td>
+              <td>68</td>
+              <td>60</td>
+              <td class="price-cell">$4 080</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>
+                <strong>Frontend-разработка</strong><br>
+                <span style="font-size:12px;color:var(--muted);">HTML/CSS/JS, анимации, адаптив, оптимизация изображений, форма</span>
+              </td>
+              <td>84</td>
+              <td>55</td>
+              <td class="price-cell">$4 620</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>
+                <strong>Интеграция в 1С-Bitrix</strong><br>
+                <span style="font-size:12px;color:var(--muted);">Перенос шаблона, CMS-компоненты, форма в CRM, GTM-события</span>
+              </td>
+              <td>48</td>
+              <td>65</td>
+              <td class="price-cell">$3 120</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>
+                <strong>QA, производительность и запуск</strong><br>
+                <span style="font-size:12px;color:var(--muted);">Тестирование, PageSpeed-оптимизация, деплой, мониторинг 2 нед.</span>
+              </td>
+              <td>40</td>
+              <td>45</td>
+              <td class="price-cell">$1 800</td>
+            </tr>
+            <tr style="background:#fafaf8;">
+              <td colspan="2"><strong>Опционально: 3D-объект флакона для Hero (Spline)</strong><br><span style="font-size:12px;color:var(--muted);">Интерактивная 3D-модель, веб-экспорт, интеграция</span></td>
+              <td>28</td>
+              <td>70</td>
+              <td class="price-cell" style="color:var(--muted);">$1 960 <span style="font-size:11px;">(опция)</span></td>
+            </tr>
+            <tr style="background:#fafaf8;">
+              <td colspan="2"><strong>Опционально: Копирайтинг (SEO + UX-тексты)</strong><br><span style="font-size:12px;color:var(--muted);">Hero, USP, CTA, Trust Bar — все блоки главной страницы</span></td>
+              <td>14</td>
+              <td>50</td>
+              <td class="price-cell" style="color:var(--muted);">$700 <span style="font-size:11px;">(опция)</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="co-total-row">
+          <span class="co-total-label">Базовый объём работ (без опций)</span>
+          <span class="co-total-price">$17 180</span>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:40px;align-items:baseline;padding-bottom:16px;border-bottom:1px solid var(--border);">
+          <span style="font-size:13px;color:var(--muted);">Полный пакет (с 3D + копирайтингом)</span>
+          <span style="font-family:'Playfair Display',serif;font-size:22px;color:var(--accent);">$19 840</span>
+        </div>
+
+        <div class="co-notes">
+          <strong>Примечания к стоимости:</strong><br>
+          • Стоимость не включает: предметную фотосъёмку продукции, производство видеоролика, лицензии на шрифты (если коммерческие), хостинг.<br>
+          • Расчёт в USD. Оплата в BYN или RUB по курсу НБ на дату выставления счёта.<br>
+          • Схема оплаты: 40% аванс → 30% после согласования макетов → 30% после запуска.<br>
+          • В стоимость включены: 2 итерации правок на этапе прототипов и 3 — на этапе UI-дизайна.<br>
+          • Дополнительные правки сверх лимита — по ставке $55/ч.
+        </div>
+
+        <div class="co-terms">
+          <div class="co-term">
+            <strong>Сроки</strong>
+            10 рабочих недель с момента получения аванса и брифинговых материалов
+          </div>
+          <div class="co-term">
+            <strong>Гарантия</strong>
+            3 месяца технической поддержки после запуска (исправление ошибок)
+          </div>
+          <div class="co-term">
+            <strong>Права</strong>
+            Исключительные права на все разработанные материалы передаются Заказчику после полной оплаты
+          </div>
+        </div>
+      </div>
+
+      <div class="co-footer">
+        <div>
+          <div>Документ сформирован на основе анализа сайта miran-bel.com</div>
+          <div style="margin-top:4px;">Оценка предварительная — уточняется после брифинга с командой МИРАН</div>
+        </div>
+        <div class="co-signature">
+          <div class="co-sig-line"></div>
+          <div>Руководитель проекта</div>
+          <div style="color:#bbb;">________________ / ФИО</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER NAV -->
+<div style="background:var(--ink);color:#888;padding:24px 32px;display:flex;justify-content:space-between;align-items:center;font-size:12px;flex-wrap:wrap;gap:12px;">
+  <span>ТЗ Редизайн miran-bel.com · Версия 1.0 · Май 2026</span>
+  <span>Составлено на основе автоматического аудита сайта</span>
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
