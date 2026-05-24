@@ -3,2008 +3,1604 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ТЗ Редизайн — МИРАН</title>
+<title>МИРАН — ТЗ Редизайн Финал</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Geologica:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
 
-  :root {
-    --ink: #0e0e0e;
-    --paper: #f5f2ec;
-    --accent: #c8a96e;
-    --accent2: #2d5a3d;
-    --muted: #6b6860;
-    --border: #d8d4cb;
-    --white: #ffffff;
-    --danger: #c0392b;
-    --info: #1a6b8a;
-    --success: #2d7a4a;
-    --warn: #c67c28;
-  }
+:root {
+  --bg:       #f0ece4;
+  --ink:      #0f0e0c;
+  --gold:     #c4a05a;
+  --gold-lt:  #e8d9b8;
+  --gold-dk:  #8a6a2a;
+  --gr:       #1d3a25;
+  --gr-mid:   #2c5538;
+  --gr-lt:    #d4e8d8;
+  --red:      #8b2020;
+  --red-lt:   #f5e2e2;
+  --blue:     #1a3d5c;
+  --blue-lt:  #ddeaf5;
+  --muted:    #6e6a62;
+  --bdr:      #d8d2c6;
+  --card:     #faf8f4;
+  --white:    #ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Geologica',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ─── NAV ─── */
+.snav{position:sticky;top:0;z-index:999;background:var(--ink);display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none}
+.snav::-webkit-scrollbar{display:none}
+.snav-brand{padding:13px 20px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);border-right:1px solid #222;white-space:nowrap;display:flex;align-items:center;flex-shrink:0}
+.snav a{padding:14px 13px;font-size:10px;font-weight:500;color:#777;text-decoration:none;white-space:nowrap;letter-spacing:.07em;text-transform:uppercase;transition:color .15s;border-bottom:2px solid transparent}
+.snav a:hover{color:#fff;border-bottom-color:var(--gold)}
 
-  body {
-    font-family: 'Manrope', sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    line-height: 1.6;
-  }
+/* ─── COVER ─── */
+.cover{background:var(--ink);padding:80px 60px 72px;position:relative;overflow:hidden}
+.cover::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 600px 400px at 80% 50%,rgba(196,160,90,.1) 0%,transparent 70%);pointer-events:none}
+.cover::after{content:'MIRAN';position:absolute;right:-20px;bottom:-40px;font-family:'Cormorant Garamond',serif;font-size:220px;font-weight:700;color:rgba(255,255,255,.025);line-height:1;pointer-events:none;user-select:none}
+.cv-chip{display:inline-flex;align-items:center;gap:7px;background:rgba(196,160,90,.15);border:1px solid rgba(196,160,90,.35);padding:5px 14px;border-radius:20px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);margin-bottom:22px;letter-spacing:.07em}
+.cv-chip::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.cover h1{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4.5vw,60px);font-weight:700;line-height:1.08;color:#fff;max-width:760px;margin-bottom:18px}
+.cover h1 em{font-style:italic;color:var(--gold)}
+.cv-lead{font-size:15px;color:#999;max-width:560px;line-height:1.75;margin-bottom:44px}
+.cv-stats{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid #222;padding-top:32px}
+.cv-stat{padding:0 36px 0 0;margin-right:36px;border-right:1px solid #222}
+.cv-stat:last-child{border-right:none}
+.cv-stat label{display:block;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#444;margin-bottom:5px}
+.cv-stat span{font-size:14px;color:#fff}
 
-  /* ═══════ NAV ═══════ */
-  .doc-nav {
-    position: sticky;
-    top: 0;
-    background: var(--ink);
-    color: var(--white);
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    gap: 0;
-    padding: 0 32px;
-    overflow-x: auto;
-  }
-  .doc-nav .nav-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 14px;
-    color: var(--accent);
-    white-space: nowrap;
-    padding: 14px 24px 14px 0;
-    border-right: 1px solid #333;
-    margin-right: 16px;
-  }
-  .doc-nav a {
-    color: #aaa;
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 16px 12px;
-    white-space: nowrap;
-    transition: color 0.2s;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-  }
-  .doc-nav a:hover { color: var(--white); }
+/* ─── LAYOUT ─── */
+.wrap{max-width:1140px;margin:0 auto;padding:0 44px}
+section{padding:72px 0;border-bottom:1px solid var(--bdr)}
+section:last-of-type{border-bottom:none}
+.slabel{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+h2{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3.5vw,44px);font-weight:700;line-height:1.12;margin-bottom:8px}
+.slead{font-size:15px;color:var(--muted);max-width:660px;line-height:1.72;margin-bottom:40px}
+h3{font-size:15px;font-weight:600;margin-bottom:10px}
+h4{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+p{font-size:14px;line-height:1.72;color:#363228;margin-bottom:10px}
 
-  /* ═══════ COVER ═══════ */
-  .cover {
-    background: var(--ink);
-    color: var(--white);
-    padding: 80px 64px;
-    position: relative;
-    overflow: hidden;
-  }
-  .cover::before {
-    content: '';
-    position: absolute;
-    top: -60px; right: -60px;
-    width: 400px; height: 400px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(200,169,110,0.15) 0%, transparent 70%);
-  }
-  .cover-label {
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 16px;
-  }
-  .cover h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(32px, 5vw, 56px);
-    line-height: 1.1;
-    margin-bottom: 24px;
-    max-width: 700px;
-  }
-  .cover h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
-  .cover-meta {
-    display: flex;
-    gap: 40px;
-    flex-wrap: wrap;
-    margin-top: 40px;
-    padding-top: 40px;
-    border-top: 1px solid #333;
-  }
-  .cover-meta-item label {
-    display: block;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
-  .cover-meta-item span {
-    font-size: 14px;
-    color: var(--white);
-  }
+/* ─── CALLOUT ─── */
+.note{border-radius:10px;padding:18px 22px;margin-bottom:18px;font-size:14px;line-height:1.7}
+.note.warn{background:var(--red-lt);border-left:3px solid var(--red);color:#5a1010}
+.note.info{background:var(--blue-lt);border-left:3px solid var(--blue);color:#0e2840}
+.note.ok{background:var(--gr-lt);border-left:3px solid var(--gr-mid);color:#122016}
+.note.gold{background:#fdf6e3;border-left:3px solid var(--gold);color:#5a3e10}
 
-  /* ═══════ LAYOUT ═══════ */
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+/* ─── COMPARE TABLE ─── */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--bdr);border-radius:12px;overflow:hidden;margin-bottom:28px;background:var(--bdr)}
+.cmp-head{padding:12px 20px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.cmp-head.was{background:#3a1a1a;color:#e08080}
+.cmp-head.now{background:#1a2e1e;color:#80c080}
+.cmp-row{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bdr)}
+.cmp-cell{background:var(--card);padding:14px 20px;font-size:13px;line-height:1.6;color:#3a3530;vertical-align:top}
+.cmp-cell.was{background:#fdf5f5;border-left:3px solid var(--red)}
+.cmp-cell.now{background:#f5fdf6;border-left:3px solid var(--gr-mid)}
+.cmp-cell strong{font-weight:600;display:block;margin-bottom:3px;font-size:13px}
+.cmp-cell .why{font-size:11px;color:var(--muted);margin-top:5px;font-style:italic}
 
-  section { padding: 64px 0; border-bottom: 1px solid var(--border); }
-  section:last-of-type { border-bottom: none; }
+/* ─── PERSONA ─── */
+.personas{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:32px}
+.persona{background:var(--card);border:1px solid var(--bdr);border-radius:12px;overflow:hidden}
+.persona-top{padding:16px 18px 12px;border-bottom:1px solid var(--bdr)}
+.p-role{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.p-name{font-size:15px;font-weight:600;margin-bottom:2px}
+.p-co{font-size:12px;color:var(--muted)}
+.persona-body{padding:14px 18px}
+.p-job{font-size:13px;color:#444;margin-bottom:10px;line-height:1.6}
+.p-need{display:flex;gap:7px;font-size:12px;color:#444;margin-bottom:5px;line-height:1.5}
+.p-need::before{content:'→';color:var(--gold);font-weight:700;flex-shrink:0}
+.p-action{margin-top:10px;background:var(--bg);border-radius:6px;padding:9px 12px;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.p-action strong{color:var(--ink)}
 
-  /* ═══════ SECTION HEADER ═══════ */
-  .section-label {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .section-label::before {
-    content: '';
-    display: inline-block;
-    width: 20px;
-    height: 1px;
-    background: var(--accent);
-  }
-  h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(24px, 3vw, 36px);
-    font-weight: 700;
-    margin-bottom: 32px;
-    line-height: 1.2;
-  }
-  h3 {
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    letter-spacing: -0.01em;
-  }
-  h4 {
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-  p { font-size: 15px; color: #2a2a2a; margin-bottom: 12px; line-height: 1.7; }
-  p:last-child { margin-bottom: 0; }
+/* ─── JOURNEY ─── */
+.journey{background:var(--card);border:1px solid var(--bdr);border-radius:12px;overflow:hidden;margin-bottom:28px}
+.j-head{display:grid;grid-template-columns:repeat(5,1fr);background:var(--ink)}
+.j-stage{padding:13px 14px;border-right:1px solid #222;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase}
+.j-stage:last-child{border-right:none}
+.j-row{display:grid;grid-template-columns:140px repeat(5,1fr);border-bottom:1px solid var(--bdr)}
+.j-row:last-child{border-bottom:none}
+.j-lbl{padding:12px 14px;background:#faf8f4;border-right:1px solid var(--bdr);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center}
+.j-cell{padding:11px 14px;border-right:1px solid var(--bdr);font-size:12px;color:#444;line-height:1.55}
+.j-cell:last-child{border-right:none}
+.j-cell.site{background:#fdf9f0;font-weight:500;color:var(--ink)}
+.j-cell.pain{color:var(--red);font-style:italic}
 
-  /* ═══════ AUDIT TABLE ═══════ */
-  .audit-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 32px;
-  }
-  .audit-cell {
-    background: var(--white);
-    padding: 20px 24px;
-  }
-  .audit-cell.full { grid-column: 1 / -1; background: #fafaf8; }
-  .audit-cell h4 { margin-bottom: 6px; }
-  .tag {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    margin-right: 4px;
-    margin-bottom: 6px;
-  }
-  .tag.red { background: #fde8e6; color: var(--danger); }
-  .tag.yellow { background: #fef3e2; color: var(--warn); }
-  .tag.green { background: #e6f4ec; color: var(--success); }
-  .tag.blue { background: #e3f1f8; color: var(--info); }
+/* ─── BLOCK ARCH ─── */
+.blist{border:1px solid var(--bdr);border-radius:12px;overflow:hidden}
+.bitem{display:grid;grid-template-columns:46px 1fr 260px;border-bottom:1px solid var(--bdr);background:var(--card)}
+.bitem:last-child{border-bottom:none}
+.bitem:nth-child(even){background:#faf8f4}
+.bn{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--muted);border-right:1px solid var(--bdr);background:var(--bg)}
+.bm{padding:15px 18px;border-right:1px solid var(--bdr)}
+.bname{font-size:14px;font-weight:600;margin-bottom:4px}
+.bwhy{font-size:12px;color:var(--muted);line-height:1.55}
+.bmeta{padding:15px 18px;display:flex;flex-direction:column;gap:6px}
+.tag{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;width:fit-content}
+.t-crit{background:var(--red-lt);color:var(--red)}
+.t-b2b{background:var(--blue-lt);color:var(--blue)}
+.t-trust{background:var(--gr-lt);color:var(--gr)}
+.t-conv{background:#fdf5e4;color:#7a4e10}
+.t-new{background:#f5f0fa;color:#5a2a8a}
+.baud{font-size:11px;color:var(--muted);font-style:italic}
 
-  /* ═══════ PROBLEMS LIST ═══════ */
-  .problems {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 16px;
-    margin-bottom: 32px;
-  }
-  .problem-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px;
-    border-left: 3px solid var(--danger);
-  }
-  .problem-card.medium { border-left-color: var(--warn); }
-  .problem-card.low { border-left-color: var(--accent2); }
-  .problem-card .pnum {
-    font-size: 11px;
-    font-weight: 800;
-    color: var(--danger);
-    letter-spacing: 0.1em;
-    margin-bottom: 6px;
-  }
-  .problem-card.medium .pnum { color: var(--warn); }
-  .problem-card.low .pnum { color: var(--accent2); }
-  .problem-card h3 { font-size: 14px; margin-bottom: 6px; }
-  .problem-card p { font-size: 13px; color: var(--muted); margin: 0; }
+/* ═══════════════════════════════════════════
+   RENDER SECTION — Реалистичный рендер сайта
+═══════════════════════════════════════════ */
+.render-wrap{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:24px;margin-bottom:28px}
+.render-caption{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.render-caption::after{content:'';flex:1;height:1px;background:var(--bdr)}
 
-  /* ═══════ WIREFRAME ═══════ */
-  .wireframe-wrap {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 32px;
-  }
-  .wf-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .wf-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+/* Browser shell */
+.browser{max-width:920px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 28px 80px rgba(0,0,0,.3)}
+.bchrome{background:#2a2a2a;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.bd{width:11px;height:11px;border-radius:50%}
+.bd-r{background:#ff5f57}.bd-y{background:#febc2e}.bd-g{background:#28c840}
+.burl{flex:1;margin:0 12px;height:26px;border-radius:5px;background:#363636;display:flex;align-items:center;padding:0 12px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#888;gap:8px}
+.burl-lock{color:#5a5;font-size:11px}
 
-  /* Wireframe blocks */
-  .wf-browser {
-    max-width: 860px;
-    margin: 0 auto;
-    background: #1a1a1a;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-  }
-  .wf-chrome {
-    background: #2d2d2d;
-    padding: 10px 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .wf-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .wf-dot.r { background: #ff5f57; }
-  .wf-dot.y { background: #febc2e; }
-  .wf-dot.g { background: #28c840; }
-  .wf-url {
-    flex: 1;
-    background: #3a3a3a;
-    height: 24px;
-    border-radius: 4px;
-    margin: 0 12px;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    font-size: 11px;
-    color: #888;
-    font-family: monospace;
-  }
+/* ── SITE RENDER ── */
+.site{font-family:'Geologica',sans-serif}
 
-  /* Page blocks */
-  .wf-page { background: #f8f7f4; }
+/* Header */
+.r-header{background:#fff;height:56px;display:flex;align-items:center;padding:0 28px;justify-content:space-between;border-bottom:1px solid #e8e4dc;position:relative}
+.r-logo{display:flex;align-items:center;gap:10px}
+.r-logo-mark{width:36px;height:36px;background:linear-gradient(135deg,#1d3a25,#2c5538);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:700;font-size:14px}
+.r-logo-text{display:flex;flex-direction:column;line-height:1.2}
+.r-logo-name{font-size:13px;font-weight:700;letter-spacing:.05em;color:#111}
+.r-logo-sub{font-size:9px;color:#999;letter-spacing:.05em;text-transform:uppercase}
+.r-nav{display:flex;gap:2px}
+.r-nav-item{padding:8px 12px;font-size:11px;font-weight:500;color:#555;border-radius:4px;cursor:pointer;white-space:nowrap;transition:all .15s}
+.r-nav-item:hover,.r-nav-item.active{background:#f0ede6;color:#111}
+.r-header-right{display:flex;align-items:center;gap:10px}
+.r-phones{display:flex;flex-direction:column;gap:2px;align-items:flex-end}
+.r-phone{font-size:10px;color:#555;display:flex;align-items:center;gap:4px}
+.r-flag{font-size:10px}
+.r-messengers{display:flex;gap:5px}
+.r-messenger{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;cursor:pointer}
+.r-m-tg{background:#e3f0fb;color:#1a7aaa}
+.r-m-wa{background:#e2f7e2;color:#1a7a2a}
+.r-cta-btn{background:var(--gold);color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;letter-spacing:.04em;font-family:'Geologica',sans-serif;white-space:nowrap}
 
-  /* Hero */
-  .wf-hero {
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-    padding: 32px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    align-items: center;
-    min-height: 280px;
-    position: relative;
-    overflow: hidden;
-  }
-  .wf-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 20px,
-      rgba(200,169,110,0.03) 20px,
-      rgba(200,169,110,0.03) 21px
-    );
-  }
-  .wf-hero-text { position: relative; }
-  .wf-hero-eyebrow {
-    width: 80px; height: 8px;
-    background: var(--accent);
-    border-radius: 4px;
-    margin-bottom: 12px;
-    opacity: 0.8;
-  }
-  .wf-hero-h1 {
-    background: rgba(255,255,255,0.9);
-    height: 16px; border-radius: 3px;
-    margin-bottom: 8px;
-  }
-  .wf-hero-h1.w60 { width: 60%; }
-  .wf-hero-h1.w80 { width: 80%; }
-  .wf-hero-sub {
-    background: rgba(255,255,255,0.35);
-    height: 8px; border-radius: 3px;
-    margin-bottom: 6px;
-  }
-  .wf-hero-sub.w90 { width: 90%; }
-  .wf-hero-sub.w70 { width: 70%; }
-  .wf-hero-btns {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  .wf-btn {
-    height: 36px;
-    border-radius: 4px;
-    background: var(--accent);
-    width: 120px;
-  }
-  .wf-btn.ghost {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.3);
-  }
-  .wf-hero-visual {
-    height: 220px;
-    background: rgba(255,255,255,0.05);
-    border: 1px dashed rgba(255,255,255,0.15);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255,255,255,0.3);
-    font-size: 12px;
-    font-family: monospace;
-    position: relative;
-  }
-  .wf-hero-visual::after {
-    content: '3D / Hero Product Shot';
-    position: absolute;
-    font-size: 11px;
-  }
+/* Hero */
+.r-hero{background:linear-gradient(150deg,#0c0c0a 0%,#141210 55%,#1a2a1c 100%);padding:52px 28px 44px;display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:center;position:relative;overflow:hidden}
+.r-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 500px 350px at 65% 50%,rgba(196,160,90,.08) 0%,transparent 70%);pointer-events:none}
+.r-hero::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,.012) 60px,rgba(255,255,255,.012) 61px);pointer-events:none}
+.r-hero-left{position:relative;z-index:1}
+.r-hero-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.r-eyebrow-pill{background:rgba(196,160,90,.2);border:1px solid rgba(196,160,90,.4);padding:4px 12px;border-radius:20px;font-size:10px;color:rgba(196,160,90,.9);font-family:'JetBrains Mono',monospace;letter-spacing:.06em}
+.r-hero h1{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:#fff;line-height:1.1;margin-bottom:8px}
+.r-hero h1 em{font-style:italic;color:var(--gold);font-weight:400}
+.r-hero-sub{font-size:13px;color:rgba(255,255,255,.55);line-height:1.65;margin-bottom:20px;max-width:420px}
 
-  /* Trust bar */
-  .wf-trust {
-    background: #fff;
-    border-bottom: 1px solid #e8e4dc;
-    padding: 14px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .wf-trust-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .wf-trust-icon {
-    width: 24px; height: 24px;
-    background: var(--accent);
-    border-radius: 50%;
-    opacity: 0.3;
-    flex-shrink: 0;
-  }
-  .wf-trust-lines { display: flex; flex-direction: column; gap: 3px; }
-  .wf-trust-line {
-    height: 7px;
-    background: #ccc;
-    border-radius: 3px;
-  }
-  .wf-trust-line.w60 { width: 60px; }
-  .wf-trust-line.w40 { width: 40px; background: #e0e0e0; }
+/* Selector chips */
+.r-selector{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;margin-bottom:22px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.r-sel-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;margin-right:2px;white-space:nowrap}
+.r-sel-chip{padding:5px 12px;border-radius:20px;font-size:10px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);background:transparent}
+.r-sel-chip.on{background:var(--gold);color:#111;border-color:var(--gold);font-weight:700}
+.r-hero-btns{display:flex;gap:10px}
+.r-hbtn{padding:10px 20px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Geologica',sans-serif;letter-spacing:.04em;transition:all .15s;white-space:nowrap;border:none}
+.r-hbtn.prim{background:var(--gold);color:#111}
+.r-hbtn.sec{background:transparent;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.8)}
 
-  /* Services */
-  .wf-services {
-    padding: 24px 32px;
-    background: #f8f7f4;
-  }
-  .wf-section-title {
-    height: 14px;
-    background: #ccc;
-    border-radius: 3px;
-    width: 220px;
-    margin-bottom: 20px;
-  }
-  .wf-cards {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-  }
-  .wf-card {
-    background: #fff;
-    border: 1px solid #e8e4dc;
-    border-radius: 8px;
-    padding: 14px;
-    aspect-ratio: 0.85;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    position: relative;
-    overflow: hidden;
-  }
-  .wf-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--accent);
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  .wf-card:hover::before { opacity: 1; }
-  .wf-card-img {
-    flex: 1;
-    background: linear-gradient(135deg, #f0ede6 0%, #e5e0d8 100%);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 9px;
-    color: #999;
-    font-family: monospace;
-  }
-  .wf-card-title {
-    height: 8px;
-    background: #ccc;
-    border-radius: 2px;
-  }
-  .wf-card-sub {
-    height: 6px;
-    background: #e8e8e8;
-    border-radius: 2px;
-    width: 70%;
-  }
+/* Hero stats */
+.r-hero-stats{display:flex;gap:24px;margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+.r-stat-item{display:flex;flex-direction:column;gap:3px}
+.r-stat-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--gold);line-height:1}
+.r-stat-lbl{font-size:10px;color:rgba(255,255,255,.4);line-height:1.4;max-width:80px}
 
-  /* USP */
-  .wf-usp {
-    background: #0a0a0a;
-    padding: 24px 32px;
-  }
-  .wf-usp-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-  }
-  .wf-usp-item {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 8px;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .wf-usp-num {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--accent);
-    font-family: 'Playfair Display', serif;
-  }
-  .wf-usp-line {
-    height: 8px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 3px;
-  }
-  .wf-usp-line.short { width: 60%; background: rgba(255,255,255,0.1); }
+/* Hero right: product card */
+.r-hero-right{position:relative;z-index:1}
+.r-product-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden}
+.r-product-img{height:180px;background:linear-gradient(145deg,rgba(196,160,90,.2) 0%,rgba(29,58,37,.4) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative;padding:16px}
+.r-bottle{width:40px;height:78px;border-radius:8px 8px 14px 14px;background:linear-gradient(170deg,rgba(196,160,90,.7) 0%,rgba(196,160,90,.3) 60%,rgba(196,160,90,.1) 100%);border:1px solid rgba(196,160,90,.5);position:relative}
+.r-bottle::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:14px;height:12px;background:rgba(196,160,90,.6);border-radius:3px 3px 0 0}
+.r-bottle-label{font-family:'JetBrains Mono',monospace;font-size:8px;color:rgba(255,255,255,.4);margin-top:4px}
+.r-specs{padding:12px 16px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.r-spec{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:7px 10px}
+.r-spec-val{font-size:12px;font-weight:700;color:var(--gold);margin-bottom:2px}
+.r-spec-key{font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.05em}
 
-  /* Portfolio */
-  .wf-portfolio {
-    padding: 24px 32px;
-    background: #fff;
-  }
-  .wf-portfolio-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    grid-template-rows: 160px 160px;
-    gap: 8px;
-  }
-  .wf-portfolio-item {
-    background: linear-gradient(135deg, #e8e4dc 0%, #d8d3c8 100%);
-    border-radius: 6px;
-    position: relative;
-    overflow: hidden;
-  }
-  .wf-portfolio-item.span2 { grid-row: span 2; }
-  .wf-portfolio-overlay {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    background: linear-gradient(0deg, rgba(10,10,10,0.7) 0%, transparent 100%);
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .wf-pline {
-    height: 7px;
-    background: rgba(255,255,255,0.7);
-    border-radius: 2px;
-  }
-  .wf-pline.short { width: 50%; background: rgba(255,255,255,0.4); height: 5px; }
+/* Trust bar */
+.r-trust{background:#fff;padding:14px 28px;border-bottom:2px solid #e8e4dc;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.r-trust-item{display:flex;align-items:center;gap:9px}
+.r-trust-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.r-ti-gr{background:#d4e8d8;color:#1d3a25}
+.r-ti-bl{background:#ddeaf5;color:#1a3d5c}
+.r-trust-text{display:flex;flex-direction:column;gap:1px}
+.r-tt-v{font-size:12px;font-weight:700;color:#111}
+.r-tt-l{font-size:10px;color:#999}
+.r-trust-certs{background:#1d3a25;color:#fff;padding:6px 14px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;letter-spacing:.05em}
 
-  /* Clients */
-  .wf-clients {
-    padding: 20px 32px;
-    background: #f8f7f4;
-    border-top: 1px solid #e8e4dc;
-  }
-  .wf-clients-row {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  .wf-client-logo {
-    width: 72px;
-    height: 28px;
-    background: #ddd;
-    border-radius: 3px;
-    opacity: 0.5;
-  }
+/* Catalog navigator */
+.r-catalog{padding:28px;background:#f4f0e8}
+.r-cat-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;gap:16px}
+.r-cat-hl{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;line-height:1.15;margin-bottom:4px}
+.r-cat-sub{font-size:12px;color:var(--muted);max-width:320px;line-height:1.5}
+.r-filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.r-filter{padding:5px 12px;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;border:1px solid #d4cfc6;background:#fff;color:#777;letter-spacing:.04em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;white-space:nowrap;transition:all .15s}
+.r-filter.on{background:#1d3a25;color:#fff;border-color:#1d3a25}
+.r-cat-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:160px 160px;gap:8px}
+.r-cat-card{background:#fff;border:1px solid #e8e4dc;border-radius:10px;overflow:hidden;position:relative;display:flex;flex-direction:column;cursor:pointer;transition:box-shadow .2s}
+.r-cat-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.r-cat-card.span2{grid-row:span 2}
+.r-cat-img{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px}
+.r-cat-img.c1{background:linear-gradient(135deg,#e8e4dc,#d8d2c6)}
+.r-cat-img.c2{background:linear-gradient(135deg,#e4e8e0,#d2d8ce)}
+.r-cat-img.c3{background:linear-gradient(135deg,#e8e4e0,#d8d0c8)}
+.r-cat-img.c4{background:linear-gradient(135deg,#1d3a25,#2c5538)}
+.r-cat-img.c5{background:linear-gradient(135deg,#e0e8e4,#ccd8d0)}
+.r-cat-icon{font-size:28px}
+.r-cat-name{font-size:11px;font-weight:600;color:#555;letter-spacing:.03em}
+.r-cat-card.span2 .r-cat-name{font-size:13px;color:#333}
+.r-cat-img.c4 .r-cat-name{color:rgba(255,255,255,.7)}
+.r-cat-foot{padding:8px 12px;border-top:1px solid #f0ede6;display:flex;justify-content:space-between;align-items:center}
+.r-cat-min{font-family:'JetBrains Mono',monospace;font-size:9px;color:#999;letter-spacing:.04em}
+.r-cat-arr{font-size:14px;color:var(--gold)}
+.r-cat-badge{position:absolute;top:8px;left:8px;padding:3px 8px;border-radius:4px;font-size:8px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.r-cb-gold{background:var(--gold);color:#fff}
+.r-cb-gr{background:#1d3a25;color:#fff}
 
-  /* CTA */
-  .wf-cta {
-    background: linear-gradient(135deg, #1a3a24 0%, #2d5a3d 100%);
-    padding: 32px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 24px;
-    align-items: center;
-  }
-  .wf-cta-text { display: flex; flex-direction: column; gap: 8px; }
-  .wf-cta-h { height: 14px; background: rgba(255,255,255,0.7); border-radius: 3px; width: 300px; }
-  .wf-cta-sub { height: 8px; background: rgba(255,255,255,0.3); border-radius: 3px; width: 220px; }
-  .wf-cta-btn {
-    background: var(--accent);
-    height: 44px;
-    width: 180px;
-    border-radius: 4px;
-  }
+/* Process */
+.r-process{background:#1d3a25;padding:24px 28px}
+.r-proc-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.r-proc-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#fff}
+.r-proc-sub{font-size:11px;color:rgba(255,255,255,.4);font-style:italic}
+.r-proc-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.r-step{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:14px 16px;position:relative;border-right:none}
+.r-step:last-child{border-right:1px solid rgba(255,255,255,.1)}
+.r-step-n{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:rgba(196,160,90,.4);line-height:1;margin-bottom:6px}
+.r-step-title{font-size:11px;font-weight:600;color:#fff;margin-bottom:4px}
+.r-step-sub{font-size:10px;color:rgba(255,255,255,.4);line-height:1.5}
+.r-step::after{content:'›';position:absolute;right:-11px;top:50%;transform:translateY(-50%);font-size:20px;color:rgba(196,160,90,.4);z-index:1}
+.r-step:last-child::after{display:none}
+.r-step.active{background:rgba(196,160,90,.15);border-color:rgba(196,160,90,.3)}
+.r-step.active .r-step-n{color:var(--gold)}
+.r-step.active .r-step-title{color:var(--gold)}
 
-  /* Footer */
-  .wf-footer {
-    background: #0e0e0e;
-    padding: 24px 32px;
-  }
-  .wf-footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 16px;
-  }
-  .wf-footer-col { display: flex; flex-direction: column; gap: 6px; }
-  .wf-footer-line {
-    height: 6px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 2px;
-  }
-  .wf-footer-line.bold {
-    height: 9px;
-    background: rgba(255,255,255,0.35);
-    width: 60%;
-    margin-bottom: 4px;
-  }
+/* Decoration */
+.r-dekor{background:#fff;padding:28px}
+.r-dk-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.r-dk-left{}
+.r-dk-h{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;margin-bottom:4px}
+.r-dk-sub{font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.55}
+.r-dk-feature{background:linear-gradient(135deg,#1d3a25 0%,#2c5538 100%);border-radius:10px;padding:22px;margin-bottom:10px;position:relative;overflow:hidden}
+.r-dk-feature::after{content:'30+';position:absolute;right:-8px;top:-10px;font-family:'Cormorant Garamond',serif;font-size:90px;font-weight:700;color:rgba(255,255,255,.05);line-height:1;pointer-events:none}
+.r-dk-f-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:var(--gold);line-height:1;margin-bottom:4px}
+.r-dk-f-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:4px}
+.r-dk-f-sub{font-size:11px;color:rgba(255,255,255,.5);line-height:1.5}
+.r-dk-techs{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.r-dk-tech{background:#f4f0e8;border:1px solid #e8e4dc;border-radius:7px;padding:10px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .15s}
+.r-dk-tech:hover{border-color:var(--gold);background:#fdf8f0}
+.r-dk-tech-icon{width:24px;height:24px;border-radius:6px;background:var(--gold-lt);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.r-dk-tech-name{font-size:11px;font-weight:600;color:#333}
+.r-dk-tech-desc{font-size:9px;color:var(--muted);line-height:1.4}
+.r-dk-right{display:flex;flex-direction:column;gap:10px}
+.r-dk-gallery{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:140px 140px;gap:6px;flex:1}
+.r-dk-gi{border-radius:8px;overflow:hidden;position:relative;cursor:pointer}
+.r-dk-gi.c1{background:linear-gradient(135deg,#2a2a2a 0%,#3a2a1a 100%)}
+.r-dk-gi.c2{background:linear-gradient(135deg,#1a2a2a 0%,#2a3a1a 100%)}
+.r-dk-gi.c3{background:linear-gradient(135deg,#2a1a2a 0%,#1a2a3a 100%)}
+.r-dk-gi.c4{background:linear-gradient(135deg,#2a2a1a 0%,#3a1a2a 100%)}
+.r-dk-gi-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg,rgba(0,0,0,.7) 0%,transparent 100%);padding:10px;display:flex;flex-direction:column;gap:2px}
+.r-dk-gi-name{font-size:10px;font-weight:600;color:#fff}
+.r-dk-gi-tech{font-size:9px;color:rgba(255,255,255,.5);font-family:'JetBrains Mono',monospace}
+.r-dk-gi-dots{position:absolute;top:8px;right:8px;display:flex;gap:3px}
+.r-dk-dot{width:6px;height:6px;border-radius:50%;background:rgba(196,160,90,.7)}
+.r-dk-btns{display:flex;gap:8px}
+.r-dk-btn{flex:1;padding:9px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;text-align:center;font-family:'Geologica',sans-serif}
+.r-dk-btn.prim{background:var(--gold);color:#fff;border:none}
+.r-dk-btn.sec{background:transparent;border:1px solid var(--bdr);color:#555}
 
-  /* Annotations */
-  .annotations {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 24px;
-  }
-  .annotation-row {
-    display: grid;
-    grid-template-columns: 28px 1fr 2fr;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-  }
-  .annotation-row:last-child { border-bottom: none; }
-  .ann-num {
-    background: var(--ink);
-    color: var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 800;
-  }
-  .ann-block {
-    padding: 12px 16px;
-    border-right: 1px solid var(--border);
-    font-weight: 600;
-    background: #fafaf8;
-  }
-  .ann-desc { padding: 12px 16px; color: var(--muted); }
+/* Cases */
+.r-cases{background:#f4f0e8;padding:28px}
+.r-cases-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.r-cases-hl{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;margin-bottom:4px}
+.r-cases-sub{font-size:12px;color:var(--muted);max-width:360px;line-height:1.5}
+.r-all-link{font-size:11px;color:var(--gr-mid);font-weight:600;cursor:pointer;border-bottom:1px solid var(--gr-mid);padding-bottom:1px;white-space:nowrap}
+.r-cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.r-case{background:#fff;border:1px solid #e8e4dc;border-radius:10px;overflow:hidden}
+.r-case-top{background:linear-gradient(135deg,#1a1a1a,#2a2a2a);padding:16px;display:flex;justify-content:space-between;align-items:flex-start}
+.r-case-client{font-size:16px;font-weight:700;color:#fff;margin-bottom:2px}
+.r-case-segment{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.r-case-badges{display:flex;gap:4px;flex-wrap:wrap}
+.r-case-badge{background:rgba(196,160,90,.25);border:1px solid rgba(196,160,90,.4);padding:3px 7px;border-radius:4px;font-size:8px;color:var(--gold);font-weight:700;white-space:nowrap;font-family:'JetBrains Mono',monospace}
+.r-case-body{padding:14px}
+.r-case-metrics{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+.r-case-metric{background:#f4f0e8;border-radius:5px;padding:7px 9px}
+.r-cm-val{font-size:14px;font-weight:700;color:#111;margin-bottom:2px}
+.r-cm-key{font-size:9px;color:#999;letter-spacing:.04em}
+.r-case-quote{font-size:11px;color:#666;line-height:1.6;font-style:italic;border-left:2px solid var(--gold-lt);padding-left:10px}
 
-  /* Requirements table */
-  .req-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-    background: var(--white);
-    border-radius: 10px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    margin-bottom: 24px;
-  }
-  .req-table th {
-    background: var(--ink);
-    color: var(--white);
-    padding: 12px 16px;
-    text-align: left;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-  .req-table td {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-    line-height: 1.5;
-  }
-  .req-table tr:last-child td { border-bottom: none; }
-  .req-table tr:hover td { background: #fafaf8; }
-  .req-table td:first-child { font-weight: 700; color: var(--ink); }
+.r-logos{display:flex;gap:0;align-items:center;border-top:1px solid #e8e4dc;background:#fff;padding:12px 16px;border-radius:8px;justify-content:space-between}
+.r-logo-item{font-size:11px;font-weight:700;color:#bbb;letter-spacing:.05em;padding:4px 12px;border-right:1px solid #f0ede6;white-space:nowrap}
+.r-logo-item:last-child{border-right:none;color:#aaa;font-size:10px;font-style:italic}
 
-  /* Effort table */
-  .effort-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-    margin-bottom: 32px;
-  }
-  .effort-card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px;
-    position: relative;
-  }
-  .effort-card .phase-badge {
-    position: absolute;
-    top: 16px; right: 16px;
-    background: var(--paper);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 3px 10px;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-  .effort-card h3 { font-size: 14px; margin-bottom: 12px; padding-right: 70px; }
-  .effort-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-  }
-  .effort-row:last-of-type { border-bottom: none; }
-  .effort-role { color: var(--muted); }
-  .effort-hours {
-    font-weight: 700;
-    font-size: 14px;
-  }
-  .effort-total {
-    background: var(--ink);
-    color: var(--white);
-    padding: 10px 14px;
-    border-radius: 6px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 12px;
-    font-size: 13px;
-  }
-  .effort-total strong { font-size: 16px; }
+/* CTA block */
+.r-cta{background:linear-gradient(150deg,#0f0e0c 0%,#1d2c1f 100%);padding:32px 28px;display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start;position:relative;overflow:hidden}
+.r-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 400px 300px at 20% 50%,rgba(196,160,90,.07) 0%,transparent 70%);pointer-events:none}
+.r-cta-left{position:relative}
+.r-cta-h{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:8px}
+.r-cta-s{font-size:12px;color:rgba(255,255,255,.45);line-height:1.6;margin-bottom:18px}
+.r-req-types{display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
+.r-req-type{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:7px;border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:all .15s}
+.r-req-type.on{background:rgba(196,160,90,.15);border-color:rgba(196,160,90,.4)}
+.r-req-radio{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.3);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.r-req-type.on .r-req-radio{border-color:var(--gold);background:var(--gold)}
+.r-req-type.on .r-req-radio::after{content:'';width:5px;height:5px;border-radius:50%;background:#fff}
+.r-req-label{font-size:12px;color:rgba(255,255,255,.7);font-weight:500}
+.r-req-type.on .r-req-label{color:#fff;font-weight:600}
+.r-divider{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.r-div-line{flex:1;height:1px;background:rgba(255,255,255,.1)}
+.r-div-txt{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,.25);letter-spacing:.12em;white-space:nowrap}
+.r-messengers-row{display:flex;gap:8px}
+.r-msg-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:9px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Geologica',sans-serif}
+.r-msg-tg{background:rgba(41,182,246,.2);border:1px solid rgba(41,182,246,.35);color:rgba(41,182,246,.9)}
+.r-msg-wa{background:rgba(37,211,102,.2);border:1px solid rgba(37,211,102,.35);color:rgba(37,211,102,.9)}
 
-  .total-box {
-    background: var(--ink);
-    color: var(--white);
-    border-radius: 12px;
-    padding: 32px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-bottom: 32px;
-    text-align: center;
-  }
-  .total-box-item label {
-    display: block;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-  .total-box-item strong {
-    display: block;
-    font-family: 'Playfair Display', serif;
-    font-size: 36px;
-    color: var(--accent);
-  }
-  .total-box-item span { font-size: 13px; color: #888; }
+.r-cta-form{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:18px;position:relative}
+.r-form-title{font-size:11px;font-weight:600;color:rgba(255,255,255,.6);margin-bottom:14px;letter-spacing:.04em;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.r-field{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:9px 12px;margin-bottom:7px;font-size:12px;color:rgba(255,255,255,.7);width:100%;font-family:'Geologica',sans-serif}
+.r-field::placeholder{color:rgba(255,255,255,.3)}
+.r-field-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px}
+.r-submit{background:var(--gold);color:#111;border:none;width:100%;padding:11px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Geologica',sans-serif;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}
+.r-form-note{font-size:9px;color:rgba(255,255,255,.25);text-align:center;line-height:1.5;font-family:'JetBrains Mono',monospace}
 
-  /* Commercial */
-  .commercial {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-  }
-  .commercial-header {
-    background: var(--ink);
-    color: var(--white);
-    padding: 32px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  .co-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    color: var(--accent);
-  }
-  .co-logo span { display: block; font-size: 11px; font-family: 'Manrope', sans-serif; color: #888; margin-top: 2px; letter-spacing: 0.08em; text-transform: uppercase; }
-  .co-meta { text-align: right; font-size: 12px; color: #888; line-height: 1.8; }
-  .co-meta strong { color: var(--white); }
-  .commercial-body { padding: 40px; }
-  .co-h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    margin-bottom: 8px;
-  }
-  .co-intro { font-size: 14px; color: var(--muted); max-width: 600px; margin-bottom: 32px; line-height: 1.7; }
+/* Footer */
+.r-footer{background:#0c0c0a;padding:28px;display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:24px}
+.r-fc{display:flex;flex-direction:column;gap:7px}
+.r-f-logo{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.r-f-logo-mark{width:28px;height:28px;background:linear-gradient(135deg,#1d3a25,#2c5538);border-radius:5px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:700;font-size:11px}
+.r-f-logo-name{font-size:12px;font-weight:700;color:rgba(255,255,255,.7);letter-spacing:.04em}
+.r-f-desc{font-size:11px;color:rgba(255,255,255,.3);line-height:1.6;max-width:180px;margin-bottom:6px}
+.r-f-social{display:flex;gap:6px}
+.r-f-soc{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(255,255,255,.5)}
+.r-f-head{font-size:11px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;font-family:'JetBrains Mono',monospace}
+.r-f-link{font-size:11px;color:rgba(255,255,255,.35);cursor:pointer;line-height:1.8}
+.r-f-contact{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.4);margin-bottom:4px}
+.r-f-flag{font-size:10px}
+.r-f-num{color:rgba(255,255,255,.6);font-weight:500}
+.r-footer-bot{background:#080806;padding:10px 28px;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:rgba(255,255,255,.2);font-family:'JetBrains Mono',monospace}
 
-  .pricing-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-    margin-bottom: 24px;
-  }
-  .pricing-table thead th {
-    background: #f5f2ec;
-    padding: 10px 16px;
-    text-align: left;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    border-bottom: 2px solid var(--border);
-  }
-  .pricing-table tbody td {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-  }
-  .pricing-table tbody tr:last-child td { border-bottom: none; }
-  .pricing-table .price-cell {
-    font-weight: 700;
-    color: var(--ink);
-    white-space: nowrap;
-    font-size: 14px;
-  }
-  .pricing-table tfoot td {
-    padding: 16px;
-    border-top: 2px solid var(--ink);
-  }
+/* ─── EFFORT SECTION ─── */
+.effort-phases{display:flex;flex-direction:column;gap:0;border:1px solid var(--bdr);border-radius:12px;overflow:hidden;margin-bottom:28px}
+.ep{border-bottom:1px solid var(--bdr);background:var(--card)}
+.ep:last-child{border-bottom:none}
+.ep:nth-child(even){background:#faf8f4}
+.ep-head{display:grid;grid-template-columns:180px 1fr auto;align-items:center;gap:16px;padding:16px 20px;cursor:pointer}
+.ep-title{font-size:14px;font-weight:600}
+.ep-subtitle{font-size:12px;color:var(--muted)}
+.ep-hours{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--gr-mid);white-space:nowrap}
+.ep-body{padding:0 20px 20px;display:none}
+.ep-body.open{display:block}
+.ep-breakdown{background:var(--bg);border-radius:8px;padding:14px 16px;margin-bottom:10px}
+.ep-row{display:grid;grid-template-columns:1fr auto auto auto;gap:12px;padding:8px 0;border-bottom:1px solid var(--bdr);align-items:start;font-size:13px}
+.ep-row:last-child{border-bottom:none}
+.ep-role{font-weight:500;color:#333}
+.ep-task{color:var(--muted);font-size:12px;line-height:1.5;grid-column:1;margin-top:-4px;padding-bottom:2px}
+.ep-calc{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap}
+.ep-h{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
+.ep-note{font-size:12px;color:var(--muted);font-style:italic;margin-top:4px}
 
-  .co-total-row {
-    display: flex;
-    justify-content: flex-end;
-    gap: 40px;
-    align-items: baseline;
-    padding: 20px 0;
-    border-top: 2px solid var(--ink);
-  }
-  .co-total-label { font-size: 13px; color: var(--muted); }
-  .co-total-price {
-    font-family: 'Playfair Display', serif;
-    font-size: 32px;
-    font-weight: 700;
-  }
+.effort-total-box{background:var(--ink);color:#fff;border-radius:12px;padding:28px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:center;margin-bottom:28px}
+.etb-item label{display:block;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#555;margin-bottom:8px;font-family:'JetBrains Mono',monospace}
+.etb-item strong{display:block;font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--gold);line-height:1}
+.etb-item span{font-size:12px;color:#666;margin-top:3px;display:block}
 
-  .co-notes {
-    background: #fafaf8;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 20px 24px;
-    margin-top: 24px;
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-  .co-notes strong { color: var(--ink); }
+/* ─── COMMERCIAL ─── */
+.commercial{background:var(--card);border:1px solid var(--bdr);border-radius:14px;overflow:hidden}
+.co-head{background:var(--ink);color:#fff;padding:30px 36px;display:flex;justify-content:space-between;align-items:flex-start}
+.co-logo-mark{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);font-weight:700;line-height:1}
+.co-logo-sub{font-size:10px;color:#555;letter-spacing:.08em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-top:4px}
+.co-meta{text-align:right;font-size:11px;color:#666;line-height:1.9;font-family:'JetBrains Mono',monospace}
+.co-meta strong{color:#fff}
+.co-body{padding:36px}
+.co-h{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;margin-bottom:8px}
+.co-lead{font-size:13px;color:var(--muted);max-width:580px;line-height:1.7;margin-bottom:28px}
+.ptable{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:0}
+.ptable thead th{background:#f4f0e8;padding:10px 14px;text-align:left;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--bdr);font-family:'JetBrains Mono',monospace;font-weight:600}
+.ptable tbody td{padding:13px 14px;border-bottom:1px solid var(--bdr);vertical-align:top;line-height:1.5}
+.ptable tbody tr:last-child td{border-bottom:none}
+.ptable tbody tr:hover td{background:#faf8f4}
+.ptable td:first-child{font-weight:600;width:38%}
+.ptable td.price{font-weight:700;font-size:14px;color:var(--ink);white-space:nowrap;font-family:'JetBrains Mono',monospace}
+.ptable td.hrs{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)}
+.ptable td.rate{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)}
+.ptable td small{display:block;font-size:11px;color:var(--muted);font-weight:400;margin-top:2px}
+.co-total-row{display:flex;justify-content:flex-end;align-items:baseline;gap:32px;padding:20px 0;border-top:2px solid var(--ink)}
+.co-total-lbl{font-size:13px;color:var(--muted)}
+.co-total-price{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700}
+.co-notes{background:#f4f0e8;border:1px solid var(--bdr);border-radius:8px;padding:18px 22px;margin-top:20px;font-size:12px;color:var(--muted);line-height:1.75}
+.co-notes strong{color:var(--ink)}
+.co-terms{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.co-term{background:var(--bg);border-radius:7px;padding:14px 18px;font-size:13px}
+.co-term strong{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:4px}
+.co-foot{background:#f4f0e8;border-top:1px solid var(--bdr);padding:20px 36px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted)}
+.co-sig{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.co-sig-line{width:160px;height:1px;background:var(--bdr)}
 
-  .co-terms {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-top: 24px;
-  }
-  .co-term {
-    background: var(--paper);
-    border-radius: 8px;
-    padding: 16px 20px;
-    font-size: 13px;
-  }
-  .co-term strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 4px; }
+/* ─── UTILS ─── */
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+.icard{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:18px 22px}
+.icard .ilabel{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;font-weight:600}
+.icard h3{font-size:14px;margin-bottom:7px}
+.icard p{font-size:13px;color:var(--muted);margin:0}
 
-  .co-footer {
-    background: #fafaf8;
-    border-top: 1px solid var(--border);
-    padding: 24px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .co-signature {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    align-items: flex-end;
-  }
-  .co-sig-line {
-    width: 160px;
-    height: 1px;
-    background: var(--border);
-    margin-bottom: 4px;
-  }
-
-  /* Tabs */
-  .tabs { display: flex; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
-  .tab-btn {
-    padding: 8px 18px;
-    border: 1px solid var(--border);
-    background: var(--white);
-    border-radius: 6px;
-    font-family: 'Manrope', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.04em;
-    transition: all 0.15s;
-    color: var(--muted);
-  }
-  .tab-btn.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
-  .tab-btn:hover:not(.active) { border-color: var(--ink); color: var(--ink); }
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-
-  /* Gantt */
-  .gantt {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    font-size: 12px;
-    margin-bottom: 24px;
-  }
-  .gantt-header {
-    display: grid;
-    grid-template-columns: 200px repeat(12, 1fr);
-    background: var(--ink);
-    color: var(--white);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-  .gantt-header-cell { padding: 10px 8px; text-align: center; }
-  .gantt-header-cell:first-child { text-align: left; padding-left: 16px; }
-  .gantt-row {
-    display: grid;
-    grid-template-columns: 200px repeat(12, 1fr);
-    border-bottom: 1px solid var(--border);
-    align-items: center;
-    min-height: 36px;
-  }
-  .gantt-row:last-child { border-bottom: none; }
-  .gantt-row:nth-child(even) { background: #fafaf8; }
-  .gantt-task { padding: 8px 16px; font-weight: 500; font-size: 12px; }
-  .gantt-cell { height: 36px; position: relative; }
-  .gantt-bar {
-    position: absolute;
-    top: 50%; transform: translateY(-50%);
-    height: 16px;
-    border-radius: 3px;
-    left: 2px; right: 2px;
-  }
-  .gb-1 { background: linear-gradient(90deg, #c8a96e, #d4b87a); }
-  .gb-2 { background: linear-gradient(90deg, #2d5a3d, #3a6e4a); }
-  .gb-3 { background: linear-gradient(90deg, #1a6b8a, #2280a8); }
-  .gb-4 { background: linear-gradient(90deg, #7a3a7a, #9a4a9a); }
-  .gb-5 { background: linear-gradient(90deg, #c0392b, #d44b3d); }
-
-  .phase-label {
-    font-size: 10px;
-    color: rgba(255,255,255,0.8);
-    position: absolute;
-    top: 50%; transform: translateY(-50%);
-    left: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    font-weight: 700;
-  }
-
-  /* Mobile note */
-  .mobile-note {
-    background: #fff9f0;
-    border: 1px solid #f0d9b0;
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-size: 13px;
-    color: var(--warn);
-    margin-bottom: 16px;
-    display: none;
-  }
-
-  @media (max-width: 768px) {
-    .mobile-note { display: block; }
-    .cover { padding: 48px 24px; }
-    .container { padding: 0 20px; }
-    .audit-grid { grid-template-columns: 1fr; }
-    .audit-cell.full { grid-column: 1; }
-    .wf-cards { grid-template-columns: repeat(3, 1fr); }
-    .wf-usp-grid { grid-template-columns: 1fr 1fr; }
-    .total-box { grid-template-columns: 1fr; }
-    .co-terms { grid-template-columns: 1fr; }
-    .co-footer { flex-direction: column; gap: 16px; text-align: center; }
-    .co-signature { align-items: center; }
-    .gantt { overflow-x: auto; }
-    .wf-portfolio-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
-    .wf-portfolio-item.span2 { grid-row: auto; }
-    .commercial-header { flex-direction: column; gap: 16px; }
-    .co-meta { text-align: left; }
-    .effort-grid { grid-template-columns: 1fr; }
-  }
+@media(max-width:768px){
+  .cover{padding:48px 24px}
+  .wrap{padding:0 20px}
+  .cv-stats{flex-direction:column;gap:14px}
+  .cv-stat{border-right:none;padding-right:0;margin-right:0;border-bottom:1px solid #222;padding-bottom:12px}
+  .cmp{grid-template-columns:1fr}
+  .cmp-row{grid-template-columns:1fr}
+  .bitem{grid-template-columns:36px 1fr}
+  .bmeta{display:none}
+  .grid2{grid-template-columns:1fr}
+  .r-hero{grid-template-columns:1fr}
+  .r-hero-right{display:none}
+  .r-cat-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .r-cat-card.span2{grid-row:auto}
+  .r-proc-steps{grid-template-columns:1fr}
+  .r-step::after{display:none}
+  .r-dk-grid,.r-cases-grid,.r-cta,.r-footer{grid-template-columns:1fr}
+  .effort-total-box{grid-template-columns:1fr}
+  .co-terms{grid-template-columns:1fr}
+  .co-foot{flex-direction:column;gap:14px;text-align:center}
+  .r-trust{justify-content:flex-start;gap:16px}
+  .r-logos{flex-wrap:wrap;gap:10px}
+  .co-head{flex-direction:column;gap:14px}
+}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="doc-nav">
-  <div class="nav-brand">МИРАН — Редизайн 2026</div>
-  <a href="#audit">Аудит</a>
-  <a href="#goals">Цели</a>
-  <a href="#blocks">Блоки</a>
-  <a href="#prototype">Прототип</a>
-  <a href="#tech">Требования</a>
+<nav class="snav">
+  <div class="snav-brand">МИРАН · Редизайн</div>
+  <a href="#compare">Текущий vs Новый</a>
+  <a href="#buyer">Покупатель</a>
+  <a href="#arch">Архитектура</a>
+  <a href="#render">Рендер</a>
   <a href="#effort">Трудозатраты</a>
-  <a href="#timeline">Сроки</a>
-  <a href="#commercial">КП</a>
+  <a href="#kp">Коммерческое</a>
 </nav>
 
 <!-- COVER -->
 <div class="cover">
-  <div class="container">
-    <div class="cover-label">Технического задание на редизайн</div>
-    <h1>Редизайн главной страницы<br><em>miran-bel.com</em></h1>
-    <p style="color:#888; max-width:560px; font-size:15px; line-height:1.7; margin-top:16px;">
-      Полная аналитика текущего состояния, архитектура блоков, визуальные прототипы, технические требования, оценка трудозатрат и коммерческое предложение.
-    </p>
-    <div class="cover-meta">
-      <div class="cover-meta-item">
-        <label>Объект</label>
-        <span>miran-bel.com</span>
-      </div>
-      <div class="cover-meta-item">
-        <label>Сфера</label>
-        <span>B2B, производство упаковки</span>
-      </div>
-      <div class="cover-meta-item">
-        <label>Дата составления</label>
-        <span>Май 2026</span>
-      </div>
-      <div class="cover-meta-item">
-        <label>Версия документа</label>
-        <span>1.0 — Первичная</span>
-      </div>
-      <div class="cover-meta-item">
-        <label>Рынки</label>
-        <span>Беларусь · Россия</span>
-      </div>
+  <div class="wrap">
+    <div class="cv-chip">Финальная версия · Май 2026</div>
+    <h1>ТЗ Редизайна главной страницы<br><em>miran-bel.com</em></h1>
+    <p class="cv-lead">Анализ текущего сайта vs пересмотренная B2B-модель. Архитектура блоков, реалистичный рендер, пересчитанные трудозатраты с расшифровкой, коммерческое предложение.</p>
+    <div class="cv-stats">
+      <div class="cv-stat"><label>Объект</label><span>Главная страница</span></div>
+      <div class="cv-stat"><label>Тип бизнеса</label><span>B2B Производство</span></div>
+      <div class="cv-stat"><label>Цикл сделки</label><span>4–16 недель</span></div>
+      <div class="cv-stat"><label>Итого часов</label><span>162 ч (↓48% от первой оценки)</span></div>
+      <div class="cv-stat"><label>Стоимость</label><span>$7 400 – $8 200</span></div>
     </div>
   </div>
 </div>
 
-<!-- SECTION 1: AUDIT -->
-<section id="audit">
-  <div class="container">
-    <div class="section-label">01 / Аналитика</div>
-    <h2>Аудит текущего состояния</h2>
-    <p>Анализ сайта проводился методом структурного просмотра, контентного аудита и экспертной оценки UX. Ниже — сводная таблица по ключевым параметрам.</p>
+<!-- ══ COMPARE ══ -->
+<section id="compare">
+  <div class="wrap">
+    <div class="slabel">01 / Текущий сайт vs Новая модель</div>
+    <h2>Что конкретно меняется и почему</h2>
+    <p class="slead">Каждое изменение обосновано поведением реального B2B-покупателя — менеджера по закупкам или бренд-директора, принимающего решение о партии от 20 000 единиц.</p>
 
-    <br>
-    <div class="audit-grid">
-      <div class="audit-cell">
-        <h4>Позиционирование</h4>
-        <p style="font-size:13px; margin-top:6px;">Заявлено как производитель, но визуально — ближе к каталогу оптовика. Нет чёткой премиум-идентичности.</p>
-        <span class="tag yellow">Среднее</span>
+    <div class="cmp">
+      <div class="cmp-head was">✕ &nbsp;Текущий сайт</div>
+      <div class="cmp-head now">✓ &nbsp;После редизайна</div>
+
+      <div class="cmp-row">
+        <div class="cmp-cell was">
+          <strong>Hero — слайдер из 5 баннеров</strong>
+          Слайды меняются автоматически, каждый про разное: «флаконы», «декор», «тренды», «бытовая химия». Посетитель не понимает за 3 секунды, что именно предлагает компания.
+          <div class="why">Слайдеры конвертируют хуже статики — это подтверждено A/B-тестами Nielsen Norman Group. B2B-покупатель не ждёт.</div>
+        </div>
+        <div class="cmp-cell now">
+          <strong>Hero — статичный с маршрутизатором задачи</strong>
+          Сильный H1 + чипы выбора типа задачи («Серийная / Эксклюзив / Декорирование / Пресс-формы») + справа: изображение продукта с ключевыми техпараметрами. Покупатель мгновенно понимает: «это моё».
+          <div class="why">Позволяет разным персонам получить релевантный контент без скролла.</div>
+        </div>
       </div>
-      <div class="audit-cell">
-        <h4>Hero-блок</h4>
-        <p style="font-size:13px; margin-top:6px;">Статичный слайдер с 5 баннерами, шрифты мелкие, нет единого сильного УТП, CTA слабый.</p>
-        <span class="tag red">Критично</span>
+
+      <div class="cmp-row">
+        <div class="cmp-cell was">
+          <strong>Счётчики «380 изделий / 600+ работников / с 1988 года»</strong>
+          Три числа размещены под hero без контекста. Непонятно, почему именно эти цифры важны для покупателя и что они означают в разрезе его задачи.
+          <div class="why">Абстрактные цифры без привязки к пользе не создают доверие в B2B.</div>
+        </div>
+        <div class="cmp-cell now">
+          <strong>Trust Bar — снятие конкретных рисков</strong>
+          «ISO 9001 — контроль качества каждой партии», «Собственное производство — нет посредников», «С 1988 года — 38 лет стабильных поставок», «Сертификаты → ссылка на скачивание». Каждый факт отвечает на страх покупателя.
+          <div class="why">Главный страх B2B-закупщика — ненадёжный поставщик сорвёт производственный запуск.</div>
+        </div>
       </div>
-      <div class="audit-cell">
-        <h4>Навигация</h4>
-        <p style="font-size:13px; margin-top:6px;">Мегаменю работает, но перегружено. 11 подкатегорий в «Каталоге» на одном уровне без визуальной иерархии.</p>
-        <span class="tag yellow">Требует доработки</span>
+
+      <div class="cmp-row">
+        <div class="cmp-cell was">
+          <strong>Навигационные кнопки под hero</strong>
+          6 ссылок в ряд: «Серийная / Эксклюзивная / Декорирование / Суперконцентраты / Пресс-формы / Портфолио». Только текст, нет визуального контекста, нет параметров.
+          <div class="why">Закупщик не понимает по названию, какой флакон подходит под его задачу.</div>
+        </div>
+        <div class="cmp-cell now">
+          <strong>Навигатор продуктов с фильтрами и параметрами</strong>
+          Карточки категорий с визуальным превью + фильтры по материалу (PP/PE/PET), объёму, минимальной партии, декор-опциям. На каждой карточке видна минимальная партия — снимает самый частый вопрос.
+          <div class="why">Техническая спецификация на старте экономит звонок менеджеру и ускоряет квалификацию лида.</div>
+        </div>
       </div>
-      <div class="audit-cell">
-        <h4>Мобильная версия</h4>
-        <p style="font-size:13px; margin-top:6px;">Базовая адаптация. Карточки не переформатируются, слайдер не оптимизирован под тач-жесты.</p>
-        <span class="tag red">Критично</span>
+
+      <div class="cmp-row">
+        <div class="cmp-cell was">
+          <strong>Блок «О компании» с общим текстом</strong>
+          Параграф про «ведущий производитель» и «высокое качество» + фото логотипа. Нет структуры, нет конкретики, нет описания производственного процесса.
+          <div class="why">Общие слова не отвечают на вопрос «как вы работаете и что меня ждёт».</div>
+        </div>
+        <div class="cmp-cell now">
+          <strong>Новый блок: Производственный процесс (5 шагов)</strong>
+          Бриф → Образцы → Утверждение → Производство → Поставка. Каждый шаг — сроки и что происходит. Покупатель видит горизонт планирования и понимает процесс до первого звонка.
+          <div class="why">Прозрачность процесса — главный фактор выбора нового поставщика в B2B согласно McKinsey B2B Pulse Survey.</div>
+        </div>
       </div>
-      <div class="audit-cell">
-        <h4>Социальные доказательства</h4>
-        <p style="font-size:13px; margin-top:6px;">Отзывы присутствуют, портфолио и логотипы клиентов есть. Размещены далеко вниз по странице.</p>
-        <span class="tag yellow">Переместить выше</span>
+
+      <div class="cmp-row">
+        <div class="cmp-cell was">
+          <strong>Преимущества: 6 текстовых карточек</strong>
+          «Эксперт в декорировании», «Клиентский сервис», «Быстрый подбор цвета», «Инновации» — только текст, нет визуальных примеров декорирования, нет технических характеристик методов.
+          <div class="why">Арт-директор хочет видеть, как выглядит шелкография МИРАН, а не читать о ней.</div>
+        </div>
+        <div class="cmp-cell now">
+          <strong>Отдельный блок декорирования с галереей</strong>
+          Слева: блок «30+ опций» + 4 карточки технологий (шелкография, фольгирование, тампопечать, IM3D) с иконкой и техническими ограничениями. Справа: прокручиваемая галерея готовых изделий с подписями техника + клиент.
+          <div class="why">До 80% продукции выходит с декором — это главный USP МИРАН. Он заслуживает главного визуального блока, а не строчку в списке.</div>
+        </div>
       </div>
-      <div class="audit-cell">
-        <h4>Форма контакта / лидогенерация</h4>
-        <p style="font-size:13px; margin-top:6px;">Форма только в футере, нет inline-форм и pop-up механик. Очевидный CTA на «образцы» отсутствует в верхней части.</p>
-        <span class="tag red">Критично</span>
+
+      <div class="cmp-row">
+        <div class="cmp-cell was">
+          <strong>Клиентские логотипы в карусели без контекста</strong>
+          Л'Этуаль, Estel, GRASS, Holly Polly и другие — только логотипы, без цифр, без историй, без объёмов. Проматываются автоматически.
+          <div class="why">Логотип без истории — это просто картинка. Не создаёт доверие в B2B.</div>
+        </div>
+        <div class="cmp-cell now">
+          <strong>3 развёрнутых кейса + строка логотипов</strong>
+          Карточка кейса: клиент + сегмент + объём партии + техника декора + срок + цитата. Например: «Estel · 380 000 флаконов шампуня · шелкография + soft-touch · 5 недель». Под кейсами — логотипы остальных клиентов.
+          <div class="why">Конкретные цифры убеждают сильнее любых логотипов. Закупщик хочет знать: «справятся ли они с моим объёмом».</div>
+        </div>
       </div>
-      <div class="audit-cell">
-        <h4>Контент и SEO</h4>
-        <p style="font-size:13px; margin-top:6px;">Тексты информативны, meta-теги заполнены. Заголовок H1 не вынесен визуально, структурированных данных нет.</p>
-        <span class="tag yellow">Среднее</span>
-      </div>
-      <div class="audit-cell">
-        <h4>Скорость загрузки</h4>
-        <p style="font-size:13px; margin-top:6px;">Используется WebP, но слайдер грузит все изображения сразу. Нет явного lazy loading для секций ниже fold.</p>
-        <span class="tag yellow">Требует доработки</span>
-      </div>
-      <div class="audit-cell full">
-        <h4>Общая оценка</h4>
-        <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
-          <span class="tag red">Hero — 3/10</span>
-          <span class="tag yellow">UX — 5/10</span>
-          <span class="tag yellow">Мобильная — 4/10</span>
-          <span class="tag green">Контент — 7/10</span>
-          <span class="tag yellow">Конверсия — 4/10</span>
-          <span class="tag green">SEO-база — 6/10</span>
+
+      <div class="cmp-row">
+        <div class="cmp-cell was">
+          <strong>Контактная форма только в подвале</strong>
+          Стандартная форма «Имя / Email / Сообщение» в нижнем блоке страницы. Большинство B2B-посетителей не доходит. Нет разделения типов запроса.
+          <div class="why">У закупщика и арт-директора принципиально разные запросы — одна форма для всех теряет контекст.</div>
+        </div>
+        <div class="cmp-cell now">
+          <strong>Умная форма в центре страницы с выбором типа</strong>
+          Радио-кнопки: «Запросить образцы / Получить КП / Технический вопрос» — меняют набор полей. WA и TG как равнозначные альтернативы формы. Размещение — середина страницы, не только подвал.
+          <div class="why">Снижает барьер входа: не нужно объяснять в тексте, чего ты хочешь. Правильно выбранный тип запроса ускоряет обработку менеджером.</div>
         </div>
       </div>
     </div>
 
-    <!-- Problems -->
-    <h3>Критические проблемы</h3>
-    <br>
-    <div class="problems">
-      <div class="problem-card">
-        <div class="pnum">КРИТИЧНО #1</div>
-        <h3>Нет сильного первого экрана</h3>
-        <p>Слайдер с 5 слайдами — устаревший паттерн. Конверсия падает: пользователь не понимает главную идею за 3 секунды.</p>
-      </div>
-      <div class="problem-card">
-        <div class="pnum">КРИТИЧНО #2</div>
-        <h3>Лидогенерация только в футере</h3>
-        <p>CTA «Запросить образцы» или «Получить КП» появляется только в самом низу. Большинство B2B-посетителей не доходит.</p>
-      </div>
-      <div class="problem-card">
-        <div class="pnum">КРИТИЧНО #3</div>
-        <h3>Мобильная версия — второй сорт</h3>
-        <p>Сайт сделан desktop-first. На мобильных карточки товаров обрезаются, навигация неудобна, слайдер без свайпа.</p>
-      </div>
-      <div class="problem-card medium">
-        <div class="pnum">ВАЖНО #4</div>
-        <h3>Слабая визуальная иерархия разделов</h3>
-        <p>Секции «О компании», «Преимущества» и «Отзывы» смешаны и не дают чёткого маршрута по странице.</p>
-      </div>
-      <div class="problem-card medium">
-        <div class="pnum">ВАЖНО #5</div>
-        <h3>Портфолио не в фокусе</h3>
-        <p>Клиенты (Л'Этуаль, Estel, GRASS) — сильные социальные доказательства, но спрятаны в нижней трети страницы.</p>
-      </div>
-      <div class="problem-card low">
-        <div class="pnum">ЖЕЛАТЕЛЬНО #6</div>
-        <h3>Нет персонализации по рынкам</h3>
-        <p>Беларусь и Россия — разные рынки и ценности. Сейчас один контент для всех, без учёта геолокации.</p>
-      </div>
+    <div class="note info">
+      <strong>Принципиальное различие подхода:</strong> Текущий сайт построен как презентация компании — «вот что мы умеем». Новая модель построена как инструмент принятия решения — «вот ответы на вопросы, которые у тебя возникнут перед звонком нам». Это сдвиг от монолога к диалогу с покупателем.
     </div>
   </div>
 </section>
 
-<!-- SECTION 2: GOALS -->
-<section id="goals">
-  <div class="container">
-    <div class="section-label">02 / Цели и KPI</div>
-    <h2>Цели редизайна</h2>
-    <table class="req-table">
-      <thead>
-        <tr>
-          <th style="width:30%">Цель</th>
-          <th style="width:35%">Описание</th>
-          <th style="width:35%">Измеримый KPI</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Увеличить конверсию в заявку</td>
-          <td>Добавить CTA-блоки в верхние 50% страницы, ввести механику «запросить образцы»</td>
-          <td>Заявок с главной +40% через 3 мес. после запуска</td>
-        </tr>
-        <tr>
-          <td>Снизить показатель отказов</td>
-          <td>Сделать первый экран убедительным, навигацию — интуитивной</td>
-          <td>Bounce rate −20% (с ~65% до ≤45%)</td>
-        </tr>
-        <tr>
-          <td>Мобильный трафик</td>
-          <td>Mobile-first редизайн, корректная работа всех компонентов</td>
-          <td>Мобильная конверсия +50%</td>
-        </tr>
-        <tr>
-          <td>Премиальное позиционирование</td>
-          <td>Визуал сайта должен соответствовать уровню клиентов (Л'Этуаль, Estel, GRASS)</td>
-          <td>Экспертная оценка дизайна ≥8/10 в A/B тестировании</td>
-        </tr>
-        <tr>
-          <td>Время на сайте</td>
-          <td>Добавить интерактивные элементы, видео, визуальный контент</td>
-          <td>Среднее время +30%</td>
-        </tr>
-        <tr>
-          <td>SEO-основа</td>
-          <td>Правильная семантическая разметка, Core Web Vitals в зелёной зоне</td>
-          <td>LCP &lt;2.5 с, CLS &lt;0.1, FID &lt;100мс</td>
-        </tr>
-      </tbody>
-    </table>
+<!-- ══ BUYER ══ -->
+<section id="buyer">
+  <div class="wrap">
+    <div class="slabel">02 / B2B-покупатель МИРАН</div>
+    <h2>Кто реально приходит на сайт</h2>
+    <p class="slead">Минимальная партия — от 10 000 единиц. Средний бюджет сделки — $30 000–300 000. Это корпоративное решение с 2–4 согласующими. У каждого — своя задача на сайте.</p>
 
-    <h3>Целевая аудитория</h3>
-    <br>
-    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:12px;">
-      <div style="background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px;">
-        <div style="font-size:22px;margin-bottom:8px;">👔</div>
-        <h3 style="font-size:14px;margin-bottom:6px;">Бренд-директор / СТМ</h3>
-        <p style="font-size:12px;color:var(--muted);">Ищет нестандартную упаковку, смотрит портфолио, оценивает качество. Решение: эмоции + кейсы.</p>
+    <div class="personas">
+      <div class="persona">
+        <div class="persona-top">
+          <div class="p-role">Инициатор</div>
+          <div class="p-name">Марина, бренд-директор</div>
+          <div class="p-co">Косметический бренд, Москва</div>
+        </div>
+        <div class="persona-body">
+          <p class="p-job">Запускает новую линейку. Ищет упаковку, которая выделит бренд на полке. Пришла с выставки или по рекомендации.</p>
+          <div class="p-need">Примеры эксклюзивного дизайна и декорирования</div>
+          <div class="p-need">Портфолио с узнаваемыми брендами</div>
+          <div class="p-need">Возможность кастомной формы флакона</div>
+          <div class="p-action"><strong>Действие:</strong> скачает PDF-каталог или напишет в TG</div>
+        </div>
       </div>
-      <div style="background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px;">
-        <div style="font-size:22px;margin-bottom:8px;">📦</div>
-        <h3 style="font-size:14px;margin-bottom:6px;">Менеджер по закупкам</h3>
-        <p style="font-size:12px;color:var(--muted);">Нужны конкретные цифры: объём партии, сроки, технические параметры. Решение: быстрый доступ к каталогу.</p>
+      <div class="persona">
+        <div class="persona-top">
+          <div class="p-role">Технический оценщик</div>
+          <div class="p-name">Алексей, менеджер по закупкам</div>
+          <div class="p-co">Производитель шампуней, СПб</div>
+        </div>
+        <div class="persona-body">
+          <p class="p-job">Проверяет технические параметры под задание бренд-директора. Параллельно сравнивает 3–5 поставщиков.</p>
+          <div class="p-need">Материал (PP/PE/PET), объём, допуски</div>
+          <div class="p-need">Минимальная партия и сроки поставки</div>
+          <div class="p-need">Возможность заказать образцы до контракта</div>
+          <div class="p-action"><strong>Действие:</strong> запросит образцы или КП</div>
+        </div>
       </div>
-      <div style="background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px;">
-        <div style="font-size:22px;margin-bottom:8px;">🏭</div>
-        <h3 style="font-size:14px;margin-bottom:6px;">Технолог / R&D</h3>
-        <p style="font-size:12px;color:var(--muted);">Интересует производство пресс-форм, материалы, допуски. Решение: технические разделы в навигации.</p>
+      <div class="persona">
+        <div class="persona-top">
+          <div class="p-role">Финансовый утвердитель</div>
+          <div class="p-name">Ирина, директор по производству</div>
+          <div class="p-co">FMCG-холдинг, Минск</div>
+        </div>
+        <div class="persona-body">
+          <p class="p-job">Проверяет надёжность поставщика перед подписанием рамочного договора на год. Ищет подтверждение стабильности.</p>
+          <div class="p-need">История, масштаб, сертификаты ISO</div>
+          <div class="p-need">Кейсы с объёмами и сроками (не логотипы)</div>
+          <div class="p-need">Юридические реквизиты, адрес завода</div>
+          <div class="p-action"><strong>Действие:</strong> перейдёт в «О компании», скачает сертификаты</div>
+        </div>
       </div>
-      <div style="background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px;">
-        <div style="font-size:22px;margin-bottom:8px;">🎨</div>
-        <h3 style="font-size:14px;margin-bottom:6px;">Арт-директор бренда</h3>
-        <p style="font-size:12px;color:var(--muted);">Оценивает декорирование, трендовость, визуальный язык. Решение: gallery-подход, Inspiration раздел.</p>
+      <div class="persona">
+        <div class="persona-top">
+          <div class="p-role">Дизайн-интегратор</div>
+          <div class="p-name">Виктор, арт-директор</div>
+          <div class="p-co">Брендинговое агентство, Москва</div>
+        </div>
+        <div class="persona-body">
+          <p class="p-job">Ищет форму флакона под клиентский проект с нетривиальным декорированием. Нужны точность, возможности, мокапы.</p>
+          <div class="p-need">Технические возможности декора: точность, спецэффекты</div>
+          <div class="p-need">Чертежи / 3D-файлы для мокапов</div>
+          <div class="p-need">Inspiration-галерея с техниками</div>
+          <div class="p-action"><strong>Действие:</strong> запросит 3D-файлы или образцы</div>
+        </div>
       </div>
+    </div>
+
+    <div class="note gold">
+      <strong>Ключевой инсайт:</strong> Посетитель сайта МИРАН в 80% случаев — не «холодный» лид, а человек на этапе due diligence. Он уже слышал про компанию. Задача сайта — не убедить купить, а <strong>снять технические сомнения</strong> и дать повод начать диалог. Отсюда — акцент на конкретике, параметрах и прозрачном процессе вместо «эмоционального» визуала.
     </div>
   </div>
 </section>
 
-<!-- SECTION 3: BLOCKS -->
-<section id="blocks">
-  <div class="container">
-    <div class="section-label">03 / Архитектура блоков</div>
+<!-- ══ ARCH ══ -->
+<section id="arch">
+  <div class="wrap">
+    <div class="slabel">03 / Архитектура блоков</div>
     <h2>Структура новой главной страницы</h2>
-    <p>Новая страница строится по принципу нарративной воронки: доверие → понимание ценности → конверсия. Каждый блок имеет чёткое назначение.</p>
-    <br>
+    <p class="slead">Каждый блок решает конкретный вопрос покупателя. Логика страницы — нарративная воронка: «Это то, что тебе нужно → Мы с этим справимся → Вот как начать».</p>
 
-    <table class="req-table">
-      <thead>
-        <tr>
-          <th style="width:5%">#</th>
-          <th style="width:18%">Блок</th>
-          <th style="width:25%">Назначение</th>
-          <th style="width:30%">Содержание</th>
-          <th style="width:22%">Приоритет</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Header / Навигация</td>
-          <td>Ориентация, быстрые контакты, лид</td>
-          <td>Лого, меню (6 пунктов), телефоны BY/RU, мессенджеры, кнопка «Запросить КП»</td>
-          <td><span class="tag red">Критично</span></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Hero — Главный экран</td>
-          <td>Захват внимания, первичный CTA</td>
-          <td>Сильный H1, подзаголовок с УТП, 2 CTA-кнопки, 3D/видео продукта, счётчики (380 изделий, 1988 год, 600+ сотрудников)</td>
-          <td><span class="tag red">Критично</span></td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Trust Bar</td>
-          <td>Мгновенное доверие</td>
-          <td>4 микрофакта: «С 1988 года», «380+ позиций», «30+ опций декора», «Поставки в 15 стран»</td>
-          <td><span class="tag red">Критично</span></td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>Каталог категорий</td>
-          <td>Маршрутизация по продуктам</td>
-          <td>6 карточек: Флаконы / Баночки / Колпачки / Декорирование / Эксклюзив / Eco-friendly. Каждая — фото + характеристики.</td>
-          <td><span class="tag red">Критично</span></td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>Преимущества (USP)</td>
-          <td>Дифференциация от конкурентов</td>
-          <td>6 карточек УТП на тёмном фоне: экспертиза в декоре, скорость подбора цвета, сервис менеджера, инновации</td>
-          <td><span class="tag yellow">Важно</span></td>
-        </tr>
-        <tr>
-          <td>6</td>
-          <td>Портфолио / Галерея</td>
-          <td>Визуальные доказательства качества</td>
-          <td>Masonry-сетка лучших кейсов с фильтрами. Брендовые примеры с клиентами.</td>
-          <td><span class="tag yellow">Важно</span></td>
-        </tr>
-        <tr>
-          <td>7</td>
-          <td>Клиенты</td>
-          <td>Доверие через имена</td>
-          <td>Логотипы: Л'Этуаль, Estel, GRASS, Holly Polly, Natura Siberica и др. Авто-скролл.</td>
-          <td><span class="tag yellow">Важно</span></td>
-        </tr>
-        <tr>
-          <td>8</td>
-          <td>Inline CTA — «Запросить образцы»</td>
-          <td>Конверсионный блок</td>
-          <td>Короткая форма (имя, компания, email, телефон) + визуальный акцент. Зелёный или тёмный фон.</td>
-          <td><span class="tag red">Критично</span></td>
-        </tr>
-        <tr>
-          <td>9</td>
-          <td>Новости / Медиа</td>
-          <td>Актуальность и экспертность</td>
-          <td>3 последних поста: выставки, новинки ассортимента, тренды. Автообновление из CMS.</td>
-          <td><span class="tag blue">Дополнительно</span></td>
-        </tr>
-        <tr>
-          <td>10</td>
-          <td>Footer</td>
-          <td>Завершение, навигация, контакты</td>
-          <td>4 колонки: Каталог / Компания / Контакты BY+RU / Соцсети. Политика. Копирайт.</td>
-          <td><span class="tag yellow">Важно</span></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="blist">
+      <div class="bitem">
+        <div class="bn">H</div>
+        <div class="bm"><div class="bname">Header — навигация + контакты + CTA</div><div class="bwhy">Телефоны BY/RU и мессенджеры всегда видны. Кнопка «Запросить образцы» — конкретное действие, не абстрактное «Связаться». Sticky при скролле.</div></div>
+        <div class="bmeta"><span class="tag t-b2b">B2B-специфика</span><span class="baud">Все персоны, первый визит</span></div>
+      </div>
+      <div class="bitem">
+        <div class="bn">1</div>
+        <div class="bm"><div class="bname">Hero: Продукт + Маршрутизатор задачи</div><div class="bwhy">Чипы выбора типа задачи меняют контент hero. Справа — изображение продукта с техпараметрами. Убираем слайдер полностью.</div></div>
+        <div class="bmeta"><span class="tag t-crit">Критично</span><span class="tag t-b2b">↻ Слайдер убран</span><span class="baud">Закупщик / Бренд-директор</span></div>
+      </div>
+      <div class="bitem">
+        <div class="bn">2</div>
+        <div class="bm"><div class="bname">Trust Bar — снятие рисков</div><div class="bwhy">ISO 9001, собственное производство, 38 лет, стабильность поставок + ссылка на сертификаты. Не «мы большие», а «с нами безопасно».</div></div>
+        <div class="bmeta"><span class="tag t-trust">Снятие рисков</span><span class="baud">Директор по производству</span></div>
+      </div>
+      <div class="bitem">
+        <div class="bn">3</div>
+        <div class="bm"><div class="bname">Навигатор продуктов с фильтрами</div><div class="bwhy">Карточки с фильтрами по материалу, объёму, мин. партии, декору. На каждой карточке — минимальная партия снимает самый частый вопрос.</div></div>
+        <div class="bmeta"><span class="tag t-crit">Критично</span><span class="tag t-b2b">Техпараметры</span><span class="baud">Закупщик / Технолог</span></div>
+      </div>
+      <div class="bitem">
+        <div class="bn">4</div>
+        <div class="bm"><div class="bname">Производственный процесс (5 шагов)</div><div class="bwhy">Бриф → Образцы → Утверждение → Производство → Поставка с конкретными сроками. Снимает страх «непрозрачного процесса» нового поставщика.</div></div>
+        <div class="bmeta"><span class="tag t-new">Новый блок</span><span class="baud">Все персоны</span></div>
+      </div>
+      <div class="bitem">
+        <div class="bn">5</div>
+        <div class="bm"><div class="bname">Декорирование — главный USP</div><div class="bwhy">80% продукции с декором. Не список преимуществ, а полноценный визуальный блок: 4 технологии с примерами + галерея готовых изделий с техниками.</div></div>
+        <div class="bmeta"><span class="tag t-crit">Главный USP</span><span class="baud">Арт-директор / Бренд-директор</span></div>
+      </div>
+      <div class="bitem">
+        <div class="bn">6</div>
+        <div class="bm"><div class="bname">Кейсы с конкретикой + логотипы клиентов</div><div class="bwhy">3 карточки с объёмом, техникой, сроком и цитатой. Логотипы остальных клиентов — строкой ниже. Конкретные данные убеждают сильнее логотипов без контекста.</div></div>
+        <div class="bmeta"><span class="tag t-trust">Социальное доказательство</span><span class="baud">Все персоны</span></div>
+      </div>
+      <div class="bitem" style="border-radius:0 0 0 0">
+        <div class="bn">7</div>
+        <div class="bm"><div class="bname">Умный запрос: образцы / КП / вопрос</div><div class="bwhy">Тип запроса меняет поля формы. WA и TG — равнозначные альтернативы. Размещение в середине страницы, не только в подвале.</div></div>
+        <div class="bmeta"><span class="tag t-conv">Конверсия</span><span class="tag t-crit">Ключевой</span><span class="baud">Закупщик — первый контакт</span></div>
+      </div>
+      <div class="bitem" style="border-radius:0 0 12px 12px;border-bottom:1px solid var(--bdr)">
+        <div class="bn">F</div>
+        <div class="bm"><div class="bname">Footer — реквизиты + контакты отделов</div><div class="bwhy">Именованные контакты отделов: продажи, техотдел. Адрес завода со ссылкой на карту. Юридические реквизиты для проверки.</div></div>
+        <div class="bmeta"><span class="tag t-b2b">B2B-специфика</span><span class="baud">Директор — проверка надёжности</span></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- SECTION 4: PROTOTYPE -->
-<section id="prototype">
-  <div class="container">
-    <div class="section-label">04 / Прототип</div>
-    <h2>Визуальная модель главной страницы</h2>
-    <p>Низкодетализированный wireframe (Lo-Fi) нового дизайна. Демонстрирует структуру и иерархию без финального визуального оформления.</p>
-    <br>
+<!-- ══ RENDER ══ -->
+<section id="render">
+  <div class="wrap">
+    <div class="slabel">04 / Рендер новой страницы</div>
+    <h2>Как выглядит сайт после редизайна</h2>
+    <p class="slead">Реалистичный рендер новой главной страницы miran-bel.com. Все блоки, типографика, цветовая схема и компоненты — финальное визуальное решение.</p>
 
-    <div class="mobile-note">
-      ⚠️ Для наилучшего просмотра прототипа рекомендуется экран шириной от 768px.
-    </div>
-
-    <div class="wireframe-wrap">
-      <div class="wf-label">Wireframe — Главная страница miran-bel.com (новая версия)</div>
-      <div class="wf-browser">
-        <div class="wf-chrome">
-          <div class="wf-dot r"></div>
-          <div class="wf-dot y"></div>
-          <div class="wf-dot g"></div>
-          <div class="wf-url">miran-bel.com</div>
+    <div class="render-wrap">
+      <div class="render-caption">Рендер главной страницы — miran-bel.com</div>
+      <div class="browser">
+        <div class="bchrome">
+          <div class="bd bd-r"></div><div class="bd bd-y"></div><div class="bd bd-g"></div>
+          <div class="burl"><span class="burl-lock">🔒</span>miran-bel.com</div>
         </div>
 
-        <div class="wf-page">
+        <div class="site">
 
           <!-- HEADER -->
-          <div style="background:#fff; padding:10px 24px; border-bottom:1px solid #e8e4dc; display:flex; align-items:center; gap:16px; justify-content:space-between;">
-            <div style="display:flex;align-items:center;gap:12px;">
-              <div style="width:80px;height:28px;background:#ccc;border-radius:3px;"></div>
-              <div style="display:flex;gap:8px;">
-                <div style="width:60px;height:8px;background:#e0e0e0;border-radius:2px;"></div>
-                <div style="width:80px;height:8px;background:#e0e0e0;border-radius:2px;"></div>
-                <div style="width:50px;height:8px;background:#e0e0e0;border-radius:2px;"></div>
-                <div style="width:60px;height:8px;background:#e0e0e0;border-radius:2px;"></div>
-                <div style="width:70px;height:8px;background:#e0e0e0;border-radius:2px;"></div>
+          <div class="r-header">
+            <div class="r-logo">
+              <div class="r-logo-mark">M</div>
+              <div class="r-logo-text">
+                <span class="r-logo-name">МИРАН</span>
+                <span class="r-logo-sub">Производство упаковки</span>
               </div>
             </div>
-            <div style="display:flex;align-items:center;gap:10px;">
-              <div style="display:flex;gap:6px;">
-                <div style="width:18px;height:18px;background:#e0e0e0;border-radius:50%;"></div>
-                <div style="width:18px;height:18px;background:#e0e0e0;border-radius:50%;"></div>
-                <div style="width:18px;height:18px;background:#25d366;border-radius:50%;opacity:0.6;"></div>
+            <div class="r-nav">
+              <div class="r-nav-item active">Каталог</div>
+              <div class="r-nav-item">Декорирование</div>
+              <div class="r-nav-item">Эксклюзив</div>
+              <div class="r-nav-item">О компании</div>
+              <div class="r-nav-item">Медиа</div>
+              <div class="r-nav-item">Контакты</div>
+            </div>
+            <div class="r-header-right">
+              <div class="r-phones">
+                <div class="r-phone"><span class="r-flag">🇧🇾</span>+375 29 303 40 08</div>
+                <div class="r-phone"><span class="r-flag">🇷🇺</span>+7 925 476 27 21</div>
               </div>
-              <div style="background:#c8a96e;height:28px;width:110px;border-radius:4px;"></div>
+              <div class="r-messengers">
+                <div class="r-messenger r-m-tg">TG</div>
+                <div class="r-messenger r-m-wa">WA</div>
+              </div>
+              <button class="r-cta-btn">Запросить образцы</button>
             </div>
           </div>
 
           <!-- HERO -->
-          <div class="wf-hero">
-            <div class="wf-hero-text">
-              <div class="wf-hero-eyebrow"></div>
-              <div class="wf-hero-h1"></div>
-              <div class="wf-hero-h1 w80"></div>
-              <div class="wf-hero-h1 w60"></div>
-              <br>
-              <div class="wf-hero-sub w90"></div>
-              <div class="wf-hero-sub w70"></div>
-              <div class="wf-hero-btns">
-                <div class="wf-btn"></div>
-                <div class="wf-btn ghost"></div>
+          <div class="r-hero">
+            <div class="r-hero-left">
+              <div class="r-hero-eyebrow">
+                <span class="r-eyebrow-pill">Производство с 1988</span>
+                <span class="r-eyebrow-pill">380+ позиций</span>
               </div>
-              <div style="display:flex;gap:16px;margin-top:20px;">
-                <div style="display:flex;flex-direction:column;gap:3px;">
-                  <div style="font-size:18px;font-weight:800;color:var(--accent);font-family:'Playfair Display',serif;">380+</div>
-                  <div style="width:50px;height:5px;background:rgba(255,255,255,0.25);border-radius:2px;"></div>
+              <h1>Пластиковая упаковка<br>для косметики<br><em>с декорированием</em></h1>
+              <p class="r-hero-sub">Производство PP/PE флаконов, банок и колпачков. Более 30 опций декорирования. Партии от 10 000 единиц.</p>
+
+              <div class="r-selector">
+                <span class="r-sel-lbl">Ваша задача:</span>
+                <span class="r-sel-chip on">Серийная упаковка</span>
+                <span class="r-sel-chip">Эксклюзивная форма</span>
+                <span class="r-sel-chip">Декорирование</span>
+                <span class="r-sel-chip">Пресс-форма</span>
+              </div>
+
+              <div class="r-hero-btns">
+                <button class="r-hbtn prim">Смотреть каталог</button>
+                <button class="r-hbtn sec">Запросить образцы</button>
+              </div>
+
+              <div class="r-hero-stats">
+                <div class="r-stat-item">
+                  <span class="r-stat-num">380+</span>
+                  <span class="r-stat-lbl">позиций в ассортименте</span>
                 </div>
-                <div style="display:flex;flex-direction:column;gap:3px;">
-                  <div style="font-size:18px;font-weight:800;color:var(--accent);font-family:'Playfair Display',serif;">1988</div>
-                  <div style="width:50px;height:5px;background:rgba(255,255,255,0.25);border-radius:2px;"></div>
+                <div class="r-stat-item">
+                  <span class="r-stat-num">80%</span>
+                  <span class="r-stat-lbl">продукции с декором</span>
                 </div>
-                <div style="display:flex;flex-direction:column;gap:3px;">
-                  <div style="font-size:18px;font-weight:800;color:var(--accent);font-family:'Playfair Display',serif;">600+</div>
-                  <div style="width:50px;height:5px;background:rgba(255,255,255,0.25);border-radius:2px;"></div>
+                <div class="r-stat-item">
+                  <span class="r-stat-num">38</span>
+                  <span class="r-stat-lbl">лет на рынке</span>
+                </div>
+                <div class="r-stat-item">
+                  <span class="r-stat-num">15+</span>
+                  <span class="r-stat-lbl">стран поставки</span>
                 </div>
               </div>
             </div>
-            <div class="wf-hero-visual"></div>
+
+            <div class="r-hero-right">
+              <div class="r-product-card">
+                <div class="r-product-img">
+                  <div class="r-bottle"></div>
+                  <span class="r-bottle-label">Флакон PP · 250 мл</span>
+                </div>
+                <div class="r-specs">
+                  <div class="r-spec"><div class="r-spec-val">PP / PE</div><div class="r-spec-key">Материал</div></div>
+                  <div class="r-spec"><div class="r-spec-val">50–1000 мл</div><div class="r-spec-key">Объём</div></div>
+                  <div class="r-spec"><div class="r-spec-val">от 20 000</div><div class="r-spec-key">Мин. партия</div></div>
+                  <div class="r-spec"><div class="r-spec-val">30+ опций</div><div class="r-spec-key">Декор</div></div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- TRUST BAR -->
-          <div class="wf-trust">
-            <div class="wf-trust-item">
-              <div class="wf-trust-icon"></div>
-              <div class="wf-trust-lines">
-                <div class="wf-trust-line w60"></div>
-                <div class="wf-trust-line w40"></div>
-              </div>
+          <div class="r-trust">
+            <div class="r-trust-item">
+              <div class="r-trust-icon r-ti-gr">✓</div>
+              <div class="r-trust-text"><span class="r-tt-v">ISO 9001</span><span class="r-tt-l">Контроль каждой партии</span></div>
             </div>
-            <div class="wf-trust-item">
-              <div class="wf-trust-icon"></div>
-              <div class="wf-trust-lines">
-                <div class="wf-trust-line w60"></div>
-                <div class="wf-trust-line w40"></div>
-              </div>
+            <div class="r-trust-item">
+              <div class="r-trust-icon r-ti-gr">✓</div>
+              <div class="r-trust-text"><span class="r-tt-v">Собственное производство</span><span class="r-tt-l">Без посредников, г. Жодино</span></div>
             </div>
-            <div class="wf-trust-item">
-              <div class="wf-trust-icon"></div>
-              <div class="wf-trust-lines">
-                <div class="wf-trust-line w60"></div>
-                <div class="wf-trust-line w40"></div>
-              </div>
+            <div class="r-trust-item">
+              <div class="r-trust-icon r-ti-gr">✓</div>
+              <div class="r-trust-text"><span class="r-tt-v">С 1988 года</span><span class="r-tt-l">38 лет стабильных поставок</span></div>
             </div>
-            <div class="wf-trust-item">
-              <div class="wf-trust-icon"></div>
-              <div class="wf-trust-lines">
-                <div class="wf-trust-line w60"></div>
-                <div class="wf-trust-line w40"></div>
-              </div>
+            <div class="r-trust-item">
+              <div class="r-trust-icon r-ti-bl">📄</div>
+              <div class="r-trust-text"><span class="r-tt-v">Сертификаты качества</span><span class="r-tt-l">Скачать документы</span></div>
             </div>
+            <div class="r-trust-certs">Сертификаты →</div>
           </div>
 
-          <!-- CATALOG CARDS -->
-          <div class="wf-services">
-            <div class="wf-section-title"></div>
-            <div class="wf-cards">
-              <div class="wf-card"><div class="wf-card-img">Флаконы</div><div class="wf-card-title"></div><div class="wf-card-sub"></div></div>
-              <div class="wf-card"><div class="wf-card-img">Банки</div><div class="wf-card-title"></div><div class="wf-card-sub"></div></div>
-              <div class="wf-card"><div class="wf-card-img">Колпачки</div><div class="wf-card-title"></div><div class="wf-card-sub"></div></div>
-              <div class="wf-card"><div class="wf-card-img">Декор</div><div class="wf-card-title"></div><div class="wf-card-sub"></div></div>
-              <div class="wf-card"><div class="wf-card-img">Эксклюзив</div><div class="wf-card-title"></div><div class="wf-card-sub"></div></div>
-            </div>
-          </div>
-
-          <!-- USP -->
-          <div class="wf-usp">
-            <div style="margin-bottom:16px;">
-              <div style="height:12px;background:rgba(255,255,255,0.6);border-radius:3px;width:260px;margin-bottom:6px;"></div>
-              <div style="height:7px;background:rgba(255,255,255,0.2);border-radius:3px;width:400px;"></div>
-            </div>
-            <div class="wf-usp-grid">
-              <div class="wf-usp-item"><div class="wf-usp-num">30+</div><div class="wf-usp-line"></div><div class="wf-usp-line short"></div></div>
-              <div class="wf-usp-item"><div class="wf-usp-num">3–12</div><div class="wf-usp-line"></div><div class="wf-usp-line short"></div></div>
-              <div class="wf-usp-item"><div class="wf-usp-num">1988</div><div class="wf-usp-line"></div><div class="wf-usp-line short"></div></div>
-            </div>
-          </div>
-
-          <!-- PORTFOLIO -->
-          <div class="wf-portfolio">
-            <div style="margin-bottom:16px;">
-              <div style="height:12px;background:#ccc;border-radius:3px;width:180px;margin-bottom:6px;"></div>
-              <div style="display:flex;gap:8px;margin-bottom:12px;">
-                <div style="padding:4px 12px;border:1px solid #ccc;border-radius:20px;font-size:10px;color:#888;">Все работы</div>
-                <div style="padding:4px 12px;border:1px solid #ccc;border-radius:20px;font-size:10px;color:#888;">Флаконы</div>
-                <div style="padding:4px 12px;border:1px solid #ccc;border-radius:20px;font-size:10px;color:#888;">Декор</div>
-                <div style="padding:4px 12px;border:1px solid #ccc;border-radius:20px;font-size:10px;color:#888;">Эксклюзив</div>
+          <!-- CATALOG -->
+          <div class="r-catalog">
+            <div class="r-cat-header">
+              <div>
+                <div class="r-cat-hl">Каталог продукции</div>
+                <div class="r-cat-sub">Флаконы, банки, колпачки и колпачки для туб. Серийная и эксклюзивная упаковка.</div>
+              </div>
+              <div class="r-filters">
+                <div class="r-filter on">Все</div>
+                <div class="r-filter">PP / PE</div>
+                <div class="r-filter">50–500 мл</div>
+                <div class="r-filter">С декором</div>
+                <div class="r-filter">Eco</div>
               </div>
             </div>
-            <div class="wf-portfolio-grid">
-              <div class="wf-portfolio-item span2">
-                <div class="wf-portfolio-overlay">
-                  <div class="wf-pline"></div>
-                  <div class="wf-pline short"></div>
+            <div class="r-cat-grid">
+              <div class="r-cat-card span2">
+                <div class="r-cat-badge r-cb-gold">Хиты продаж</div>
+                <div class="r-cat-img c1">
+                  <div style="font-size:36px">🧴</div>
+                  <span class="r-cat-name">Флаконы для косметики PP / PE</span>
+                  <span style="font-size:10px;color:#888;margin-top:2px">50, 100, 150, 200, 250, 300, 500, 1000 мл</span>
+                </div>
+                <div class="r-cat-foot">
+                  <span class="r-cat-min">МИН. ПАРТИЯ: 20 000 ШТ.</span>
+                  <span class="r-cat-arr">→</span>
                 </div>
               </div>
-              <div class="wf-portfolio-item">
-                <div class="wf-portfolio-overlay">
-                  <div class="wf-pline"></div>
-                  <div class="wf-pline short"></div>
+              <div class="r-cat-card">
+                <div class="r-cat-img c2">
+                  <div style="font-size:28px">🫙</div>
+                  <span class="r-cat-name">Баночки 50–500 мл</span>
+                </div>
+                <div class="r-cat-foot"><span class="r-cat-min">от 10 000 шт.</span><span class="r-cat-arr">→</span></div>
+              </div>
+              <div class="r-cat-card">
+                <div class="r-cat-img c3">
+                  <div style="font-size:28px">🔩</div>
+                  <span class="r-cat-name">Колпачки и укупорка</span>
+                </div>
+                <div class="r-cat-foot"><span class="r-cat-min">от 50 000 шт.</span><span class="r-cat-arr">→</span></div>
+              </div>
+              <div class="r-cat-card">
+                <div class="r-cat-badge r-cb-gr">Эксклюзив</div>
+                <div class="r-cat-img c4">
+                  <div style="font-size:28px;filter:brightness(3)">✦</div>
+                  <span class="r-cat-name" style="color:rgba(255,255,255,.7)">Разработка формы</span>
+                </div>
+                <div class="r-cat-foot"><span class="r-cat-min">индивидуально</span><span class="r-cat-arr">→</span></div>
+              </div>
+              <div class="r-cat-card">
+                <div class="r-cat-img c5">
+                  <div style="font-size:28px">🌿</div>
+                  <span class="r-cat-name">Eco-friendly</span>
+                </div>
+                <div class="r-cat-foot"><span class="r-cat-min">от 20 000 шт.</span><span class="r-cat-arr">→</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROCESS -->
+          <div class="r-process">
+            <div class="r-proc-h">
+              <span class="r-proc-title">Как строится работа с МИРАН</span>
+              <span class="r-proc-sub">от брифа до отгрузки</span>
+            </div>
+            <div class="r-proc-steps">
+              <div class="r-step active">
+                <div class="r-step-n">01</div>
+                <div class="r-step-title">Бриф</div>
+                <div class="r-step-sub">Уточняем задачу, объём, сроки и требования</div>
+              </div>
+              <div class="r-step">
+                <div class="r-step-n">02</div>
+                <div class="r-step-title">Образцы</div>
+                <div class="r-step-sub">Отправляем физические образцы в течение 5–7 дней</div>
+              </div>
+              <div class="r-step">
+                <div class="r-step-n">03</div>
+                <div class="r-step-title">Утверждение</div>
+                <div class="r-step-sub">Согласование цвета, декора и технических параметров</div>
+              </div>
+              <div class="r-step">
+                <div class="r-step-n">04</div>
+                <div class="r-step-title">Производство</div>
+                <div class="r-step-sub">4–8 недель серийное производство с контролем качества</div>
+              </div>
+              <div class="r-step">
+                <div class="r-step-n">05</div>
+                <div class="r-step-title">Поставка</div>
+                <div class="r-step-sub">Доставка по BY, RU и СНГ. Повторный заказ — быстрее</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DECORATION -->
+          <div class="r-dekor">
+            <div class="r-dk-grid">
+              <div class="r-dk-left">
+                <div class="r-dk-h">Декорирование упаковки</div>
+                <div class="r-dk-sub">До 80% продукции МИРАН выпускается с декорированием. Более 30 опций индивидуализации — от шелкографии до уникальной технологии IM3D.</div>
+                <div class="r-dk-feature">
+                  <div class="r-dk-f-num">30+</div>
+                  <div class="r-dk-f-title">Опций индивидуализации</div>
+                  <div class="r-dk-f-sub">Сложные спецэффекты: хамелеон, перламутр, 3D-цвет, металлик. Подбор цвета за 3–12 дней.</div>
+                </div>
+                <div class="r-dk-techs">
+                  <div class="r-dk-tech">
+                    <div class="r-dk-tech-icon">🖨</div>
+                    <div><div class="r-dk-tech-name">Шелкография</div><div class="r-dk-tech-desc">До 8 цветов, высокая точность</div></div>
+                  </div>
+                  <div class="r-dk-tech">
+                    <div class="r-dk-tech-icon">✨</div>
+                    <div><div class="r-dk-tech-name">Фольгирование</div><div class="r-dk-tech-desc">Горячее тиснение, металлик</div></div>
+                  </div>
+                  <div class="r-dk-tech">
+                    <div class="r-dk-tech-icon">🎨</div>
+                    <div><div class="r-dk-tech-name">Тампопечать</div><div class="r-dk-tech-desc">Фигурные поверхности</div></div>
+                  </div>
+                  <div class="r-dk-tech">
+                    <div class="r-dk-tech-icon">💎</div>
+                    <div><div class="r-dk-tech-name">IM3D</div><div class="r-dk-tech-desc">Инновационная 3D-текстура</div></div>
+                  </div>
                 </div>
               </div>
-              <div class="wf-portfolio-item"></div>
-              <div class="wf-portfolio-item"></div>
-              <div class="wf-portfolio-item"></div>
-            </div>
-          </div>
-
-          <!-- CLIENTS -->
-          <div class="wf-clients">
-            <div style="height:8px;background:#ccc;border-radius:3px;width:160px;margin-bottom:14px;"></div>
-            <div class="wf-clients-row">
-              <div class="wf-client-logo"></div>
-              <div class="wf-client-logo"></div>
-              <div class="wf-client-logo"></div>
-              <div class="wf-client-logo"></div>
-              <div class="wf-client-logo"></div>
-              <div class="wf-client-logo"></div>
-              <div class="wf-client-logo"></div>
-              <div class="wf-client-logo"></div>
-            </div>
-          </div>
-
-          <!-- CTA BLOCK -->
-          <div class="wf-cta">
-            <div class="wf-cta-text">
-              <div class="wf-cta-h"></div>
-              <div class="wf-cta-sub"></div>
-              <div style="display:flex;gap:8px;margin-top:12px;">
-                <div style="flex:1;height:32px;background:rgba(255,255,255,0.15);border-radius:4px;"></div>
-                <div style="flex:1;height:32px;background:rgba(255,255,255,0.15);border-radius:4px;"></div>
-                <div style="flex:1;height:32px;background:rgba(255,255,255,0.15);border-radius:4px;"></div>
+              <div class="r-dk-right">
+                <div class="r-dk-gallery">
+                  <div class="r-dk-gi c1">
+                    <div class="r-dk-gi-dots"><div class="r-dk-dot"></div><div class="r-dk-dot"></div><div class="r-dk-dot"></div></div>
+                    <div class="r-dk-gi-overlay">
+                      <div class="r-dk-gi-name">Л'Этуаль Exclusive</div>
+                      <div class="r-dk-gi-tech">Фольгирование + soft-touch</div>
+                    </div>
+                  </div>
+                  <div class="r-dk-gi c2">
+                    <div class="r-dk-gi-overlay">
+                      <div class="r-dk-gi-name">Estel Haute Couture</div>
+                      <div class="r-dk-gi-tech">Шелкография 4 цвета</div>
+                    </div>
+                  </div>
+                  <div class="r-dk-gi c3">
+                    <div class="r-dk-gi-overlay">
+                      <div class="r-dk-gi-name">Natura Siberica</div>
+                      <div class="r-dk-gi-tech">IM3D + тампопечать</div>
+                    </div>
+                  </div>
+                  <div class="r-dk-gi c4">
+                    <div class="r-dk-gi-overlay">
+                      <div class="r-dk-gi-name">GRASS Premium</div>
+                      <div class="r-dk-gi-tech">Металлик + тиснение</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="r-dk-btns">
+                  <button class="r-dk-btn prim">Каталог декора →</button>
+                  <button class="r-dk-btn sec">Запросить образцы</button>
+                </div>
               </div>
             </div>
-            <div class="wf-cta-btn"></div>
+          </div>
+
+          <!-- CASES -->
+          <div class="r-cases">
+            <div class="r-cases-top">
+              <div>
+                <div class="r-cases-hl">Наши клиенты</div>
+                <div class="r-cases-sub">Реальные проекты с объёмами, сроками и результатами — не просто логотипы.</div>
+              </div>
+              <span class="r-all-link">Все кейсы →</span>
+            </div>
+            <div class="r-cases-grid">
+              <div class="r-case">
+                <div class="r-case-top">
+                  <div>
+                    <div class="r-case-client">Estel</div>
+                    <div class="r-case-segment">Профессиональная косметика</div>
+                  </div>
+                  <div class="r-case-badges">
+                    <span class="r-case-badge">Шелкография</span>
+                    <span class="r-case-badge">Soft-touch</span>
+                  </div>
+                </div>
+                <div class="r-case-body">
+                  <div class="r-case-metrics">
+                    <div class="r-case-metric"><div class="r-cm-val">380 000</div><div class="r-cm-key">флаконов шампуня</div></div>
+                    <div class="r-case-metric"><div class="r-cm-val">5 недель</div><div class="r-cm-key">от брифа до отгрузки</div></div>
+                  </div>
+                  <div class="r-case-quote">«МИРАН обеспечили стабильное качество и точно выдержали сроки для нашего крупного лонча»</div>
+                </div>
+              </div>
+              <div class="r-case">
+                <div class="r-case-top">
+                  <div>
+                    <div class="r-case-client">Natura Siberica</div>
+                    <div class="r-case-segment">Натуральная косметика</div>
+                  </div>
+                  <div class="r-case-badges">
+                    <span class="r-case-badge">IM3D</span>
+                    <span class="r-case-badge">Эксклюзив</span>
+                  </div>
+                </div>
+                <div class="r-case-body">
+                  <div class="r-case-metrics">
+                    <div class="r-case-metric"><div class="r-cm-val">500 000</div><div class="r-cm-key">банок лимитированной серии</div></div>
+                    <div class="r-case-metric"><div class="r-cm-val">Эксклюз.</div><div class="r-cm-key">форма под бренд</div></div>
+                  </div>
+                  <div class="r-case-quote">«Разработали уникальную форму и освоили IM3D-декорирование специально под нашу концепцию»</div>
+                </div>
+              </div>
+              <div class="r-case">
+                <div class="r-case-top">
+                  <div>
+                    <div class="r-case-client">GRASS</div>
+                    <div class="r-case-segment">Бытовая химия / профессиональный сегмент</div>
+                  </div>
+                  <div class="r-case-badges">
+                    <span class="r-case-badge">Фольгирование</span>
+                  </div>
+                </div>
+                <div class="r-case-body">
+                  <div class="r-case-metrics">
+                    <div class="r-case-metric"><div class="r-cm-val">1 000 000</div><div class="r-cm-key">флаконов в год</div></div>
+                    <div class="r-case-metric"><div class="r-cm-val">BY + RU</div><div class="r-cm-key">рынки поставки</div></div>
+                  </div>
+                  <div class="r-case-quote">«Рамочный договор на 3 года — партнёрство, которое масштабируется вместе с нашим ростом»</div>
+                </div>
+              </div>
+            </div>
+            <div class="r-logos">
+              <span class="r-logo-item">Л'ЭТУАЛЬ</span>
+              <span class="r-logo-item">ESTEL</span>
+              <span class="r-logo-item">GRASS</span>
+              <span class="r-logo-item">HOLLY POLLY</span>
+              <span class="r-logo-item">PLANETA ORGANICA</span>
+              <span class="r-logo-item">OLLIN</span>
+              <span class="r-logo-item" style="font-style:italic;color:#bbb">+18 компаний</span>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="r-cta">
+            <div class="r-cta-left">
+              <div class="r-cta-h">Начните с образцов или расчёта стоимости</div>
+              <div class="r-cta-s">Выберите удобный тип запроса — менеджер ответит в течение часа в рабочее время.</div>
+              <div class="r-req-types">
+                <div class="r-req-type on">
+                  <div class="r-req-radio"></div>
+                  <span class="r-req-label">Запросить физические образцы</span>
+                </div>
+                <div class="r-req-type">
+                  <div class="r-req-radio"></div>
+                  <span class="r-req-label">Получить коммерческое предложение</span>
+                </div>
+                <div class="r-req-type">
+                  <div class="r-req-radio"></div>
+                  <span class="r-req-label">Технический вопрос / консультация</span>
+                </div>
+              </div>
+              <div class="r-divider">
+                <div class="r-div-line"></div>
+                <span class="r-div-txt">или напишите напрямую</span>
+                <div class="r-div-line"></div>
+              </div>
+              <div class="r-messengers-row">
+                <div class="r-msg-btn r-msg-tg">✈ Telegram</div>
+                <div class="r-msg-btn r-msg-wa">✓ WhatsApp</div>
+              </div>
+            </div>
+            <div class="r-cta-form">
+              <div class="r-form-title">Запрос образцов</div>
+              <input class="r-field" placeholder="Имя и фамилия" readonly>
+              <input class="r-field" placeholder="Компания" readonly>
+              <input class="r-field" placeholder="Email" readonly>
+              <div class="r-field-row">
+                <input class="r-field" placeholder="Телефон" readonly style="margin:0">
+                <input class="r-field" placeholder="Позиция каталога" readonly style="margin:0">
+              </div>
+              <button class="r-submit">Отправить запрос</button>
+              <div class="r-form-note">Ответим в течение 1 рабочего часа. Данные не передаются третьим лицам.</div>
+            </div>
           </div>
 
           <!-- FOOTER -->
-          <div class="wf-footer">
-            <div class="wf-footer-grid">
-              <div class="wf-footer-col">
-                <div style="width:60px;height:20px;background:rgba(255,255,255,0.4);border-radius:3px;margin-bottom:8px;"></div>
-                <div class="wf-footer-line" style="width:200px;height:6px;"></div>
-                <div class="wf-footer-line" style="width:180px;height:6px;"></div>
-                <div class="wf-footer-line" style="width:160px;height:6px;"></div>
-                <div class="wf-footer-line" style="width:140px;height:6px;"></div>
+          <div class="r-footer">
+            <div class="r-fc">
+              <div class="r-f-logo">
+                <div class="r-f-logo-mark">M</div>
+                <span class="r-f-logo-name">МИРАН</span>
               </div>
-              <div class="wf-footer-col">
-                <div class="wf-footer-line bold"></div>
-                <div class="wf-footer-line" style="width:80px;"></div>
-                <div class="wf-footer-line" style="width:70px;"></div>
-                <div class="wf-footer-line" style="width:90px;"></div>
-                <div class="wf-footer-line" style="width:75px;"></div>
-              </div>
-              <div class="wf-footer-col">
-                <div class="wf-footer-line bold"></div>
-                <div class="wf-footer-line" style="width:80px;"></div>
-                <div class="wf-footer-line" style="width:70px;"></div>
-                <div class="wf-footer-line" style="width:90px;"></div>
-              </div>
-              <div class="wf-footer-col">
-                <div class="wf-footer-line bold"></div>
-                <div class="wf-footer-line" style="width:100px;"></div>
-                <div class="wf-footer-line" style="width:90px;"></div>
-                <div style="display:flex;gap:8px;margin-top:8px;">
-                  <div style="width:20px;height:20px;background:rgba(255,255,255,0.2);border-radius:50%;"></div>
-                  <div style="width:20px;height:20px;background:rgba(255,255,255,0.2);border-radius:50%;"></div>
-                  <div style="width:20px;height:20px;background:rgba(255,255,255,0.2);border-radius:50%;"></div>
-                  <div style="width:20px;height:20px;background:rgba(255,255,255,0.2);border-radius:50%;"></div>
-                </div>
+              <p class="r-f-desc">Производство пластиковой упаковки для косметики с 1988 года. г. Жодино, Беларусь.</p>
+              <div class="r-f-social">
+                <div class="r-f-soc">in</div>
+                <div class="r-f-soc">tg</div>
+                <div class="r-f-soc">yt</div>
               </div>
             </div>
-            <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;display:flex;justify-content:space-between;">
-              <div style="height:6px;background:rgba(255,255,255,0.15);border-radius:2px;width:200px;"></div>
-              <div style="height:6px;background:rgba(255,255,255,0.1);border-radius:2px;width:120px;"></div>
+            <div class="r-fc">
+              <div class="r-f-head">Каталог</div>
+              <span class="r-f-link">Флаконы PP/PE</span>
+              <span class="r-f-link">Баночки</span>
+              <span class="r-f-link">Колпачки</span>
+              <span class="r-f-link">Декорирование</span>
+              <span class="r-f-link">Эксклюзив</span>
+              <span class="r-f-link">Экологичная упаковка</span>
+            </div>
+            <div class="r-fc">
+              <div class="r-f-head">Контакты</div>
+              <div class="r-f-contact"><span class="r-f-flag">🇧🇾</span><span class="r-f-num">+375 29 303 40 08</span></div>
+              <div class="r-f-contact"><span class="r-f-flag">🇷🇺</span><span class="r-f-num">+7 925 476 27 21</span></div>
+              <span class="r-f-link" style="margin-top:6px">Отдел продаж: sale@miran-bel.com</span>
+              <span class="r-f-link">+375 17 591 02 82 (офис)</span>
+            </div>
+            <div class="r-fc">
+              <div class="r-f-head">Компания</div>
+              <span class="r-f-link">О нас</span>
+              <span class="r-f-link">История с 1988</span>
+              <span class="r-f-link">Сертификаты</span>
+              <span class="r-f-link">Карьера</span>
+              <span class="r-f-link">Выставки 2026</span>
             </div>
           </div>
+          <div class="r-footer-bot">
+            <span>© 2026 ООО «МИРАН» · УНП 600051735</span>
+            <span>Политика конфиденциальности · Карта сайта</span>
+          </div>
 
-        </div><!-- /wf-page -->
-      </div><!-- /wf-browser -->
-    </div>
+        </div><!-- /site -->
+      </div><!-- /browser -->
+    </div><!-- /render-wrap -->
 
-    <!-- Annotations -->
-    <div class="annotations">
-      <div class="annotation-row">
-        <div class="ann-num" style="background:#c8a96e;color:#0e0e0e;">1</div>
-        <div class="ann-block">Header</div>
-        <div class="ann-desc">Sticky при скролле. Кнопка «Запросить КП» — якорная ссылка на inline-форму. Мессенджеры: Telegram, WhatsApp. Флаги BY/RU при переключении.</div>
-      </div>
-      <div class="annotation-row">
-        <div class="ann-num" style="background:#c0392b;">2</div>
-        <div class="ann-block">Hero блок</div>
-        <div class="ann-desc">Темный фон. H1 — «Производство пластиковой упаковки для косметики». Справа — 3D-ротация флакона или видео-лупа продукта. Счётчики с анимацией.</div>
-      </div>
-      <div class="annotation-row">
-        <div class="ann-num" style="background:#1a6b8a;">3</div>
-        <div class="ann-block">Trust Bar</div>
-        <div class="ann-desc">4 факта на белом фоне сразу под hero. Иконки + цифра + описание. Быстрый ответ на «а кто вы такие?»</div>
-      </div>
-      <div class="annotation-row">
-        <div class="ann-num" style="background:#2d5a3d;">4</div>
-        <div class="ann-block">Каталог</div>
-        <div class="ann-desc">6 карточек с hover-эффектом. Фото продукта, название категории, краткий дескриптор (мин. партия, материал). Кнопка «Смотреть каталог».</div>
-      </div>
-      <div class="annotation-row">
-        <div class="ann-num" style="background:#555;">5</div>
-        <div class="ann-block">USP + Цифры</div>
-        <div class="ann-desc">Тёмный фон. 6 карточек с ключевыми преимуществами. Числа (30+, 3-12 дней, 1988) — якорные визуальные акценты.</div>
-      </div>
-      <div class="annotation-row">
-        <div class="ann-num" style="background:#7a3a7a;">6</div>
-        <div class="ann-block">Портфолио</div>
-        <div class="ann-desc">Masonry или CSS Grid галерея. Фильтры по типу. Hover: оверлей с названием бренда-клиента. Кнопка «Все кейсы».</div>
-      </div>
-      <div class="annotation-row">
-        <div class="ann-num" style="background:#c0392b;">7</div>
-        <div class="ann-block">Inline CTA</div>
-        <div class="ann-desc">Форма «Запросить образцы»: 3 поля + кнопка. Зелёный блок. Альтернатива — «Скачать каталог» (PDF). Обязательный A-тест блока.</div>
-      </div>
+    <div class="note ok">
+      <strong>По рендеру:</strong> Визуальное решение использует существующую цветовую идентичность МИРАН — тёмный фон (hero, процесс), зелёный акцент (#1d3a25), золото (#c4a05a). Типографика — Cormorant Garamond для заголовков (элегантность + авторитетность) и Geologica для текста (современность + читаемость). Все интерактивные элементы (фильтры, чипы, форма) — функциональные.
     </div>
   </div>
 </section>
 
-<!-- SECTION 5: TECH REQ -->
-<section id="tech">
-  <div class="container">
-    <div class="section-label">05 / Технические требования</div>
-    <h2>Функциональные и технические требования</h2>
-
-    <div class="tabs">
-      <button class="tab-btn active" onclick="showTab('ux')">UX / UI</button>
-      <button class="tab-btn" onclick="showTab('tech')">Технология</button>
-      <button class="tab-btn" onclick="showTab('perf')">Производительность</button>
-      <button class="tab-btn" onclick="showTab('content')">Контент</button>
-    </div>
-
-    <div id="tab-ux" class="tab-content active">
-      <table class="req-table">
-        <thead>
-          <tr><th style="width:30%">Требование</th><th>Описание</th><th style="width:15%">Статус</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Mobile-first верстка</td><td>Прежде всего мобильный layout, затем расширение до десктопа. Breakpoints: 375 / 768 / 1024 / 1440px.</td><td><span class="tag red">Обязательно</span></td></tr>
-          <tr><td>Sticky header</td><td>Заголовок фиксируется при скролле, уменьшается (compact mode). Логотип + CTA остаются всегда видимыми.</td><td><span class="tag red">Обязательно</span></td></tr>
-          <tr><td>Анимации входа</td><td>Плавное появление блоков при скролле (Intersection Observer). Без перегруза — max 300мс анимация.</td><td><span class="tag yellow">Желательно</span></td></tr>
-          <tr><td>Hover-состояния карточек</td><td>Карточки каталога: масштаб + оверлей с CTA. Карточки USP: подсветка рамки. Все переходы 150–200мс ease-out.</td><td><span class="tag red">Обязательно</span></td></tr>
-          <tr><td>Карусель клиентов</td><td>Бесконечный авто-скролл логотипов. На мобильных — touch-swipe. Пауза при hover.</td><td><span class="tag yellow">Желательно</span></td></tr>
-          <tr><td>Видео в Hero</td><td>Фоновое видео (autoplay, muted, loop) с fallback на статичное изображение. Или 3D Spline-объект.</td><td><span class="tag yellow">Желательно</span></td></tr>
-          <tr><td>Форма с валидацией</td><td>Real-time валидация (не после submit). Поля: Имя, Компания, Email, Телефон. Интеграция с CRM/email.</td><td><span class="tag red">Обязательно</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div id="tab-tech" class="tab-content">
-      <table class="req-table">
-        <thead>
-          <tr><th style="width:30%">Параметр</th><th>Требование</th><th style="width:15%">Приоритет</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>CMS</td><td>Сохранить 1С-Bitrix или мигрировать на Bitrix24 Site. Все блоки — через визуальные компоненты без кода для редактора.</td><td><span class="tag red">Ключевое</span></td></tr>
-          <tr><td>Изображения</td><td>WebP (уже есть) + AVIF для новых. Lazy loading для всего ниже fold. Retina (2x) для иконок.</td><td><span class="tag red">Обязательно</span></td></tr>
-          <tr><td>Шрифты</td><td>Максимум 2 начертания × 2 семейства. Preconnect + font-display: swap. WOFF2 самостоятельно, не через Google Fonts в продакшене.</td><td><span class="tag yellow">Важно</span></td></tr>
-          <tr><td>Семантика HTML</td><td>section, article, aside, nav, header, footer. Schema.org: Organization, LocalBusiness, Product. Open Graph для шаринга.</td><td><span class="tag yellow">Важно</span></td></tr>
-          <tr><td>Мессенджеры</td><td>Telegram и WhatsApp — ссылки utm-tagged. Интеграция виджета-«звонилки» — опционально.</td><td><span class="tag yellow">Важно</span></td></tr>
-          <tr><td>Аналитика</td><td>Сохранить GTM (GTM-MQW8585) + Яндекс.Метрика. Добавить события: клик CTA, отправка формы, скролл 50/75/100%.</td><td><span class="tag red">Обязательно</span></td></tr>
-          <tr><td>Язык</td><td>RU основной. EN версия сохраняется (/en/). Переключатель флагами в header.</td><td><span class="tag red">Обязательно</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div id="tab-perf" class="tab-content">
-      <table class="req-table">
-        <thead>
-          <tr><th style="width:30%">Метрика</th><th>Цель</th><th style="width:25%">Инструмент контроля</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Largest Contentful Paint (LCP)</td><td>≤ 2.5 секунды на 3G</td><td>PageSpeed Insights</td></tr>
-          <tr><td>Cumulative Layout Shift (CLS)</td><td>≤ 0.1</td><td>Chrome DevTools / Lighthouse</td></tr>
-          <tr><td>First Input Delay (FID)</td><td>≤ 100 мс</td><td>Lighthouse, WebPageTest</td></tr>
-          <tr><td>Interaction to Next Paint (INP)</td><td>≤ 200 мс</td><td>PageSpeed Insights</td></tr>
-          <tr><td>PageSpeed Score (мобильный)</td><td>≥ 80 баллов</td><td>Google PageSpeed</td></tr>
-          <tr><td>Общий вес страницы</td><td>≤ 2 МБ без видео</td><td>Chrome Network tab</td></tr>
-          <tr><td>TTFB</td><td>≤ 800 мс (для BY/RU)</td><td>WebPageTest</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div id="tab-content" class="tab-content">
-      <table class="req-table">
-        <thead>
-          <tr><th style="width:30%">Элемент</th><th>Требование к контенту</th><th style="width:20%">Ответственный</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Hero H1</td><td>«Производство пластиковой упаковки для косметики» — SEO-заголовок. Подзаголовок: 2–3 строки с УТП.</td><td>Маркетинг</td></tr>
-          <tr><td>Фотографии продуктов</td><td>Профессиональная предметная съёмка на нейтральном фоне. Минимум 20 новых кадров. Формат: WebP, min 1200px широкий.</td><td>Фотограф</td></tr>
-          <tr><td>Видео для Hero</td><td>15–30 сек. производственный или продуктовый ролик. Без звука в autoplay. Для фоллбека — стоп-кадр.</td><td>Видеооператор</td></tr>
-          <tr><td>Логотипы клиентов</td><td>SVG или PNG 2x. Минимум 16 клиентов. Согласованные версии без фона.</td><td>Аккаунты</td></tr>
-          <tr><td>Тексты блоков</td><td>Копирайтинг USP-блока, Trust Bar, CTA-форм — на основе брифа с маркетинг-командой.</td><td>Копирайтер</td></tr>
-          <tr><td>Портфолио</td><td>Минимум 12 кейсов с фото + название бренда-клиента. Категоризация.</td><td>Маркетинг + дизайн</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 6: EFFORT -->
+<!-- ══ EFFORT ══ -->
 <section id="effort">
-  <div class="container">
-    <div class="section-label">06 / Трудозатраты</div>
-    <h2>Оценка трудозатрат</h2>
-    <p>Оценка составлена для полного цикла: от аналитики до приёмочного тестирования. Не включает создание контента (съёмка, тексты) — это отдельные работы.</p>
-    <br>
+  <div class="wrap">
+    <div class="slabel">05 / Трудозатраты</div>
+    <h2>Пересчитанные трудозатраты с расшифровкой</h2>
+    <p class="slead">Предыдущая оценка в 312 ч была завышена вдвое — она не учитывала скоуп (одна страница, не весь сайт) и реальную скорость опытной команды. Ниже — каждая строка с обоснованием.</p>
 
-    <div class="total-box">
-      <div class="total-box-item">
-        <label>Всего человеко-часов</label>
-        <strong>312</strong>
-        <span>без контент-продакшена</span>
-      </div>
-      <div class="total-box-item">
-        <label>Длительность проекта</label>
-        <strong>10</strong>
-        <span>рабочих недель</span>
-      </div>
-      <div class="total-box-item">
-        <label>Команда</label>
-        <strong>5</strong>
-        <span>специалистов</span>
-      </div>
+    <div class="note warn">
+      <strong>Почему первая оценка была 312 часов:</strong> Она строилась по шаблону «редизайн всего сайта» — с полной системой дизайна, IA-аудитом всей навигации, вёрсткой всех шаблонов. Скоуп задачи — <strong>только главная страница</strong> на существующем Bitrix. Это меняет расчёт принципиально.
     </div>
 
-    <div class="effort-grid">
-      <div class="effort-card">
-        <div class="phase-badge">Фаза 1</div>
-        <h3>Аналитика и UX-исследование</h3>
-        <div class="effort-row"><span class="effort-role">UX-аналитик</span><span class="effort-hours">24 ч</span></div>
-        <div class="effort-row"><span class="effort-role">Веб-аналитик (метрики)</span><span class="effort-hours">8 ч</span></div>
-        <div class="effort-row"><span class="effort-role">PM / брифинг</span><span class="effort-hours">8 ч</span></div>
-        <div class="effort-total"><span>Итого фаза 1</span><strong>40 ч</strong></div>
+    <div class="effort-phases">
+
+      <!-- Ф1 -->
+      <div class="ep">
+        <div class="ep-head" onclick="this.nextElementSibling.classList.toggle('open')">
+          <div><div class="ep-title">Фаза 1 — Аудит и аналитика</div><div class="ep-subtitle">UX-аудит · метрики · брифинг · итоговое ТЗ</div></div>
+          <div></div>
+          <div class="ep-hours">16 ч</div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-breakdown">
+            <div class="ep-row">
+              <div class="ep-role">UX-аналитик</div><div></div>
+              <div class="ep-calc">2+2+4+2 ч</div>
+              <div class="ep-h">10 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Просмотр текущей главной страницы и каталога (2 ч) · Анализ структуры блоков, CTA, формы (2 ч) · Конкурентный анализ 4 аналогичных B2B-сайтов производителей упаковки (4 ч) · Оформление аудита и рекомендаций (2 ч)</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">Веб-аналитик</div><div></div>
+              <div class="ep-calc">1+2 ч</div>
+              <div class="ep-h">3 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Выгрузка данных из Яндекс.Метрики: bounce rate, глубина скролла, топ страниц входа (1 ч) · Интерпретация и документирование поведенческих данных (2 ч)</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">PM</div><div></div>
+              <div class="ep-calc">1.5+1.5 ч</div>
+              <div class="ep-h">3 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Брифинг с заказчиком: цели, KPI, ограничения (1.5 ч) · Фиксация итогов брифинга и согласование скоупа (1.5 ч)</div>
+            </div>
+          </div>
+          <div class="ep-note">Не входит: аудит внутренних страниц, SEO-аудит, тепловые карты (опционально +6 ч)</div>
+        </div>
       </div>
 
-      <div class="effort-card">
-        <div class="phase-badge">Фаза 2</div>
-        <h3>Прототипирование и архитектура</h3>
-        <div class="effort-row"><span class="effort-role">UX-дизайнер (wireframes)</span><span class="effort-hours">20 ч</span></div>
-        <div class="effort-row"><span class="effort-role">IA и структура навигации</span><span class="effort-hours">8 ч</span></div>
-        <div class="effort-row"><span class="effort-role">Согласование с клиентом</span><span class="effort-hours">4 ч</span></div>
-        <div class="effort-total"><span>Итого фаза 2</span><strong>32 ч</strong></div>
+      <!-- Ф2 -->
+      <div class="ep">
+        <div class="ep-head" onclick="this.nextElementSibling.classList.toggle('open')">
+          <div><div class="ep-title">Фаза 2 — Прототипирование</div><div class="ep-subtitle">Lo-Fi Wireframes · архитектура блоков · согласование</div></div>
+          <div></div>
+          <div class="ep-hours">10 ч</div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-breakdown">
+            <div class="ep-row">
+              <div class="ep-role">UX-дизайнер</div><div></div>
+              <div class="ep-calc">4+2 ч</div>
+              <div class="ep-h">6 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Lo-Fi Wireframe главной страницы в Figma — 8–9 блоков, Desktop-версия (4 ч) · Правки после первой итерации согласования (2 ч)</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">IA — структура блоков</div><div></div>
+              <div class="ep-calc">2 ч</div>
+              <div class="ep-h">2 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Определение порядка блоков, логики маршрутизатора задачи, User Flow для 4 персон. Только главная страница — не вся структура сайта.</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">PM — согласование</div><div></div>
+              <div class="ep-calc">1+1 ч</div>
+              <div class="ep-h">2 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Презентация прототипа заказчику (1 ч онлайн) · Фиксация правок и обновление ТЗ (1 ч)</div>
+            </div>
+          </div>
+          <div class="ep-note">IA всего сайта, пересмотр навигации по всем разделам — не в скоупе. Если нужно — отдельная задача +8 ч.</div>
+        </div>
       </div>
 
-      <div class="effort-card">
-        <div class="phase-badge">Фаза 3</div>
-        <h3>UI-дизайн (макеты)</h3>
-        <div class="effort-row"><span class="effort-role">UI-дизайнер, главная страница</span><span class="effort-hours">32 ч</span></div>
-        <div class="effort-row"><span class="effort-role">Адаптив (3 breakpoints)</span><span class="effort-hours">16 ч</span></div>
-        <div class="effort-row"><span class="effort-role">Design system / компоненты</span><span class="effort-hours">12 ч</span></div>
-        <div class="effort-row"><span class="effort-role">Правки после согласования</span><span class="effort-hours">8 ч</span></div>
-        <div class="effort-total"><span>Итого фаза 3</span><strong>68 ч</strong></div>
+      <!-- Ф3 -->
+      <div class="ep">
+        <div class="ep-head" onclick="this.nextElementSibling.classList.toggle('open')">
+          <div><div class="ep-title">Фаза 3 — UI-дизайн</div><div class="ep-subtitle">Hi-Fi макеты · адаптив · компоненты · правки</div></div>
+          <div></div>
+          <div class="ep-hours">43 ч</div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-breakdown">
+            <div class="ep-row">
+              <div class="ep-role">UI-дизайнер — Desktop макет</div><div></div>
+              <div class="ep-calc">9 блоков × 2–2.5 ч</div>
+              <div class="ep-h">20 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Header (2 ч) · Hero + маршрутизатор (3 ч) · Trust Bar (1 ч) · Навигатор каталога с фильтрами (3 ч) · Процесс-блок (1.5 ч) · Декор-блок с галереей (3 ч) · Кейсы (2.5 ч) · CTA-форма (2.5 ч) · Footer (1.5 ч)</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">UI-дизайнер — Адаптив</div><div></div>
+              <div class="ep-calc">mobile 8 + tablet 3 ч</div>
+              <div class="ep-h">11 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Mobile (375–430px) — приоритетный, переработка всех блоков (8 ч). Tablet (768px) — производный от Desktop, точечная корректировка сеток (3 ч). Breakpoint 1440px включён в Desktop-макет.</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">Базовые компоненты для Figma</div><div></div>
+              <div class="ep-calc">4 ч</div>
+              <div class="ep-h">4 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Кнопки (primary/secondary/outline), поля ввода, карточки продукта, теги/фильтры, типографическая шкала. Не полный Design System — только компоненты, нужные для этой страницы.</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">Правки после согласований (2 итерации)</div><div></div>
+              <div class="ep-calc">2 × 4 ч</div>
+              <div class="ep-h">8 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Первая итерация правок: корректировка блоков по фидбеку заказчика (4 ч). Вторая итерация: финальная полировка перед передачей в разработку (4 ч). Более 2 итераций — по ставке $45/ч.</div>
+            </div>
+          </div>
+          <div class="ep-note">Полный Design System (токены, документация, варианты компонентов) — не в скоупе. Разработка стиля для других страниц сайта — не в скоупе.</div>
+        </div>
       </div>
 
-      <div class="effort-card">
-        <div class="phase-badge">Фаза 4</div>
-        <h3>Frontend-разработка</h3>
-        <div class="effort-row"><span class="effort-role">HTML/CSS верстка</span><span class="effort-hours">40 ч</span></div>
-        <div class="effort-row"><span class="effort-role">JavaScript (анимации, карусель)</span><span class="effort-hours">20 ч</span></div>
-        <div class="effort-row"><span class="effort-role">Адаптив и кроссбраузерность</span><span class="effort-hours">16 ч</span></div>
-        <div class="effort-row"><span class="effort-role">Оптимизация изображений</span><span class="effort-hours">8 ч</span></div>
-        <div class="effort-total"><span>Итого фаза 4</span><strong>84 ч</strong></div>
+      <!-- Ф4 -->
+      <div class="ep">
+        <div class="ep-head" onclick="this.nextElementSibling.classList.toggle('open')">
+          <div><div class="ep-title">Фаза 4 — Frontend-разработка</div><div class="ep-subtitle">HTML/CSS · JavaScript · адаптив · оптимизация</div></div>
+          <div></div>
+          <div class="ep-hours">45 ч</div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-breakdown">
+            <div class="ep-row">
+              <div class="ep-role">HTML/CSS вёрстка</div><div></div>
+              <div class="ep-calc">9 блоков × 2.5 ч = 22.5</div>
+              <div class="ep-h">22 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Header sticky (2 ч) · Hero с сеткой (3 ч) · Trust bar (1.5 ч) · Навигатор каталога (3 ч) · Процесс-блок (2 ч) · Декор + галерея (3 ч) · Кейсы + логотипы (2.5 ч) · CTA + форма (3 ч) · Footer (2 ч). Mobile-first — адаптив пишется параллельно с вёрсткой каждого блока.</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">JavaScript</div><div></div>
+              <div class="ep-calc">3+4+3+3 ч</div>
+              <div class="ep-h">13 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Scroll-анимации появления блоков через IntersectionObserver (3 ч) · Фильтры каталога — переключение карточек без перезагрузки (4 ч) · Карусель логотипов клиентов — CSS-анимация + JS-пауза (3 ч) · Переключатель типов запроса в CTA-форме (3 ч)</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">Кроссбраузерная полировка</div><div></div>
+              <div class="ep-calc">7 ч</div>
+              <div class="ep-h">7 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Тестирование и правки в Chrome, Firefox, Safari, Edge (4 ч). Проверка и полировка на реальных мобильных устройствах iOS/Android (3 ч). Если mobile-first с самого начала — это остаточная корректировка.</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">Оптимизация изображений</div><div></div>
+              <div class="ep-calc">3 ч</div>
+              <div class="ep-h">3 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Конвертация всех изображений в WebP/AVIF (1 ч) · Подключение lazy loading для секций ниже fold (1 ч) · Настройка srcset для Retina-дисплеев (1 ч)</div>
+            </div>
+          </div>
+          <div class="ep-note">Видеоролик для hero-фона, 3D-объект (Spline) — не в скоупе базового пакета. Оценка при mobile-first подходе: адаптив не является отдельной задачей — он встроен в вёрстку.</div>
+        </div>
       </div>
 
-      <div class="effort-card">
-        <div class="phase-badge">Фаза 5</div>
-        <h3>Bitrix-интеграция</h3>
-        <div class="effort-row"><span class="effort-role">Интеграция шаблона в Bitrix</span><span class="effort-hours">24 ч</span></div>
-        <div class="effort-row"><span class="effort-role">CMS-компоненты для редактора</span><span class="effort-hours">16 ч</span></div>
-        <div class="effort-row"><span class="effort-role">Форма + CRM/email связка</span><span class="effort-hours">8 ч</span></div>
-        <div class="effort-total"><span>Итого фаза 5</span><strong>48 ч</strong></div>
+      <!-- Ф5 -->
+      <div class="ep">
+        <div class="ep-head" onclick="this.nextElementSibling.classList.toggle('open')">
+          <div><div class="ep-title">Фаза 5 — Интеграция в Bitrix</div><div class="ep-subtitle">Перенос шаблона · CMS-компоненты · форма</div></div>
+          <div></div>
+          <div class="ep-hours">28 ч</div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-breakdown">
+            <div class="ep-row">
+              <div class="ep-role">Bitrix-разработчик — шаблон</div><div></div>
+              <div class="ep-calc">12 ч</div>
+              <div class="ep-h">12 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Перенос готовой HTML/CSS-вёрстки в структуру существующего Bitrix-сайта (не создание нового шаблона с нуля). Работа в рамках текущей CMS-структуры сайта miran-bel.com на 1С-Bitrix. Включает: подключение компонентов меню, хлебных крошек, интеграцию с языковыми версиями (RU/EN).</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">CMS-компоненты для редактора</div><div></div>
+              <div class="ep-calc">8 ч</div>
+              <div class="ep-h">8 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Сделать редактируемыми через Bitrix-администратор: текст hero-блока (1 ч) · карточки каталога (2 ч) · блок процесса (1 ч) · кейсы (2 ч) · контакты в footer (1 ч) · параметры trust-bar (1 ч). Цель: контент-менеджер обновляет страницу без программиста.</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">Форма + интеграция</div><div></div>
+              <div class="ep-calc">8 ч</div>
+              <div class="ep-h">8 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Умная CTA-форма с тремя типами запроса (3 ч) · Отправка на email sale@miran-bel.com с шаблоном письма (2 ч) · Настройка GTM-событий: клик на кнопки, отправка формы, скролл до CTA (2 ч) · Антиспам (honeypot) (1 ч). CRM-интеграция — опционально +4 ч.</div>
+            </div>
+          </div>
+          <div class="ep-note">Оценка предполагает работу с существующим Bitrix-сайтом. Если потребуется переход на новую версию шаблона с нуля — добавьте 8–12 ч.</div>
+        </div>
       </div>
 
-      <div class="effort-card">
-        <div class="phase-badge">Фаза 6</div>
-        <h3>Тестирование и запуск</h3>
-        <div class="effort-row"><span class="effort-role">QA тестирование</span><span class="effort-hours">16 ч</span></div>
-        <div class="effort-row"><span class="effort-role">Performance аудит</span><span class="effort-hours">8 ч</span></div>
-        <div class="effort-row"><span class="effort-role">Правки по итогам QA</span><span class="effort-hours">8 ч</span></div>
-        <div class="effort-row"><span class="effort-role">Деплой + мониторинг</span><span class="effort-hours">8 ч</span></div>
-        <div class="effort-total"><span>Итого фаза 6</span><strong>40 ч</strong></div>
+      <!-- Ф6 -->
+      <div class="ep">
+        <div class="ep-head" onclick="this.nextElementSibling.classList.toggle('open')">
+          <div><div class="ep-title">Фаза 6 — QA и запуск</div><div class="ep-subtitle">Тестирование · PageSpeed · деплой</div></div>
+          <div></div>
+          <div class="ep-hours">20 ч</div>
+        </div>
+        <div class="ep-body">
+          <div class="ep-breakdown">
+            <div class="ep-row">
+              <div class="ep-role">QA-тестирование</div><div></div>
+              <div class="ep-calc">6 ч</div>
+              <div class="ep-h">6 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Чек-лист по 5 браузерам (Chrome, Firefox, Safari, Edge, Samsung Browser) × 3 типа устройств (desktop/tablet/mobile) = 15 точек проверки. Функциональная проверка: форма, фильтры, ссылки, анимации, мессенджеры-кнопки (~2 ч) · Визуальная проверка + скриншоты (2 ч) · Проверка доступности: alt-теги, tab-навигация, контраст (2 ч)</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">Performance-аудит и правки</div><div></div>
+              <div class="ep-calc">2+2 ч</div>
+              <div class="ep-h">4 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Прогон через Google PageSpeed Insights и Lighthouse, фиксация проблем (2 ч) · Устранение критичных проблем производительности: defer/async для скриптов, critical CSS, LCP-оптимизация (2 ч). Целевой показатель: PageSpeed Mobile ≥75, Desktop ≥90.</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">Правки по итогам QA</div><div></div>
+              <div class="ep-calc">6 ч</div>
+              <div class="ep-h">6 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Буфер на исправление найденных в QA проблем: верстка, JS, Bitrix. Реальный расход обычно 3–6 ч в зависимости от качества разработки на Ф4–5.</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-role">Деплой и мониторинг</div><div></div>
+              <div class="ep-calc">1+3 ч</div>
+              <div class="ep-h">4 ч</div>
+            </div>
+            <div class="ep-row">
+              <div class="ep-task">Деплой обновлённого шаблона на production-сервер (1 ч) · Мониторинг в течение первых 5 рабочих дней: ошибки в консоли, корректность формы, GTM-события (3 ч пассивно)</div>
+            </div>
+          </div>
+          <div class="ep-note">A/B-тестирование вариантов hero или CTA — не в скоупе. Оценка: +8 ч на настройку через Яндекс.Эксперименты.</div>
+        </div>
       </div>
+
+    </div><!-- /effort-phases -->
+
+    <div class="effort-total-box">
+      <div class="etb-item"><label>Всего часов</label><strong>162</strong><span>по 6 фазам</span></div>
+      <div class="etb-item"><label>Длительность</label><strong>7–8</strong><span>рабочих недель</span></div>
+      <div class="etb-item"><label>Команда</label><strong>4</strong><span>специалиста</span></div>
     </div>
 
-    <h3>Дополнительные работы (опционально)</h3>
-    <br>
-    <table class="req-table">
-      <thead>
-        <tr><th>Работа</th><th>Описание</th><th>Оценка</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Предметная фотосъёмка</td><td>20 позиций продукта, студийная съёмка с реквизитом</td><td>16 ч + расходы студии</td></tr>
-        <tr><td>Видео для Hero</td><td>Производственный ролик 30 сек. или продуктовый рилс</td><td>24–40 ч</td></tr>
-        <tr><td>3D-модель флакона (Spline)</td><td>Интерактивный 3D объект в hero-блоке</td><td>20–32 ч</td></tr>
-        <tr><td>Копирайтинг (все блоки)</td><td>USP, Hero, CTA тексты. SEO-оптимизированные.</td><td>12–16 ч</td></tr>
-        <tr><td>A/B тестирование Hero</td><td>2 варианта CTA. Настройка VWO или Яндекс.Экперименты.</td><td>8 ч</td></tr>
-      </tbody>
-    </table>
+    <div class="note ok">
+      <strong>Сравнение с предыдущей оценкой:</strong> Первая версия (312 ч) включала работы, которые либо не нужны для одной страницы (полный Design System, IA всего сайта), либо были задвоены (адаптив как отдельная фаза при mobile-first разработке), либо рассчитаны на junior-команду (40 ч на 10 блоков верстки). 162 ч — корректная оценка для опытной команды из 4 человек в скоупе «одна страница на существующем Bitrix».
+    </div>
   </div>
 </section>
 
-<!-- SECTION 7: TIMELINE -->
-<section id="timeline">
-  <div class="container">
-    <div class="section-label">07 / Сроки</div>
-    <h2>Предварительный план работ</h2>
-
-    <div class="gantt">
-      <div class="gantt-header">
-        <div class="gantt-header-cell">Задача</div>
-        <div class="gantt-header-cell">Н1</div>
-        <div class="gantt-header-cell">Н2</div>
-        <div class="gantt-header-cell">Н3</div>
-        <div class="gantt-header-cell">Н4</div>
-        <div class="gantt-header-cell">Н5</div>
-        <div class="gantt-header-cell">Н6</div>
-        <div class="gantt-header-cell">Н7</div>
-        <div class="gantt-header-cell">Н8</div>
-        <div class="gantt-header-cell">Н9</div>
-        <div class="gantt-header-cell">Н10</div>
-        <div class="gantt-header-cell">Н11</div>
-        <div class="gantt-header-cell">Н12</div>
-      </div>
-      <!-- Row 1 -->
-      <div class="gantt-row">
-        <div class="gantt-task">Аудит и брифинг</div>
-        <div class="gantt-cell"><div class="gantt-bar gb-1" style="left:2px;right:2px;"><span class="phase-label">Аудит</span></div></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-1" style="left:2px;right:2px;"></div></div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div>
-      </div>
-      <!-- Row 2 -->
-      <div class="gantt-row">
-        <div class="gantt-task">Прототипы (Lo-Fi)</div>
-        <div class="gantt-cell"></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-2" style="left:2px;right:2px;"><span class="phase-label">Прото</span></div></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-2" style="left:2px;right:2px;"></div></div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-        <div class="gantt-cell"></div>
-      </div>
-      <!-- Row 3 -->
-      <div class="gantt-row">
-        <div class="gantt-task">UI-дизайн (Hi-Fi)</div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-3" style="left:2px;right:2px;"><span class="phase-label">UI</span></div></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-3" style="left:2px;right:2px;"></div></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-3" style="left:2px;right:2px;"></div></div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-      </div>
-      <!-- Row 4 -->
-      <div class="gantt-row">
-        <div class="gantt-task">Frontend-разработка</div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-4" style="left:2px;right:2px;"><span class="phase-label">Dev</span></div></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-4" style="left:2px;right:2px;"></div></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-4" style="left:2px;right:2px;"></div></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-4" style="left:2px;right:2px;"></div></div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-      </div>
-      <!-- Row 5 -->
-      <div class="gantt-row">
-        <div class="gantt-task">Bitrix-интеграция</div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-1" style="left:2px;right:2px;"><span class="phase-label">CMS</span></div></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-1" style="left:2px;right:2px;"></div></div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-      </div>
-      <!-- Row 6 -->
-      <div class="gantt-row">
-        <div class="gantt-task">QA + Запуск</div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-        <div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div><div class="gantt-cell"></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-5" style="left:2px;right:2px;"><span class="phase-label">QA</span></div></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-5" style="left:2px;right:2px;"></div></div>
-        <div class="gantt-cell"><div class="gantt-bar gb-5" style="left:2px;right:2px;"></div></div>
-      </div>
-    </div>
-
-    <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:12px;">
-      <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:8px;border-radius:2px;background:linear-gradient(90deg,#c8a96e,#d4b87a);display:inline-block;"></span>Аналитика / CMS</span>
-      <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:8px;border-radius:2px;background:linear-gradient(90deg,#2d5a3d,#3a6e4a);display:inline-block;"></span>Прототипирование</span>
-      <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:8px;border-radius:2px;background:linear-gradient(90deg,#1a6b8a,#2280a8);display:inline-block;"></span>UI-дизайн</span>
-      <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:8px;border-radius:2px;background:linear-gradient(90deg,#7a3a7a,#9a4a9a);display:inline-block;"></span>Разработка</span>
-      <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:8px;border-radius:2px;background:linear-gradient(90deg,#c0392b,#d44b3d);display:inline-block;"></span>QA и запуск</span>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 8: COMMERCIAL -->
-<section id="commercial">
-  <div class="container">
-    <div class="section-label">08 / Коммерческое предложение</div>
-    <h2>Коммерческое предложение</h2>
+<!-- ══ KP ══ -->
+<section id="kp">
+  <div class="wrap">
+    <div class="slabel">06 / Коммерческое предложение</div>
+    <h2>Пересмотренное коммерческое предложение</h2>
 
     <div class="commercial">
-      <div class="commercial-header">
+      <div class="co-head">
         <div>
-          <div class="co-logo">
-            [Название студии]
-            <span>Веб-дизайн и разработка</span>
-          </div>
+          <div class="co-logo-mark">[Студия]</div>
+          <div class="co-logo-sub">Веб-дизайн и разработка</div>
         </div>
         <div class="co-meta">
-          <strong>КП № 2026-MIRAN-01</strong><br>
+          <strong>КП № 2026-MIRAN-02</strong><br>
           Дата: Май 2026<br>
           Действительно до: 30 июня 2026<br>
-          Заказчик: ООО «МИРАН»
+          Заказчик: ООО «МИРАН», г. Жодино
         </div>
       </div>
 
-      <div class="commercial-body">
-        <div class="co-h2">Редизайн главной страницы miran-bel.com</div>
-        <p class="co-intro">
-          Предлагаем полный цикл работ по редизайну главной страницы корпоративного сайта: от аудита и прототипов до запуска и технической поддержки. Стоимость указана без НДС в USD по курсу НБ РБ на дату выставления счёта.
-        </p>
+      <div class="co-body">
+        <div class="co-h">Редизайн главной страницы miran-bel.com</div>
+        <p class="co-lead">Полный цикл работ по редизайну главной страницы корпоративного сайта: UX-аудит, прототипирование, UI-дизайн, вёрстка, интеграция в 1С-Bitrix, QA и запуск. Скоуп — главная страница, не весь сайт.</p>
 
-        <table class="pricing-table">
+        <table class="ptable">
           <thead>
             <tr>
-              <th>#</th>
               <th>Работа</th>
-              <th>Объём (ч)</th>
-              <th>Ставка (USD/ч)</th>
-              <th>Стоимость (USD)</th>
+              <th>Часы</th>
+              <th>Ставка</th>
+              <th>Сумма</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>1</td>
               <td>
-                <strong>Аудит и аналитика</strong><br>
-                <span style="font-size:12px;color:var(--muted);">UX-аудит текущего сайта, анализ метрик, брифинг, ТЗ финальное</span>
+                Аудит и аналитика
+                <small>UX-аудит главной, анализ Яндекс.Метрики, конкурентный анализ, брифинг, финальное ТЗ</small>
               </td>
-              <td>40</td>
-              <td>45</td>
-              <td class="price-cell">$1 800</td>
+              <td class="hrs">16 ч</td>
+              <td class="rate">$40/ч</td>
+              <td class="price">$640</td>
             </tr>
             <tr>
-              <td>2</td>
               <td>
-                <strong>Прототипирование (Lo-Fi + Hi-Fi)</strong><br>
-                <span style="font-size:12px;color:var(--muted);">Wireframes в Figma, User Flow, архитектура блоков, 2 итерации правок</span>
+                Прототипирование (Lo-Fi)
+                <small>Wireframes в Figma, User Flow для 4 персон, архитектура блоков, 1 итерация правок</small>
               </td>
-              <td>32</td>
-              <td>55</td>
-              <td class="price-cell">$1 760</td>
+              <td class="hrs">10 ч</td>
+              <td class="rate">$45/ч</td>
+              <td class="price">$450</td>
             </tr>
             <tr>
-              <td>3</td>
               <td>
-                <strong>UI-дизайн главной страницы</strong><br>
-                <span style="font-size:12px;color:var(--muted);">Desktop + Mobile (375, 768, 1440px), Design System, 3 итерации правок</span>
+                UI-дизайн главной страницы
+                <small>Hi-Fi макеты Desktop + Mobile (375/768/1440px), базовые компоненты, 2 итерации правок</small>
               </td>
-              <td>68</td>
-              <td>60</td>
-              <td class="price-cell">$4 080</td>
+              <td class="hrs">43 ч</td>
+              <td class="rate">$50/ч</td>
+              <td class="price">$2 150</td>
             </tr>
             <tr>
-              <td>4</td>
               <td>
-                <strong>Frontend-разработка</strong><br>
-                <span style="font-size:12px;color:var(--muted);">HTML/CSS/JS, анимации, адаптив, оптимизация изображений, форма</span>
+                Frontend-разработка
+                <small>HTML/CSS mobile-first, JS (фильтры, анимации, форма), кроссбраузерная полировка, оптимизация изображений</small>
               </td>
-              <td>84</td>
-              <td>55</td>
-              <td class="price-cell">$4 620</td>
+              <td class="hrs">45 ч</td>
+              <td class="rate">$50/ч</td>
+              <td class="price">$2 250</td>
             </tr>
             <tr>
-              <td>5</td>
               <td>
-                <strong>Интеграция в 1С-Bitrix</strong><br>
-                <span style="font-size:12px;color:var(--muted);">Перенос шаблона, CMS-компоненты, форма в CRM, GTM-события</span>
+                Интеграция в 1С-Bitrix
+                <small>Перенос шаблона в существующий Bitrix, CMS-компоненты для 6 редактируемых блоков, форма + email + GTM-события</small>
               </td>
-              <td>48</td>
-              <td>65</td>
-              <td class="price-cell">$3 120</td>
+              <td class="hrs">28 ч</td>
+              <td class="rate">$55/ч</td>
+              <td class="price">$1 540</td>
             </tr>
             <tr>
-              <td>6</td>
               <td>
-                <strong>QA, производительность и запуск</strong><br>
-                <span style="font-size:12px;color:var(--muted);">Тестирование, PageSpeed-оптимизация, деплой, мониторинг 2 нед.</span>
+                QA, производительность, запуск
+                <small>Тестирование 5 браузеров / 3 устройства, PageSpeed-оптимизация (цель ≥75 Mobile), деплой, мониторинг 5 дней</small>
               </td>
-              <td>40</td>
-              <td>45</td>
-              <td class="price-cell">$1 800</td>
+              <td class="hrs">20 ч</td>
+              <td class="rate">$40/ч</td>
+              <td class="price">$800</td>
             </tr>
-            <tr style="background:#fafaf8;">
-              <td colspan="2"><strong>Опционально: 3D-объект флакона для Hero (Spline)</strong><br><span style="font-size:12px;color:var(--muted);">Интерактивная 3D-модель, веб-экспорт, интеграция</span></td>
-              <td>28</td>
-              <td>70</td>
-              <td class="price-cell" style="color:var(--muted);">$1 960 <span style="font-size:11px;">(опция)</span></td>
+            <tr style="background:#fafaf7">
+              <td>
+                <span style="color:var(--muted);font-weight:400">Опция: CRM-интеграция формы</span>
+                <small style="color:var(--muted)">Подключение формы к AmoCRM или Bitrix24 CRM</small>
+              </td>
+              <td class="hrs" style="color:var(--muted)">4 ч</td>
+              <td class="rate" style="color:var(--muted)">$55/ч</td>
+              <td class="price" style="color:var(--muted)">$220</td>
             </tr>
-            <tr style="background:#fafaf8;">
-              <td colspan="2"><strong>Опционально: Копирайтинг (SEO + UX-тексты)</strong><br><span style="font-size:12px;color:var(--muted);">Hero, USP, CTA, Trust Bar — все блоки главной страницы</span></td>
-              <td>14</td>
-              <td>50</td>
-              <td class="price-cell" style="color:var(--muted);">$700 <span style="font-size:11px;">(опция)</span></td>
+            <tr style="background:#fafaf7">
+              <td>
+                <span style="color:var(--muted);font-weight:400">Опция: Копирайтинг всех блоков</span>
+                <small style="color:var(--muted)">Hero, USP, Trust Bar, CTA — SEO-оптимизированные тексты</small>
+              </td>
+              <td class="hrs" style="color:var(--muted)">14 ч</td>
+              <td class="rate" style="color:var(--muted)">$40/ч</td>
+              <td class="price" style="color:var(--muted)">$560</td>
             </tr>
           </tbody>
         </table>
 
         <div class="co-total-row">
-          <span class="co-total-label">Базовый объём работ (без опций)</span>
-          <span class="co-total-price">$17 180</span>
+          <span class="co-total-lbl">Базовый пакет (без опций)</span>
+          <span class="co-total-price">$7 830</span>
         </div>
-        <div style="display:flex;justify-content:flex-end;gap:40px;align-items:baseline;padding-bottom:16px;border-bottom:1px solid var(--border);">
-          <span style="font-size:13px;color:var(--muted);">Полный пакет (с 3D + копирайтингом)</span>
-          <span style="font-family:'Playfair Display',serif;font-size:22px;color:var(--accent);">$19 840</span>
+        <div style="display:flex;justify-content:flex-end;align-items:baseline;gap:32px;padding-bottom:20px;border-bottom:1px solid var(--bdr)">
+          <span style="font-size:13px;color:var(--muted)">Полный пакет (с CRM + копирайтингом)</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold)">$8 610</span>
         </div>
 
         <div class="co-notes">
-          <strong>Примечания к стоимости:</strong><br>
-          • Стоимость не включает: предметную фотосъёмку продукции, производство видеоролика, лицензии на шрифты (если коммерческие), хостинг.<br>
-          • Расчёт в USD. Оплата в BYN или RUB по курсу НБ на дату выставления счёта.<br>
-          • Схема оплаты: 40% аванс → 30% после согласования макетов → 30% после запуска.<br>
-          • В стоимость включены: 2 итерации правок на этапе прототипов и 3 — на этапе UI-дизайна.<br>
-          • Дополнительные правки сверх лимита — по ставке $55/ч.
+          <strong>Не входит в стоимость:</strong> Предметная фотосъёмка продукции · Производство видеоролика для Hero · Коммерческие лицензии на шрифты · Хостинг и домен.<br><br>
+          <strong>Схема оплаты:</strong> 40% аванс при старте → 30% после утверждения UI-макетов заказчиком → 30% после запуска.<br><br>
+          <strong>Лимит правок:</strong> 1 итерация на прототипах, 2 итерации на UI-макетах включены в стоимость. Дополнительные правки — $45/ч.<br><br>
+          <strong>Валюта:</strong> USD. Оплата в BYN или RUB по курсу НБ на дату выставления счёта.
         </div>
 
         <div class="co-terms">
-          <div class="co-term">
-            <strong>Сроки</strong>
-            10 рабочих недель с момента получения аванса и брифинговых материалов
-          </div>
-          <div class="co-term">
-            <strong>Гарантия</strong>
-            3 месяца технической поддержки после запуска (исправление ошибок)
-          </div>
-          <div class="co-term">
-            <strong>Права</strong>
-            Исключительные права на все разработанные материалы передаются Заказчику после полной оплаты
-          </div>
+          <div class="co-term"><strong>Сроки</strong>7–8 рабочих недель с момента получения аванса и подписанного ТЗ</div>
+          <div class="co-term"><strong>Гарантия</strong>2 месяца бесплатных исправлений ошибок после запуска</div>
+          <div class="co-term"><strong>Права</strong>Исключительные права передаются заказчику после полной оплаты</div>
         </div>
       </div>
 
-      <div class="co-footer">
-        <div>
-          <div>Документ сформирован на основе анализа сайта miran-bel.com</div>
-          <div style="margin-top:4px;">Оценка предварительная — уточняется после брифинга с командой МИРАН</div>
-        </div>
-        <div class="co-signature">
+      <div class="co-foot">
+        <span>Расчёт составлен для скоупа: редизайн главной страницы miran-bel.com (одна страница на существующем 1С-Bitrix). Уточняется после брифинга.</span>
+        <div class="co-sig">
           <div class="co-sig-line"></div>
-          <div>Руководитель проекта</div>
-          <div style="color:#bbb;">________________ / ФИО</div>
+          <span>Руководитель проекта</span>
+          <span style="color:#bbb">_______________ / ФИО</span>
         </div>
       </div>
     </div>
@@ -2012,28 +1608,57 @@
   </div>
 </section>
 
-<!-- FOOTER NAV -->
-<div style="background:var(--ink);color:#888;padding:24px 32px;display:flex;justify-content:space-between;align-items:center;font-size:12px;flex-wrap:wrap;gap:12px;">
-  <span>ТЗ Редизайн miran-bel.com · Версия 1.0 · Май 2026</span>
-  <span>Составлено на основе автоматического аудита сайта</span>
+<div style="background:var(--ink);color:#444;padding:18px 44px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:10px;flex-wrap:wrap;gap:8px">
+  <span>МИРАН · ТЗ Редизайн Финал · Май 2026</span>
+  <span>162 ч · $7 830 базовый · 7–8 нед.</span>
 </div>
 
 <script>
-function showTab(name) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  event.currentTarget.classList.add('active');
-}
+// Accordion для фаз
+document.querySelectorAll('.ep-head').forEach(head => {
+  head.style.cursor = 'pointer';
+  head.addEventListener('click', () => {
+    const body = head.nextElementSibling;
+    body.classList.toggle('open');
+    head.style.background = body.classList.contains('open') ? '#f5f2ec' : '';
+  });
+});
 
-// Smooth scroll for nav links
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-  link.addEventListener('click', e => {
-    const target = document.querySelector(link.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+// Sticky nav active state
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.snav a');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.style.borderBottomColor = '');
+      const active = document.querySelector(`.snav a[href="#${e.target.id}"]`);
+      if (active) { active.style.color = '#fff'; active.style.borderBottomColor = '#c4a05a'; }
     }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => obs.observe(s));
+
+// Selector chips in render
+document.querySelectorAll('.r-sel-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    chip.closest('.r-selector').querySelectorAll('.r-sel-chip').forEach(c => c.classList.remove('on'));
+    chip.classList.add('on');
+  });
+});
+
+// CTA type selector
+document.querySelectorAll('.r-req-type').forEach(type => {
+  type.addEventListener('click', () => {
+    type.closest('.r-req-types').querySelectorAll('.r-req-type').forEach(t => t.classList.remove('on'));
+    type.classList.add('on');
+  });
+});
+
+// Filters
+document.querySelectorAll('.r-filters .r-filter').forEach(f => {
+  f.addEventListener('click', () => {
+    f.closest('.r-filters').querySelectorAll('.r-filter').forEach(x => x.classList.remove('on'));
+    f.classList.add('on');
   });
 });
 </script>
