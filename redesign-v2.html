@@ -1,0 +1,365 @@
+<title>МИРАН — Surface Atelier</title>
+<style>
+  :root{
+    --ink:#0c0c0e;
+    --paper:#ecebe6;
+    --ground:#0c0c0e;          /* page ground (dark world) */
+    --surface:#141416;
+    --text:#ecebe6;
+    --text-dim:#9b9a93;
+    --faint:#5f5e58;
+    --line:#26262a;
+    --champ:#c39a55;           /* champagne metallic */
+    --champ-hi:#e9d4a4;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,monospace;
+    --sans:"Helvetica Neue",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+    --serif:"Times New Roman",Georgia,"Iowan Old Style",serif;
+  }
+  :root[data-theme="light"]{
+    --ground:#ecebe6;--surface:#f4f3ef;--text:#111113;--text-dim:#54534d;
+    --faint:#8f8e86;--line:#dcdad3;--champ:#9a7328;--champ-hi:#b98f3e;
+  }
+  :root[data-theme="dark"]{
+    --ground:#0c0c0e;--surface:#141416;--text:#ecebe6;--text-dim:#9b9a93;
+    --faint:#5f5e58;--line:#26262a;--champ:#c39a55;--champ-hi:#e9d4a4;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--ground);color:var(--text);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .5s,color .5s;}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+  ::selection{background:var(--champ);color:var(--ink);}
+
+  .edge{padding-left:clamp(20px,5vw,80px);padding-right:clamp(20px,5vw,80px);}
+
+  /* ---------- top rail ---------- */
+  .rail{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;
+    gap:20px;padding:22px clamp(20px,5vw,80px);mix-blend-mode:difference;color:#fff;}
+  .rail .m{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#fff;text-decoration:none;}
+  .rail .brand{font-weight:800;letter-spacing:.34em;font-size:15px;}
+  .rail nav{margin-left:auto;display:flex;gap:26px;}
+  .rail .tgl{margin-left:8px;cursor:pointer;background:none;border:none;color:#fff;
+    font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;}
+  @media(max-width:760px){.rail nav{display:none;}}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;height:100svh;min-height:640px;overflow:hidden;}
+  #surface{position:absolute;inset:0;width:100%;height:100%;display:block;}
+  .hero-veil{position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(12,12,14,.25),transparent 30%,rgba(12,12,14,.55));}
+  :root[data-theme="light"] .hero-veil{background:linear-gradient(180deg,rgba(236,235,230,.2),transparent 34%,rgba(236,235,230,.5));}
+  .hero-in{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;
+    padding-bottom:clamp(40px,7vh,88px);}
+  .sidelabel{position:absolute;top:50%;right:clamp(20px,5vw,80px);transform:translateY(-50%) rotate(90deg);
+    transform-origin:right center;font-family:var(--mono);font-size:11px;letter-spacing:.34em;
+    text-transform:uppercase;color:var(--text-dim);}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--champ);margin:0 0 clamp(14px,2.4vh,26px);
+    opacity:0;transform:translateY(14px);animation:rise .9s .1s forwards;}
+  .htitle{font-size:clamp(44px,8.6vw,132px);line-height:.92;letter-spacing:-.035em;margin:0;
+    font-weight:800;max-width:14ch;}
+  .htitle span{display:block;overflow:hidden;}
+  .htitle span > i{display:block;font-style:normal;transform:translateY(105%);
+    animation:reveal 1s cubic-bezier(.16,1,.3,1) forwards;}
+  .htitle span:nth-child(1) i{animation-delay:.16s;}
+  .htitle span:nth-child(2) i{animation-delay:.28s;}
+  .htitle span:nth-child(3) i{animation-delay:.40s;}
+  .htitle em{font-style:italic;font-family:var(--serif);font-weight:400;
+    letter-spacing:-.01em;color:var(--champ-hi);}
+  .hsub{margin:clamp(20px,3vh,34px) 0 0;max-width:46ch;font-size:clamp(15px,1.4vw,18px);
+    color:var(--text-dim);line-height:1.55;opacity:0;animation:rise .9s .7s forwards;}
+  .hmeta{position:absolute;left:clamp(20px,5vw,80px);top:96px;font-family:var(--mono);
+    font-size:11px;letter-spacing:.06em;color:var(--text-dim);line-height:1.9;}
+  .scrollhint{position:absolute;bottom:26px;right:clamp(20px,5vw,80px);font-family:var(--mono);
+    font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);
+    display:flex;align-items:center;gap:10px;}
+  .scrollhint::after{content:"";width:40px;height:1px;background:var(--faint);
+    animation:swipe 2.4s ease-in-out infinite;}
+
+  @keyframes reveal{to{transform:translateY(0);}}
+  @keyframes rise{to{opacity:1;transform:translateY(0);}}
+  @keyframes swipe{0%,100%{transform:scaleX(.3);opacity:.4;transform-origin:left;}50%{transform:scaleX(1);opacity:1;transform-origin:left;}}
+
+  /* ---------- positioning / manifesto ---------- */
+  .manifesto{padding:clamp(90px,16vh,190px) 0;border-top:1px solid var(--line);}
+  .mf-grid{display:grid;grid-template-columns:0.9fr 2.1fr;gap:clamp(30px,6vw,90px);}
+  .mf-idx{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--faint);}
+  .mf-idx b{color:var(--champ);display:block;margin-bottom:8px;}
+  .mf-body{font-family:var(--serif);font-size:clamp(24px,3.4vw,44px);line-height:1.32;
+    letter-spacing:-.01em;margin:0;text-wrap:balance;}
+  .mf-body b{font-family:var(--sans);font-weight:800;font-style:normal;}
+  .mf-body em{font-style:italic;color:var(--champ);}
+
+  /* ---------- scale statement (giant numerals in prose) ---------- */
+  .scale{padding:clamp(60px,10vh,120px) 0;border-top:1px solid var(--line);}
+  .scale p{font-size:clamp(20px,2.4vw,30px);line-height:1.5;max-width:24ch;margin:0;
+    color:var(--text-dim);font-weight:500;}
+  .scale .big{font-size:clamp(64px,13vw,190px);line-height:.82;letter-spacing:-.05em;
+    color:var(--text);font-weight:800;font-variant-numeric:tabular-nums;display:inline-block;
+    vertical-align:baseline;}
+  .scale .big em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--champ);}
+  .scale-rows{display:flex;flex-direction:column;gap:clamp(28px,5vh,56px);}
+  .scale-row{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,4vw,64px);align-items:center;
+    padding-bottom:clamp(28px,5vh,56px);border-bottom:1px solid var(--line);}
+  .scale-row:last-child{border-bottom:none;padding-bottom:0;}
+
+  /* ---------- product filmstrip ---------- */
+  .strip-h{display:flex;align-items:baseline;gap:20px;padding:clamp(50px,8vh,90px) clamp(20px,5vw,80px) 30px;
+    border-top:1px solid var(--line);}
+  .strip-h h2{font-size:clamp(22px,2.6vw,34px);letter-spacing:-.02em;margin:0;font-weight:700;}
+  .strip-h .c{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.1em;}
+  .film{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;
+    padding:0 clamp(20px,5vw,80px) clamp(50px,8vh,90px);scrollbar-width:none;}
+  .film::-webkit-scrollbar{display:none;}
+  .fcard{scroll-snap-align:start;flex:0 0 clamp(280px,34vw,440px);height:clamp(400px,56vh,560px);
+    border-radius:4px;position:relative;overflow:hidden;border:1px solid var(--line);
+    display:flex;flex-direction:column;justify-content:flex-end;padding:26px;isolation:isolate;
+    text-decoration:none;color:var(--text);}
+  .fcard .bg{position:absolute;inset:0;z-index:-2;transition:transform 1.1s cubic-bezier(.16,1,.3,1);}
+  .fcard:hover .bg{transform:scale(1.05);}
+  .fcard::after{content:"";position:absolute;inset:0;z-index:-1;
+    background:linear-gradient(180deg,transparent 45%,rgba(8,8,10,.82));}
+  .f1 .bg{background:radial-gradient(120% 90% at 30% 20%,#3a4a52,#0e1417);}
+  .f2 .bg{background:radial-gradient(120% 90% at 30% 20%,#5a4a3a,#171009);}
+  .f3 .bg{background:radial-gradient(120% 90% at 30% 20%,#4a4a50,#0e0e12);}
+  .f4 .bg{background:radial-gradient(120% 90% at 30% 20%,#3d4a3d,#0d130d);}
+  .fcard .fno{position:absolute;top:24px;left:26px;font-family:var(--mono);font-size:11px;
+    letter-spacing:.14em;color:rgba(255,255,255,.6);}
+  .fcard .ft{font-size:clamp(22px,2.4vw,30px);font-weight:700;letter-spacing:-.02em;color:#fff;}
+  .fcard .fs{font-family:var(--mono);font-size:11.5px;color:rgba(255,255,255,.72);
+    letter-spacing:.06em;margin-top:8px;}
+  .fcard .fgo{margin-top:16px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--champ-hi);display:inline-flex;gap:8px;}
+
+  /* ---------- decoration material study ---------- */
+  .deco{padding:clamp(70px,12vh,150px) 0;border-top:1px solid var(--line);}
+  .deco-head{max-width:60ch;margin-bottom:clamp(40px,7vh,70px);}
+  .deco-head .k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--champ);}
+  .deco-head h2{font-size:clamp(28px,4vw,52px);letter-spacing:-.025em;margin:16px 0 14px;font-weight:800;text-wrap:balance;}
+  .deco-head p{color:var(--text-dim);font-size:clamp(15px,1.4vw,18px);max-width:52ch;margin:0;}
+  .samples{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line);
+    border:1px solid var(--line);border-radius:6px;overflow:hidden;}
+  .smp{position:relative;aspect-ratio:3/4;padding:20px;display:flex;flex-direction:column;
+    justify-content:space-between;overflow:hidden;color:#fff;}
+  .smp .sh{position:absolute;inset:0;z-index:0;}
+  .smp > *{position:relative;z-index:1;}
+  .smp .sn{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:rgba(255,255,255,.65);}
+  .smp .st{font-size:15px;font-weight:600;}
+  .smp .sd{font-family:var(--mono);font-size:10.5px;color:rgba(255,255,255,.7);margin-top:4px;letter-spacing:.04em;}
+  .s1 .sh{background:linear-gradient(135deg,#cbb79b 0%,#8a7358 60%,#6d5842 100%);}
+  .s2 .sh{background:linear-gradient(120deg,#e9e9ec,#b4b4bc 40%,#f4f4f6 62%,#7f7f88);}   /* metallic */
+  .s3 .sh{background:linear-gradient(135deg,#96a68f,#576b52);}
+  .s4 .sh{background:linear-gradient(135deg,#1b1b1f,#0a0a0c);}
+  .s5 .sh{background:linear-gradient(120deg,#f0d9b0,#c39a55 45%,#8a6428);}                /* foil */
+  .s6 .sh{background:linear-gradient(135deg,#aec2ce,#5f7b88);}
+  .s7 .sh{background:linear-gradient(135deg,#d7d3cc,#a49f95);}
+  .s8 .sh{background:linear-gradient(120deg,#2a2a30,#c39a55 130%);}
+  .smp.s2 .sn,.smp.s2 .st,.smp.s2 .sd,.smp.s7 .sn,.smp.s7 .st,.smp.s7 .sd{color:#1a1a1c;}
+  .smp.s2 .sn,.smp.s2 .sd,.smp.s7 .sn,.smp.s7 .sd{color:rgba(20,20,22,.7);}
+
+  /* ---------- contact ---------- */
+  .contact{padding:clamp(80px,14vh,180px) 0 clamp(60px,10vh,120px);border-top:1px solid var(--line);}
+  .contact h2{font-size:clamp(34px,6vw,88px);letter-spacing:-.035em;line-height:.98;margin:0 0 clamp(30px,5vh,50px);font-weight:800;max-width:16ch;text-wrap:balance;}
+  .contact h2 em{font-style:italic;font-family:var(--serif);font-weight:400;color:var(--champ);}
+  .cbtns{display:flex;gap:14px;flex-wrap:wrap;}
+  .cbtn{font-family:var(--sans);font-size:14px;font-weight:600;text-decoration:none;
+    padding:16px 28px;border-radius:999px;display:inline-flex;gap:10px;align-items:center;}
+  .cbtn.p{background:var(--champ);color:var(--ink);}
+  .cbtn.s{border:1px solid var(--line);color:var(--text);}
+  .cmeta{margin-top:clamp(50px,9vh,90px);display:flex;gap:clamp(30px,6vw,80px);flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--text-dim);letter-spacing:.03em;line-height:1.9;}
+  .cmeta b{color:var(--text);display:block;font-weight:600;margin-bottom:6px;letter-spacing:.1em;text-transform:uppercase;font-size:10px;color:var(--faint);}
+
+  footer{padding:26px clamp(20px,5vw,80px);border-top:1px solid var(--line);
+    display:flex;gap:20px;flex-wrap:wrap;align-items:center;font-family:var(--mono);
+    font-size:11px;color:var(--faint);letter-spacing:.06em;}
+  footer .brand{letter-spacing:.3em;color:var(--text-dim);font-family:var(--sans);font-weight:800;font-size:13px;}
+
+  @media(max-width:820px){
+    .mf-grid{grid-template-columns:1fr;gap:24px;}
+    .samples{grid-template-columns:repeat(2,1fr);}
+    .scale-row{grid-template-columns:1fr;gap:8px;}
+  }
+</style>
+
+<div class="rail edge" style="padding-top:22px;padding-bottom:22px">
+  <a class="brand m" href="#" style="letter-spacing:.34em">МИРАН</a>
+  <nav>
+    <a class="m" href="#material">Материал</a>
+    <a class="m" href="#products">Продукт</a>
+    <a class="m" href="#decor">Декор</a>
+    <a class="m" href="#contact">Контакт</a>
+  </nav>
+  <button class="tgl" onclick="toggleTheme()">◐ Свет</button>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="surface"></canvas>
+  <div class="hero-veil"></div>
+  <div class="sidelabel">Polymer · Surface · Decoration</div>
+  <div class="hmeta">Est. 1988<br>Zhodino · BY<br>15+ markets</div>
+  <div class="hero-in edge">
+    <p class="kicker">Производство косметической упаковки</p>
+    <h1 class="htitle">
+      <span><i>Поверхность —</i></span>
+      <span><i>это <em>продукт.</em></i></span>
+    </h1>
+    <p class="hsub">Мы не поставляем тару. Мы производим поверхность, декор и форму, на которых бренды строят своё присутствие на полке — в промышленном масштабе и с контролем каждой партии.</p>
+  </div>
+  <div class="scrollhint">Листайте</div>
+</section>
+
+<!-- MANIFESTO / POSITIONING -->
+<section class="manifesto edge" id="material">
+  <div class="mf-grid">
+    <div class="mf-idx"><b>01 — Позиция</b>Материаловедческий<br>дом упаковки</div>
+    <p class="mf-body">Косметика продаётся прикосновением. <b>Матовость, вес, блик, тиснение</b> решают за долю секунды у полки — до состава и цены. МИРАН владеет <em>полимером и его поверхностью</em> как отдельной дисциплиной: 38 лет, 380+ форм, 30+ технологий декора под одной крышей.</p>
+  </div>
+</section>
+
+<!-- SCALE -->
+<section class="scale edge">
+  <div class="scale-rows">
+    <div class="scale-row">
+      <div class="big">380<em>K</em></div>
+      <p>флаконов с декором и собственной формой — за пять недель, без единого срыва срока.</p>
+    </div>
+    <div class="scale-row">
+      <div class="big">80<em>%</em></div>
+      <p>продукции уходит с декорированием. Это не опция — это ядро компетенции.</p>
+    </div>
+    <div class="scale-row">
+      <div class="big">15<em>+</em></div>
+      <p>рынков поставки при стабильном качестве по ISO 9001 на каждой партии.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS FILMSTRIP -->
+<div id="products">
+  <div class="strip-h">
+    <h2>Форматы</h2>
+    <span class="c">01 — 04 · тяните вбок →</span>
+  </div>
+  <div class="film edge" style="padding-left:clamp(20px,5vw,80px)">
+    <a class="fcard f1" href="#"><div class="bg"></div><span class="fno">01</span>
+      <div><div class="ft">Флаконы PP / PE</div><div class="fs">50 — 1000 мл · от 20 000 шт.</div>
+      <span class="fgo">Смотреть →</span></div></a>
+    <a class="fcard f2" href="#"><div class="bg"></div><span class="fno">02</span>
+      <div><div class="ft">Баночки</div><div class="fs">50 — 500 мл · от 10 000 шт.</div>
+      <span class="fgo">Смотреть →</span></div></a>
+    <a class="fcard f3" href="#"><div class="bg"></div><span class="fno">03</span>
+      <div><div class="ft">Колпачки и дозаторы</div><div class="fs">систем·helix · от 50 000 шт.</div>
+      <span class="fgo">Смотреть →</span></div></a>
+    <a class="fcard f4" href="#"><div class="bg"></div><span class="fno">04</span>
+      <div><div class="ft">Эксклюзивная форма</div><div class="fs">своя пресс-форма · под бренд</div>
+      <span class="fgo">Обсудить →</span></div></a>
+  </div>
+</div>
+
+<!-- DECORATION -->
+<section class="deco edge" id="decor">
+  <div class="deco-head">
+    <span class="k">02 — Декор</span>
+    <h2>Каталог поверхностей</h2>
+    <p>Восемь базовых технологий, свободно комбинируемых в одной SKU. То, за чем бренды возвращаются к нам, а не к соседу по полке.</p>
+  </div>
+  <div class="samples">
+    <div class="smp s1"><div class="sh"></div><div class="sn">A—01</div><div><div class="st">Soft-touch</div><div class="sd">MATTE · TACTILE</div></div></div>
+    <div class="smp s2"><div class="sh"></div><div class="sn">A—02</div><div><div class="st">Металлизация</div><div class="sd">VACUUM METALLIZING</div></div></div>
+    <div class="smp s3"><div class="sh"></div><div class="sn">A—03</div><div><div class="st">Тон в массе</div><div class="sd">IN-MASS COLOR</div></div></div>
+    <div class="smp s4"><div class="sh"></div><div class="sn">A—04</div><div><div class="st">Глубокий графит</div><div class="sd">HIGH-GLOSS</div></div></div>
+    <div class="smp s5"><div class="sh"></div><div class="sn">A—05</div><div><div class="st">Горячее тиснение</div><div class="sd">HOT-STAMP FOIL</div></div></div>
+    <div class="smp s6"><div class="sh"></div><div class="sn">A—06</div><div><div class="st">Ледяная эмаль</div><div class="sd">FROST COAT</div></div></div>
+    <div class="smp s7"><div class="sh"></div><div class="sn">A—07</div><div><div class="st">Перламутр</div><div class="sd">PEARL PIGMENT</div></div></div>
+    <div class="smp s8"><div class="sh"></div><div class="sn">A—08</div><div><div class="st">Шелкография 6C</div><div class="sd">SILKSCREEN · 6 COLOR</div></div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact edge" id="contact">
+  <h2>Начнём с <em>образца.</em><br>Не с презентации.</h2>
+  <div class="cbtns">
+    <a class="cbtn p" href="#">Запросить образцы →</a>
+    <a class="cbtn s" href="#">Техническая консультация</a>
+  </div>
+  <div class="cmeta">
+    <div><b>Производство</b>г. Жодино, Беларусь<br>Собственная площадка с 1988</div>
+    <div><b>Экспорт</b>15+ рынков<br>ISO 9001 · сертификаты по запросу</div>
+    <div><b>Связь</b>sales@miran-bel.com<br>+375 · пн–пт 9:00–18:00</div>
+  </div>
+</section>
+
+<footer>
+  <span class="brand">МИРАН</span>
+  <span>Surface · Decoration · Form</span>
+  <span style="margin-left:auto">© 2026 · Прототип редизайна главной</span>
+</footer>
+
+<script>
+  function toggleTheme(){
+    const r=document.documentElement;
+    const cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    r.setAttribute('data-theme',cur==='dark'?'light':'dark');
+  }
+
+  // ---- kinetic polymer surface ----
+  const cv=document.getElementById('surface');
+  const ctx=cv.getContext('2d');
+  let W,H,dpr,t=0,raf;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  function resize(){
+    dpr=Math.min(devicePixelRatio||1,2);
+    W=cv.clientWidth;H=cv.clientHeight;
+    cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener('resize',resize);resize();
+
+  function hexToRgb(h){h=h.replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');
+    return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+
+  function draw(){
+    const dark=(document.documentElement.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))!=='light';
+    const base = dark ? [12,12,14] : [232,231,226];
+    const champ = hexToRgb(css('--champ')||'#c39a55');
+    // base fill
+    ctx.fillStyle=`rgb(${base[0]},${base[1]},${base[2]})`;
+    ctx.fillRect(0,0,W,H);
+    // drifting metallic sheen bands
+    const bands=5;
+    for(let i=0;i<bands;i++){
+      const phase=t*0.00016*(1+i*0.22)+i*1.7;
+      const cx=W*(0.5+0.42*Math.sin(phase));
+      const cy=H*(0.5+0.4*Math.cos(phase*0.8+i));
+      const rad=Math.max(W,H)*(0.5+0.18*Math.sin(phase*1.3));
+      const g=ctx.createRadialGradient(cx,cy,0,cx,cy,rad);
+      const a=dark?0.16:0.12;
+      const mix=i%2===0
+        ? [champ[0],champ[1],champ[2]]
+        : (dark?[120,140,150]:[255,255,255]);
+      g.addColorStop(0,`rgba(${mix[0]},${mix[1]},${mix[2]},${a})`);
+      g.addColorStop(1,`rgba(${mix[0]},${mix[1]},${mix[2]},0)`);
+      ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    }
+    // fine diagonal metallic streak (the "flow" over frosted polymer)
+    const sx=(t*0.03)%(W+600)-300;
+    const sg=ctx.createLinearGradient(sx-260,0,sx+260,H);
+    sg.addColorStop(0,`rgba(${champ[0]},${champ[1]},${champ[2]},0)`);
+    sg.addColorStop(0.5,`rgba(${champ[0]},${champ[1]},${champ[2]},${dark?0.10:0.07})`);
+    sg.addColorStop(1,`rgba(${champ[0]},${champ[1]},${champ[2]},0)`);
+    ctx.fillStyle=sg;ctx.fillRect(0,0,W,H);
+    // subtle grain
+    ctx.globalAlpha=dark?0.05:0.035;
+    for(let k=0;k<90;k++){
+      ctx.fillStyle=Math.random()>0.5?'#fff':'#000';
+      ctx.fillRect(Math.random()*W,Math.random()*H,1,1);
+    }
+    ctx.globalAlpha=1;
+  }
+  function loop(){t+=16;draw();raf=requestAnimationFrame(loop);}
+  if(reduce){draw();}else{loop();}
+</script>

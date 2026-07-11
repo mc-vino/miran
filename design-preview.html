@@ -1,0 +1,491 @@
+<title>МИРАН Логистика — прототип интерфейса</title>
+<style>
+  :root {
+    --ground: #f6f7f9;
+    --surface: #ffffff;
+    --surface-2: #eef1f5;
+    --ink: #19212e;
+    --muted: #5d6a7c;
+    --faint: #8a95a5;
+    --border: #e2e7ee;
+    --accent: #b3801f;
+    --accent-soft: #f4e9d0;
+    --route: #2f6df0;
+    --good: #1f9d57;
+    --warn: #d5891a;
+    --crit: #d24438;
+    --shadow: 0 1px 2px rgba(20,30,45,.06), 0 8px 24px rgba(20,30,45,.05);
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0e131b;
+      --surface: #161d28;
+      --surface-2: #1e2733;
+      --ink: #e7ecf3;
+      --muted: #95a2b4;
+      --faint: #66738a;
+      --border: #263140;
+      --accent: #d6a63f;
+      --accent-soft: #2c2717;
+      --route: #5b8cff;
+      --good: #35b36e;
+      --warn: #e0a03b;
+      --crit: #e05a4e;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #f6f7f9; --surface: #ffffff; --surface-2: #eef1f5; --ink: #19212e;
+    --muted: #5d6a7c; --faint: #8a95a5; --border: #e2e7ee; --accent: #b3801f;
+    --accent-soft: #f4e9d0; --route: #2f6df0; --good: #1f9d57; --warn: #d5891a;
+    --crit: #d24438; --shadow: 0 1px 2px rgba(20,30,45,.06), 0 8px 24px rgba(20,30,45,.05);
+  }
+  :root[data-theme="dark"] {
+    --ground: #0e131b; --surface: #161d28; --surface-2: #1e2733; --ink: #e7ecf3;
+    --muted: #95a2b4; --faint: #66738a; --border: #263140; --accent: #d6a63f;
+    --accent-soft: #2c2717; --route: #5b8cff; --good: #35b36e; --warn: #e0a03b;
+    --crit: #e05a4e; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--sans); line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px 64px; }
+
+  /* ---- top bar ---- */
+  header {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .bar { max-width: 1180px; margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; gap: 28px; }
+  .brand { display: flex; align-items: baseline; gap: 10px; }
+  .mark { font-weight: 800; font-size: 20px; letter-spacing: .22em;
+    color: var(--ink); }
+  .mark b { color: var(--accent); }
+  .brand small { color: var(--faint); font-size: 12px; letter-spacing: .04em; }
+  nav { display: flex; gap: 4px; margin-left: auto; }
+  nav a { padding: 7px 13px; border-radius: 8px; font-size: 13.5px;
+    color: var(--muted); text-decoration: none; font-weight: 500; }
+  nav a.on { background: var(--surface-2); color: var(--ink); }
+  nav a:hover { color: var(--ink); }
+
+  /* ---- section head ---- */
+  .head { display: flex; align-items: flex-end; gap: 16px;
+    margin: 30px 0 16px; flex-wrap: wrap; }
+  .head h1 { font-size: 22px; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
+  .head p { margin: 2px 0 0; color: var(--muted); font-size: 13.5px; }
+  .spacer { flex: 1; }
+
+  .eyebrow { font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--faint); font-weight: 600; }
+
+  /* ---- controls ---- */
+  .chips { display: flex; gap: 7px; flex-wrap: wrap; }
+  .chip { padding: 7px 13px; border-radius: 999px; border: 1px solid var(--border);
+    background: var(--surface); font-size: 13px; color: var(--muted); cursor: pointer;
+    font-weight: 500; font-family: var(--sans); }
+  .chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  :root[data-theme="dark"] .chip.on, @media (prefers-color-scheme: dark){ }
+  .chip.on { color: #1a1405; }
+  .btn { padding: 8px 15px; border-radius: 9px; border: none; cursor: pointer;
+    background: var(--ink); color: var(--ground); font-weight: 600; font-size: 13.5px;
+    font-family: var(--sans); }
+  .btn.ghost { background: var(--surface); color: var(--ink); border: 1px solid var(--border); }
+
+  /* ---- stat tiles ---- */
+  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .tile { background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 16px 17px; box-shadow: var(--shadow); }
+  .tile .k { font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--faint); font-weight: 600; }
+  .tile .v { font-family: var(--mono); font-size: 27px; font-weight: 600;
+    margin: 8px 0 2px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .tile .d { font-size: 12.5px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+  .delta { font-family: var(--mono); font-weight: 600; }
+  .delta.up { color: var(--good); }
+  .delta.down { color: var(--crit); }
+  .spark { display: block; margin-top: 10px; }
+
+  /* ---- panel ---- */
+  .panel { background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; }
+  .panel > .ph { padding: 15px 18px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px; }
+  .ph h2 { margin: 0; font-size: 15px; }
+  .ph .sub { color: var(--faint); font-size: 12.5px; }
+
+  /* ---- weekly grid ---- */
+  .grid-scroll { overflow-x: auto; }
+  table.week { border-collapse: collapse; width: 100%; min-width: 720px; }
+  table.week th, table.week td { text-align: center; padding: 0; }
+  table.week thead th { font-size: 12px; color: var(--muted); font-weight: 600;
+    padding: 12px 0 10px; }
+  table.week thead th.we { color: var(--faint); }
+  .veh { text-align: left !important; padding: 0 14px !important; white-space: nowrap; }
+  .veh .n { font-size: 13.5px; font-weight: 600; }
+  .veh .t { font-size: 11.5px; color: var(--faint); }
+  .cell { margin: 4px; height: 52px; border-radius: 9px; display: flex;
+    flex-direction: column; align-items: center; justify-content: center;
+    font-family: var(--mono); font-variant-numeric: tabular-nums; cursor: pointer;
+    border: 1px solid transparent; }
+  .cell .pct { font-size: 13.5px; font-weight: 600; }
+  .cell .rt { font-size: 10px; opacity: .7; }
+  .cell.sel { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .cell.off { color: var(--faint); background: repeating-linear-gradient(
+      -45deg, transparent, transparent 5px,
+      color-mix(in srgb, var(--border) 60%, transparent) 5px,
+      color-mix(in srgb, var(--border) 60%, transparent) 6px); }
+  .l1 { background: color-mix(in srgb, var(--good) 16%, var(--surface)); color: var(--good); }
+  .l2 { background: color-mix(in srgb, var(--good) 30%, var(--surface)); color: var(--good); }
+  .l3 { background: color-mix(in srgb, var(--warn) 28%, var(--surface)); color: var(--warn); }
+  .l4 { background: color-mix(in srgb, var(--crit) 30%, var(--surface)); color: var(--crit); }
+  .legend { display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    padding: 12px 18px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  .legend .sw { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 13px; height: 13px; border-radius: 4px; display: inline-block; }
+
+  /* ---- two column ---- */
+  .cols { display: grid; grid-template-columns: 1.05fr 1fr; gap: 16px; }
+
+  /* ---- route cards ---- */
+  .routes { display: flex; flex-direction: column; gap: 10px; padding: 14px; }
+  .route { border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px;
+    display: flex; flex-direction: column; gap: 9px; }
+  .route .top { display: flex; align-items: center; gap: 10px; }
+  .dot { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+  .route .name { font-weight: 600; font-size: 14px; }
+  .route .meta { margin-left: auto; font-family: var(--mono); font-size: 12.5px;
+    color: var(--muted); font-variant-numeric: tabular-nums; display: flex; gap: 12px; }
+  .route .meta b { color: var(--ink); font-weight: 600; }
+  .stops { display: flex; flex-wrap: wrap; gap: 5px; }
+  .stop { font-size: 11.5px; padding: 3px 8px; border-radius: 6px; background: var(--surface-2);
+    color: var(--muted); font-family: var(--mono); }
+  .stop.pu { background: color-mix(in srgb, var(--route) 15%, var(--surface)); color: var(--route); }
+  .cap { height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+  .cap > span { display: block; height: 100%; }
+
+  /* ---- map ---- */
+  .mapwrap { padding: 14px; }
+  .map { width: 100%; height: 100%; min-height: 340px; border-radius: 12px;
+    background: var(--surface-2); display: block; }
+  .maptag { position: absolute; top: 24px; left: 28px; background: color-mix(in srgb,var(--surface) 90%, transparent);
+    border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; font-size: 11.5px;
+    color: var(--muted); backdrop-filter: blur(6px); }
+  .mapbox { position: relative; height: 100%; }
+
+  /* ---- comparison ---- */
+  .cmp-scroll { overflow-x: auto; }
+  table.cmp { border-collapse: collapse; width: 100%; min-width: 640px; }
+  table.cmp th, table.cmp td { padding: 12px 16px; text-align: right;
+    border-bottom: 1px solid var(--border); font-size: 13.5px;
+    font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  table.cmp th { color: var(--faint); font-weight: 600; font-size: 11.5px;
+    text-transform: uppercase; letter-spacing: .06em; font-family: var(--sans); }
+  table.cmp td:first-child, table.cmp th:first-child { text-align: left; font-family: var(--sans); }
+  table.cmp td:first-child { font-weight: 600; }
+  table.cmp tr.best td { background: var(--accent-soft); }
+  .tag { font-size: 10.5px; font-family: var(--sans); font-weight: 700; color: var(--accent);
+    letter-spacing: .04em; margin-left: 8px; }
+  .money { font-weight: 600; }
+
+  .foot { margin-top: 28px; color: var(--faint); font-size: 12px; text-align: center; }
+
+  @media (max-width: 860px) {
+    .tiles { grid-template-columns: repeat(2, 1fr); }
+    .cols { grid-template-columns: 1fr; }
+    nav { display: none; }
+  }
+</style>
+
+<header>
+  <div class="bar">
+    <div class="brand">
+      <span class="mark">МИ<b>Р</b>АН</span>
+      <small>логистика · планировщик</small>
+    </div>
+    <nav>
+      <a href="#" class="on">Недельный план</a>
+      <a href="#">ПВЗ</a>
+      <a href="#">Автопарк</a>
+      <a href="#">Склады</a>
+      <a href="#">Аналитика</a>
+    </nav>
+    <button class="btn ghost" onclick="toggleTheme()" style="margin-left:16px" aria-label="Сменить тему">◐ Тема</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="head">
+    <div>
+      <div class="eyebrow">План-шаблон · повторяется еженедельно</div>
+      <h1>Недельный план маршрутов</h1>
+      <p>132 активных ПВЗ · 8 своих авто + найм · последний расчёт сегодня, 09:12</p>
+    </div>
+    <div class="spacer"></div>
+    <div class="chips" role="tablist" aria-label="Модель логистики">
+      <button class="chip on">Классика</button>
+      <button class="chip">Зональный Milk Run</button>
+      <button class="chip">Смешанные рейсы</button>
+      <button class="chip">Кросс-докинг</button>
+    </div>
+    <button class="btn">↻ Пересчитать</button>
+  </div>
+
+  <!-- STAT TILES -->
+  <div class="tiles">
+    <div class="tile">
+      <div class="k">Стоимость / неделю</div>
+      <div class="v">₽ 428 600</div>
+      <div class="d"><span class="delta down">−6.4%</span> к прошлому плану</div>
+      <svg class="spark" width="100%" height="26" viewBox="0 0 200 26" preserveAspectRatio="none" aria-hidden="true">
+        <polyline fill="none" stroke="var(--accent)" stroke-width="2" points="0,18 30,15 60,17 90,11 120,13 150,8 180,9 200,6"/>
+      </svg>
+    </div>
+    <div class="tile">
+      <div class="k">Авто в работе (пик)</div>
+      <div class="v">9<span style="font-size:16px;color:var(--faint)"> / 8+1</span></div>
+      <div class="d">пик в среду · найм 1 борт</div>
+      <svg class="spark" width="100%" height="26" viewBox="0 0 200 26" preserveAspectRatio="none" aria-hidden="true">
+        <polyline fill="none" stroke="var(--route)" stroke-width="2" points="0,14 33,10 66,6 100,10 133,8 166,16 200,20"/>
+      </svg>
+    </div>
+    <div class="tile">
+      <div class="k">Пробег / неделю</div>
+      <div class="v">3 812 <span style="font-size:15px;color:var(--faint)">км</span></div>
+      <div class="d"><span class="delta up">−214 км</span> vs «точка-точка»</div>
+      <svg class="spark" width="100%" height="26" viewBox="0 0 200 26" preserveAspectRatio="none" aria-hidden="true">
+        <polyline fill="none" stroke="var(--good)" stroke-width="2" points="0,10 30,13 60,9 90,14 120,12 150,15 180,13 200,17"/>
+      </svg>
+    </div>
+    <div class="tile">
+      <div class="k">Средняя загрузка авто</div>
+      <div class="v">83 <span style="font-size:15px;color:var(--faint)">%</span></div>
+      <div class="d">объём 83% · вес 71%</div>
+      <svg class="spark" width="100%" height="26" viewBox="0 0 200 26" preserveAspectRatio="none" aria-hidden="true">
+        <polyline fill="none" stroke="var(--warn)" stroke-width="2" points="0,16 30,12 60,14 90,9 120,11 150,7 180,10 200,8"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- WEEKLY GRID -->
+  <div class="head" style="margin-top:34px">
+    <div>
+      <div class="eyebrow">Балансировка по дням</div>
+      <h1 style="font-size:18px">Загрузка автопарка · авто × день недели</h1>
+    </div>
+    <div class="spacer"></div>
+    <p style="color:var(--muted);font-size:13px;margin:0">Клик по ячейке — маршрут дня на карте</p>
+  </div>
+
+  <div class="panel">
+    <div class="grid-scroll">
+      <table class="week">
+        <thead>
+          <tr>
+            <th class="veh" style="text-align:left">Авто</th>
+            <th>Пн</th><th>Вт</th><th>Ср</th><th>Чт</th><th>Пт</th>
+            <th class="we">Сб</th><th class="we">Вс</th>
+          </tr>
+        </thead>
+        <tbody id="weekbody"></tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span>Загрузка:</span>
+      <span class="sw"><i class="l1"></i> &lt;50%</span>
+      <span class="sw"><i class="l2"></i> 50–75%</span>
+      <span class="sw"><i class="l3"></i> 75–90%</span>
+      <span class="sw"><i class="l4"></i> &gt;90% перегруз</span>
+      <span class="sw" style="margin-left:auto"><i style="background:repeating-linear-gradient(-45deg,transparent,transparent 3px,var(--border) 3px,var(--border) 4px)"></i> не выезжает</span>
+    </div>
+  </div>
+
+  <!-- ROUTES + MAP -->
+  <div class="head" style="margin-top:34px">
+    <div>
+      <div class="eyebrow">Среда · 3 маршрута · 41 ПВЗ</div>
+      <h1 style="font-size:18px">Маршруты выбранного дня</h1>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div class="panel">
+      <div class="ph"><h2>Рейсы</h2><span class="sub">склад «Центральный» → ПВЗ → возврат</span></div>
+      <div class="routes">
+        <div class="route">
+          <div class="top">
+            <span class="dot" style="background:var(--route)"></span>
+            <span class="name">Газель NEXT · борт 14 м³</span>
+            <span class="meta"><span>16 ПВЗ</span><span>142 км</span><b>₽ 9 400</b></span>
+          </div>
+          <div class="stops">
+            <span class="stop">Склад</span><span class="stop">П-07</span><span class="stop">П-12</span>
+            <span class="stop">П-31</span><span class="stop pu">П-44 ↩</span><span class="stop">П-52</span>
+            <span class="stop">+11</span><span class="stop">Склад</span>
+          </div>
+          <div class="cap"><span style="width:88%;background:var(--route)"></span></div>
+        </div>
+
+        <div class="route">
+          <div class="top">
+            <span class="dot" style="background:var(--good)"></span>
+            <span class="name">MAN · тент 32 м³</span>
+            <span class="meta"><span>19 ПВЗ</span><span>187 км</span><b>₽ 12 800</b></span>
+          </div>
+          <div class="stops">
+            <span class="stop">Склад</span><span class="stop">П-02</span><span class="stop">П-18</span>
+            <span class="stop pu">П-23 ↩</span><span class="stop">П-29</span><span class="stop">П-60</span>
+            <span class="stop">+13</span><span class="stop">Склад</span>
+          </div>
+          <div class="cap"><span style="width:79%;background:var(--good)"></span></div>
+        </div>
+
+        <div class="route">
+          <div class="top">
+            <span class="dot" style="background:var(--accent)"></span>
+            <span class="name">Найм · рефрижератор 20 м³</span>
+            <span class="meta"><span>6 ПВЗ</span><span>96 км</span><b>₽ 7 200</b></span>
+          </div>
+          <div class="stops">
+            <span class="stop">Склад</span><span class="stop">П-71</span><span class="stop">П-83</span>
+            <span class="stop">П-90</span><span class="stop pu">П-95 ↩</span><span class="stop">+2</span><span class="stop">Склад</span>
+          </div>
+          <div class="cap"><span style="width:64%;background:var(--accent)"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="ph"><h2>Карта</h2><span class="sub">Яндекс Карты · среда</span></div>
+      <div class="mapwrap" style="height:calc(100% - 52px)">
+        <div class="mapbox">
+          <canvas id="map" class="map" width="560" height="380"></canvas>
+          <div class="maptag">◍ Склад «Центральный» · ● ПВЗ · ↩ забор возврата</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODEL COMPARISON -->
+  <div class="head" style="margin-top:34px">
+    <div>
+      <div class="eyebrow">Сравнение за неделю</div>
+      <h1 style="font-size:18px">Модели логистики</h1>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="cmp-scroll">
+      <table class="cmp">
+        <thead>
+          <tr>
+            <th>Модель</th><th>Авто (пик)</th><th>Рейсов</th><th>Пробег</th>
+            <th>Часы</th><th>Стоимость / нед.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Классика «точка-точка»</td>
+            <td>10</td><td>58</td><td>4 026 км</td><td>312 ч</td>
+            <td class="money">₽ 458 000</td>
+          </tr>
+          <tr class="best">
+            <td>Зональный Milk Run <span class="tag">ВЫГОДНЕЕ</span></td>
+            <td>9</td><td>49</td><td>3 812 км</td><td>288 ч</td>
+            <td class="money">₽ 428 600</td>
+          </tr>
+          <tr>
+            <td>Смешанные рейсы</td>
+            <td>9</td><td>47</td><td>3 690 км</td><td>301 ч</td>
+            <td class="money">₽ 431 400</td>
+          </tr>
+          <tr>
+            <td>Кросс-докинг</td>
+            <td>8</td><td>44</td><td>3 940 км</td><td>276 ч</td>
+            <td class="money">₽ 436 900</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <p class="foot">Прототип интерфейса · данные демонстрационные · МИРАН Логистика</p>
+</div>
+
+<script>
+  function toggleTheme() {
+    const r = document.documentElement;
+    const cur = r.getAttribute('data-theme')
+      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    r.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
+    setTimeout(drawMap, 30);
+  }
+
+  // ---- weekly grid data ----
+  const vehicles = [
+    ['Газель 14 м³', 'борт 14', [72, 61, 88, 55, 79, 0, 0]],
+    ['MAN тент 32', 'тент 32',  [84, 90, 79, 86, 71, 0, 0]],
+    ['Ford 18 м³', 'борт 18',   [63, 58, 92, 60, 66, 41, 0]],
+    ['ГАЗон 26 м³', 'тент 26',  [77, 0, 81, 0, 74, 0, 0]],
+    ['ISUZU 16 м³', 'реф 16',   [55, 68, 64, 71, 59, 0, 0]],
+    ['Найм · борт', 'по дню',   [0, 0, 64, 0, 0, 0, 0]],
+  ];
+  function lvl(p){ if(p===0) return 'off'; if(p<50) return 'l1'; if(p<75) return 'l2'; if(p<90) return 'l3'; return 'l4'; }
+  const body = document.getElementById('weekbody');
+  vehicles.forEach((v, ri) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="veh"><div class="n">${v[0]}</div><div class="t">${v[1]}</div></td>`;
+    v[2].forEach((p, ci) => {
+      const td = document.createElement('td');
+      const sel = (ci===2 && ri<3) ? ' sel' : '';
+      td.innerHTML = p===0
+        ? `<div class="cell off">—</div>`
+        : `<div class="cell ${lvl(p)}${sel}"><span class="pct">${p}%</span><span class="rt">${p>90?'перегруз':'рейс'}</span></div>`;
+      tr.appendChild(td);
+    });
+    body.appendChild(tr);
+  });
+
+  // ---- map (stylized canvas) ----
+  function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+  function drawMap(){
+    const c = document.getElementById('map'); if(!c) return;
+    const ctx = c.getContext('2d'); const W=c.width, H=c.height;
+    ctx.clearRect(0,0,W,H);
+    // faint grid
+    ctx.strokeStyle = css('--border'); ctx.lineWidth=1; ctx.globalAlpha=.5;
+    for(let x=0;x<=W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<=H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    ctx.globalAlpha=1;
+    const depot = [280,196];
+    const routes = [
+      { color: css('--route'), pts: [[140,90],[95,150],[180,120],[210,220],[120,250]] },
+      { color: css('--good'),  pts: [[360,80],[430,140],[400,220],[470,250],[340,300]] },
+      { color: css('--accent'),pts: [[300,300],[240,330],[190,300],[360,330]] },
+    ];
+    routes.forEach(r=>{
+      ctx.strokeStyle=r.color; ctx.lineWidth=2.2; ctx.globalAlpha=.85;
+      ctx.beginPath(); ctx.moveTo(depot[0],depot[1]);
+      r.pts.forEach(p=>ctx.lineTo(p[0],p[1])); ctx.lineTo(depot[0],depot[1]); ctx.stroke();
+      ctx.globalAlpha=1;
+      r.pts.forEach(p=>{ ctx.fillStyle=r.color; ctx.beginPath(); ctx.arc(p[0],p[1],5,0,7); ctx.fill();
+        ctx.fillStyle=css('--surface'); ctx.beginPath(); ctx.arc(p[0],p[1],2,0,7); ctx.fill(); });
+    });
+    // depot
+    ctx.fillStyle=css('--ink'); ctx.beginPath();
+    ctx.arc(depot[0],depot[1],9,0,7); ctx.fill();
+    ctx.fillStyle=css('--ground'); ctx.font='bold 11px system-ui';
+    ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('◍',depot[0],depot[1]);
+  }
+  drawMap();
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawMap);
+</script>
